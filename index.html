@@ -649,7 +649,7 @@ footer {
     <p class="contact-sub">Whether you have an idea that could change an industry, or just want to talk about building — the door is open.</p>
     <div class="contact-links">
       <a href="https://github.com/jimmyneyhart" target="_blank" rel="noopener" class="contact-link">GitHub</a>
-      <a href="mailto:hello@jimmyneyhart.com" class="contact-link">Email</a>
+      <a href="/cdn-cgi/l/email-protection#553d3039393a153f3c38382c3b302c3d3427217b363a38" class="contact-link">Email</a>
       <a href="https://twitter.com/jimmyneyhart" target="_blank" rel="noopener" class="contact-link">Twitter</a>
       <a href="https://linkedin.com/in/jimmyneyhart" target="_blank" rel="noopener" class="contact-link">LinkedIn</a>
     </div>
@@ -661,7 +661,7 @@ footer {
   <span class="foot-status"><span class="gem"></span>Available for new projects</span>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ── CURSOR ──────────────────────────────
 let mx = innerWidth / 2, my = innerHeight / 2;
 let rx = mx, ry = my;
@@ -744,11 +744,28 @@ async function loadRepos() {
     const show = repos
       .filter(r => !r.fork && r.name !== 'jimmyneyhart')
       .sort((a, b) => (b.stargazers_count - a.stargazers_count) || (new Date(b.updated_at) - new Date(a.updated_at)))
-      .slice(0, 6);
+      .slice(0, 5);
 
-    const roman = ['I','II','III','IV','V','VI'];
+    const roman = ['II','III','IV','V','VI'];
 
-    grid.innerHTML = show.map((r, i) => {
+    // Featured portfolio pages — surfaced regardless of GitHub visibility
+    const featuredHTML = `
+      <div class="card in" style="border-left: 2px solid rgba(201,168,76,0.4);">
+        <div class="card-glow"></div>
+        <div class="card-sweep"></div>
+        <span class="card-num">I</span>
+        <div class="card-link-wrap">
+          <h3 class="card-name">Bitcoin Early Retirement Calculator</h3>
+          <a href="bitcoin-calculator.html" class="card-arrow">↗</a>
+        </div>
+        <p class="card-desc">Model your path to financial freedom using BTC's four-year cycle dynamics. Inputs: DCA, holdings, spending, withdrawal rate, price scenarios.</p>
+        <div class="card-foot">
+          <span class="card-lang">Financial Tool</span>
+          <span class="card-stars" style="font-family:'Cormorant SC',serif;font-size:.58rem;letter-spacing:.15em;color:var(--gold);font-style:normal;">Featured</span>
+        </div>
+      </div>`;
+
+    grid.innerHTML = featuredHTML + show.map((r, i) => {
       const desc = r.description || 'A work in progress.';
       const lang = r.language || 'Code';
       return `
@@ -855,9 +872,4 @@ window.addEventListener('scroll', () => {
   ).join('');
   new IntersectionObserver(([e]) => {
     if (e.isIntersecting)
-      el.querySelectorAll('.sc').forEach((s, i) => setTimeout(() => s.classList.add('in'), i * 28));
-  }, {threshold:.3}).observe(el);
-})();
-</script>
-</body>
-</html>
+      el.query
