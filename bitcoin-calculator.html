@@ -3,305 +3,138 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bitcoin Early Retirement Calculator — Jimmy Neyhart</title>
+<title>Bitcoin Early Retirement — Jimmy Neyhart</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Cormorant+SC:wght@300;400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --bg:       #08080F;
-  --bg2:      #0D0D1A;
-  --gold:     #C9A84C;
-  --gold-lt:  #E8CB7A;
-  --gold-dim: rgba(201,168,76,0.08);
-  --cream:    #F0EAD6;
-  --mist:     #7A8CA0;
-  --silver:   #B8C4D0;
-  --border:   rgba(201,168,76,0.14);
-  --green:    #5CB87A;
-  --red:      #C8615A;
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#08080F;
+  --gold:#C9A84C;
+  --gold-lt:#E8CB7A;
+  --gold-dim:rgba(201,168,76,0.08);
+  --cream:#F0EAD6;
+  --mist:#7A8CA0;
+  --silver:#B8C4D0;
+  --border:rgba(201,168,76,0.15);
+  --green:#4CAF7C;
+  --green-dim:rgba(76,175,124,0.08);
+  --red:#E05252;
 }
-html { scroll-behavior: smooth; }
-body {
-  background: var(--bg);
-  color: var(--cream);
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 300;
-  cursor: none;
-  overflow-x: hidden;
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--cream);
+  font-family:'DM Sans',sans-serif;
+  font-weight:300;
+  cursor:none;
+  overflow-x:hidden;
   background-image:
-    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(60,40,120,0.3) 0%, transparent 70%),
-    radial-gradient(ellipse 50% 40% at 90% 50%, rgba(30,20,80,0.15) 0%, transparent 60%);
+    radial-gradient(ellipse 80% 50% at 50% -10%,rgba(60,40,120,0.3) 0%,transparent 70%),
+    radial-gradient(ellipse 50% 40% at 90% 50%,rgba(30,20,80,0.18) 0%,transparent 60%);
 }
 
 /* CURSOR */
-#cur-orb {
-  position:fixed; top:0; left:0; width:8px; height:8px; border-radius:50%;
-  background:radial-gradient(circle, rgba(232,203,122,1) 0%, rgba(201,168,76,0.3) 60%, transparent 100%);
-  transform:translate(-50%,-50%); pointer-events:none; z-index:9999;
-  box-shadow:0 0 10px 2px rgba(201,168,76,0.4); transition:width .2s, height .2s;
-}
-#cur-ring {
-  position:fixed; top:0; left:0; width:36px; height:36px; border-radius:50%;
-  border:1px solid rgba(201,168,76,0.2); transform:translate(-50%,-50%);
-  pointer-events:none; z-index:9998;
-  transition:width .35s cubic-bezier(.34,1.56,.64,1), height .35s, border-color .3s;
-}
-body.hov #cur-orb { width:14px; height:14px; }
-body.hov #cur-ring { width:56px; height:56px; border-color:rgba(201,168,76,0.5); }
+#cur-orb{position:fixed;top:0;left:0;width:8px;height:8px;border-radius:50%;background:radial-gradient(circle,rgba(232,203,122,1) 0%,rgba(201,168,76,0.3) 60%,transparent 100%);transform:translate(-50%,-50%);pointer-events:none;z-index:9999;box-shadow:0 0 10px 2px rgba(201,168,76,0.4);transition:width .2s,height .2s}
+#cur-ring{position:fixed;top:0;left:0;width:36px;height:36px;border-radius:50%;border:1px solid rgba(201,168,76,0.2);transform:translate(-50%,-50%);pointer-events:none;z-index:9998;transition:width .35s cubic-bezier(.34,1.56,.64,1),height .35s,border-color .3s}
+body.hov #cur-orb{width:14px;height:14px}
+body.hov #cur-ring{width:56px;height:56px;border-color:rgba(201,168,76,0.5)}
 
 /* NAV */
-nav {
-  position:fixed; top:0; left:0; right:0; z-index:100;
-  padding:1.2rem 3rem; display:flex; justify-content:space-between; align-items:center;
-  background:rgba(8,8,15,0.88); backdrop-filter:blur(16px); border-bottom:1px solid var(--border);
-}
-.logo { font-family:'Cormorant SC',serif; font-size:.9rem; letter-spacing:.35em; color:var(--gold-lt); text-decoration:none; }
-.logo::after { content:''; display:block; height:1px; background:var(--gold); width:0; transition:width .4s; }
-.logo:hover::after { width:100%; }
-.nav-back {
-  font-family:'Cormorant SC',serif; font-size:.6rem; letter-spacing:.22em;
-  text-transform:uppercase; color:var(--mist); text-decoration:none;
-  display:flex; align-items:center; gap:.5rem; transition:color .25s;
-}
-.nav-back:hover { color:var(--gold-lt); }
-.nav-back::before { content:'←'; font-family:serif; }
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.2rem 3rem;display:flex;justify-content:space-between;align-items:center;background:rgba(8,8,15,0.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.logo{font-family:'Cormorant SC',serif;font-size:.95rem;letter-spacing:.35em;color:var(--gold-lt);text-decoration:none}
+.logo::after{content:'';display:block;height:1px;background:var(--gold);width:0;transition:width .4s}
+.logo:hover::after{width:100%}
+.nav-back{font-family:'Cormorant SC',serif;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--mist);text-decoration:none;display:flex;align-items:center;gap:.5rem;transition:color .25s}
+.nav-back::before{content:'←';font-family:serif}
+.nav-back:hover{color:var(--gold-lt)}
 
 /* PAGE HERO */
-.page-hero {
-  padding:7.5rem 3rem 2.5rem; max-width:1100px; margin:0 auto;
-  border-bottom:1px solid var(--border);
-  display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:1.5rem;
-}
-.hero-left {}
-.page-tag {
-  font-family:'Cormorant SC',serif; font-size:.57rem; letter-spacing:.38em;
-  color:var(--gold); text-transform:uppercase;
-  display:flex; align-items:center; gap:.8rem; margin-bottom:1rem;
-}
-.page-tag::before { content:''; width:22px; height:1px; background:var(--gold); opacity:.5; }
-.page-title {
-  font-family:'Cormorant Garamond',serif;
-  font-size:clamp(2.2rem, 5vw, 4.5rem);
-  font-weight:300; line-height:.92; letter-spacing:-.02em; color:var(--cream);
-}
-.page-title em { font-style:italic; color:var(--gold-lt); }
-.hero-right { max-width:380px; }
-.page-desc { font-size:.82rem; color:var(--mist); line-height:1.85; font-weight:300; }
-.page-desc strong { color:var(--silver); font-weight:400; }
+.page-hero{padding:7rem 3rem 2.5rem;max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1.5rem;border-bottom:1px solid var(--border)}
+.page-tag{font-family:'Cormorant SC',serif;font-size:.58rem;letter-spacing:.38em;color:var(--gold);text-transform:uppercase;display:flex;align-items:center;gap:1rem;margin-bottom:1rem}
+.page-tag::before{content:'';width:24px;height:1px;background:var(--gold);opacity:.5}
+.page-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,5vw,4rem);font-weight:300;line-height:.92;letter-spacing:-.02em;color:var(--cream)}
+.page-title em{font-style:italic;color:var(--gold-lt)}
+.page-desc{max-width:420px;font-size:.82rem;color:var(--mist);line-height:1.85;font-weight:300}
+.page-desc strong{color:var(--silver);font-weight:400}
 
-/* MAIN GRID */
-.main-wrap { max-width:1100px; margin:0 auto; }
-
-.calc-grid {
-  display:grid; grid-template-columns:300px 1fr;
-  gap:1px; background:var(--border);
-  border:1px solid var(--border); border-top:none;
-}
+/* MAIN LAYOUT */
+.tool-wrap{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:280px 1fr;gap:1px;background:var(--border);border:1px solid var(--border);border-top:none}
 
 /* INPUTS */
-.inputs {
-  background:var(--bg); padding:2rem;
-  border-right:1px solid var(--border);
-  overflow-y:auto;
-}
-.inputs-label {
-  font-family:'Cormorant SC',serif; font-size:.55rem; letter-spacing:.35em;
-  color:var(--gold); text-transform:uppercase;
-  display:flex; align-items:center; gap:.7rem; margin-bottom:1.6rem;
-}
-.inputs-label::after { content:''; flex:1; height:1px; background:var(--border); }
+.inputs{background:var(--bg);padding:2rem;display:flex;flex-direction:column;gap:0}
+.panel-lbl{font-family:'Cormorant SC',serif;font-size:.56rem;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;display:flex;align-items:center;gap:.8rem;margin-bottom:1.6rem}
+.panel-lbl::after{content:'';flex:1;height:1px;background:var(--border)}
+.field{margin-bottom:1.4rem}
+.field-lbl{font-family:'Cormorant SC',serif;font-size:.55rem;letter-spacing:.2em;color:var(--mist);text-transform:uppercase;display:block;margin-bottom:.45rem}
+.field-hint{font-family:'Cormorant Garamond',serif;font-size:.75rem;font-style:italic;color:var(--mist);opacity:.6;display:block;margin-bottom:.35rem}
+.f-wrap{position:relative}
+.f-sym{position:absolute;left:.8rem;top:50%;transform:translateY(-50%);color:var(--gold);font-family:'Cormorant Garamond',serif;font-size:1rem;pointer-events:none;z-index:1}
+input[type=number]{width:100%;background:rgba(201,168,76,0.04);border:1px solid var(--border);color:var(--cream);font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:300;padding:.6rem .8rem .6rem 1.8rem;outline:none;transition:border-color .25s,background .25s;cursor:none;-moz-appearance:textfield}
+input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
+input[type=number]:focus{border-color:rgba(201,168,76,0.45);background:rgba(201,168,76,0.07)}
+input.no-sym{padding-left:.8rem}
+.slider-row{display:flex;align-items:center;gap:.8rem;margin-top:.35rem}
+input[type=range]{flex:1;-webkit-appearance:none;appearance:none;height:1px;background:var(--border);outline:none;cursor:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;border-radius:50%;background:var(--gold);cursor:none;box-shadow:0 0 6px rgba(201,168,76,0.5)}
+input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;border:none;background:var(--gold);cursor:none}
+.s-val{font-family:'Cormorant Garamond',serif;font-size:.95rem;color:var(--gold-lt);min-width:52px;text-align:right}
+.divider{height:1px;background:var(--border);margin:1.2rem 0}
+.power-law-badge{padding:.7rem .9rem;background:rgba(201,168,76,0.05);border:1px solid var(--border);margin-bottom:1.4rem}
+.plb-label{font-family:'Cormorant SC',serif;font-size:.52rem;letter-spacing:.25em;color:var(--gold);text-transform:uppercase;display:block;margin-bottom:.25rem}
+.plb-value{font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--cream)}
+.plb-sub{font-family:'Cormorant Garamond',serif;font-size:.72rem;font-style:italic;color:var(--mist);margin-top:.15rem;display:block}
 
-.field { margin-bottom:1.3rem; }
-.f-label {
-  font-family:'Cormorant SC',serif; font-size:.54rem; letter-spacing:.2em;
-  color:var(--mist); text-transform:uppercase; display:block; margin-bottom:.45rem;
-}
-.f-wrap { position:relative; }
-.f-sym {
-  position:absolute; left:.8rem; top:50%; transform:translateY(-50%);
-  color:var(--gold); font-family:'Cormorant Garamond',serif; font-size:.95rem;
-  pointer-events:none;
-}
-.f-input {
-  width:100%; background:rgba(201,168,76,0.04); border:1px solid var(--border);
-  color:var(--cream); font-family:'Cormorant Garamond',serif; font-size:1rem;
-  font-weight:300; padding:.55rem .8rem .55rem 1.8rem; outline:none;
-  transition:border-color .25s, background .25s; cursor:none;
-  -moz-appearance:textfield;
-}
-.f-input.no-sym { padding-left:.8rem; }
-.f-input::-webkit-outer-spin-button,
-.f-input::-webkit-inner-spin-button { -webkit-appearance:none; }
-.f-input:focus { border-color:rgba(201,168,76,.45); background:rgba(201,168,76,.06); }
+/* CHART AREA */
+.chart-area{background:rgba(201,168,76,0.015);padding:2rem;display:flex;flex-direction:column;gap:1.5rem}
+.chart-container{position:relative;width:100%;height:420px}
+canvas{display:block}
 
-.f-slider-wrap { display:flex; align-items:center; gap:.7rem; margin-top:.3rem; }
-.f-slider {
-  flex:1; -webkit-appearance:none; appearance:none;
-  height:1px; background:var(--border); outline:none; cursor:none;
-}
-.f-slider::-webkit-slider-thumb {
-  -webkit-appearance:none; width:13px; height:13px; border-radius:50%;
-  background:var(--gold); cursor:none; box-shadow:0 0 6px rgba(201,168,76,0.5);
-}
-.f-slider::-moz-range-thumb {
-  width:13px; height:13px; border-radius:50%; border:none; background:var(--gold);
-}
-.f-val {
-  font-family:'Cormorant Garamond',serif; font-size:.95rem; font-weight:300;
-  color:var(--gold-lt); min-width:52px; text-align:right; white-space:nowrap;
-}
+/* METRICS ROW */
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border-top:1px solid var(--border)}
+.metric{background:var(--bg);padding:1.2rem 1.5rem}
+.metric-lbl{font-family:'Cormorant SC',serif;font-size:.52rem;letter-spacing:.25em;color:var(--mist);text-transform:uppercase;display:block;margin-bottom:.35rem}
+.metric-val{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:300;color:var(--gold-lt);display:block;line-height:1}
+.metric-val.green{color:var(--green)}
+.metric-val.red{color:var(--red)}
+.metric-sub{font-family:'Cormorant Garamond',serif;font-size:.72rem;font-style:italic;color:var(--mist);margin-top:.2rem;display:block}
 
-.section-div {
-  height:1px; background:var(--border);
-  margin:1.6rem 0;
-}
+/* LEGEND */
+.legend{display:flex;gap:1.5rem;flex-wrap:wrap;padding:.2rem 0}
+.leg-item{display:flex;align-items:center;gap:.5rem;font-family:'Cormorant SC',serif;font-size:.52rem;letter-spacing:.2em;color:var(--mist);text-transform:uppercase}
+.leg-line{width:20px;height:2px;flex-shrink:0;border-radius:1px}
+.leg-line.dashed{background:none;border-top:2px dashed}
 
-.power-law-badge {
-  background:rgba(201,168,76,.06); border:1px solid var(--border);
-  padding:.7rem .9rem; margin-bottom:1.3rem;
-}
-.power-law-badge p {
-  font-family:'Cormorant Garamond',serif; font-size:.75rem; font-style:italic;
-  color:var(--mist); line-height:1.6;
-}
-.power-law-badge strong { color:var(--gold-lt); font-weight:400; font-style:normal; }
-
-/* CHART PANEL */
-.chart-panel {
-  background:var(--bg2); padding:2rem;
-  display:flex; flex-direction:column; gap:1.5rem;
-}
-.chart-head {
-  font-family:'Cormorant SC',serif; font-size:.55rem; letter-spacing:.35em;
-  color:var(--gold); text-transform:uppercase;
-  display:flex; align-items:center; gap:.7rem;
-}
-.chart-head::after { content:''; flex:1; height:1px; background:var(--border); }
-
-.chart-legend {
-  display:flex; flex-wrap:wrap; gap:.8rem 1.6rem;
-}
-.legend-item {
-  display:flex; align-items:center; gap:.45rem;
-  font-family:'Cormorant SC',serif; font-size:.52rem;
-  letter-spacing:.18em; color:var(--mist); text-transform:uppercase;
-}
-.legend-dot { width:10px; height:2px; border-radius:1px; flex-shrink:0; }
-.legend-dot.dashed { background:transparent; border-top:2px dashed; height:0; }
-
-.chart-canvas-wrap { position:relative; height:460px; }
-
-/* STATS ROW */
-.stats-row {
-  display:grid; grid-template-columns:repeat(4, 1fr);
-  gap:1px; background:var(--border);
-  border:1px solid var(--border); border-top:none;
-}
-.stat {
-  background:var(--bg); padding:1.4rem 1.6rem;
-  position:relative; overflow:hidden; transition:background .3s;
-}
-.stat:hover { background:rgba(201,168,76,.02); }
-.stat::after {
-  content:''; position:absolute; bottom:0; left:0;
-  width:0; height:1px; background:var(--gold); transition:width .5s ease;
-}
-.stat:hover::after { width:100%; }
-.stat-label {
-  font-family:'Cormorant SC',serif; font-size:.52rem; letter-spacing:.25em;
-  color:var(--mist); text-transform:uppercase; display:block; margin-bottom:.4rem;
-}
-.stat-value {
-  font-family:'Cormorant Garamond',serif; font-size:1.8rem;
-  font-weight:300; color:var(--gold-lt); display:block; line-height:1;
-}
-.stat-value.green { color:var(--green); }
-.stat-value.red   { color:var(--red); }
-.stat-sub {
-  font-family:'Cormorant Garamond',serif; font-size:.72rem;
-  font-style:italic; color:var(--mist); display:block; margin-top:.3rem;
-}
-
-/* BRIDGE SECTION */
-.bridge-section {
-  max-width:1100px; margin:0 auto;
-  border:1px solid var(--border); border-top:none;
-  display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border);
-}
-.bridge-panel {
-  background:var(--bg); padding:2rem;
-}
-.bridge-title {
-  font-family:'Cormorant Garamond',serif; font-size:1.2rem; font-weight:400;
-  color:var(--cream); margin-bottom:.5rem;
-}
-.bridge-title em { font-style:italic; color:var(--gold-lt); }
-.bridge-desc {
-  font-size:.78rem; color:var(--mist); line-height:1.8; margin-bottom:1.4rem; font-weight:300;
-}
-.bridge-bars { display:flex; flex-direction:column; gap:.8rem; }
-.b-bar-row { display:flex; align-items:center; gap:.8rem; }
-.b-bar-label {
-  font-family:'Cormorant SC',serif; font-size:.52rem; letter-spacing:.15em;
-  color:var(--mist); text-transform:uppercase; width:110px; flex-shrink:0;
-}
-.b-bar-track {
-  flex:1; height:5px; background:rgba(255,255,255,0.05); position:relative; overflow:hidden;
-}
-.b-bar-fill { height:100%; transition:width .9s cubic-bezier(.4,0,.2,1); }
-.b-bar-amt {
-  font-family:'Cormorant Garamond',serif; font-size:.8rem; font-weight:300;
-  color:var(--cream); width:80px; text-align:right; flex-shrink:0;
-}
-
-.bridge-chart-wrap { position:relative; height:200px; }
+/* PHASE LEGEND */
+.phase-legend{display:flex;gap:1.2rem;flex-wrap:wrap}
+.phase-item{display:flex;align-items:center;gap:.5rem;font-family:'Cormorant SC',serif;font-size:.5rem;letter-spacing:.18em;color:var(--mist);text-transform:uppercase}
+.phase-box{width:12px;height:12px;flex-shrink:0}
 
 /* NARRATIVE */
-.narrative {
-  max-width:1100px; margin:0 auto;
-  border:1px solid var(--border); border-top:none;
-  display:grid; grid-template-columns:1fr 1fr 1fr; gap:1px; background:var(--border);
-}
-.narr-panel {
-  background:var(--bg); padding:2rem;
-}
-.narr-head {
-  font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-weight:400;
-  color:var(--cream); margin-bottom:.8rem; line-height:1.2;
-}
-.narr-head em { font-style:italic; color:var(--gold-lt); }
-.narr-body {
-  font-size:.78rem; color:var(--mist); line-height:1.9; font-weight:300;
-}
-.narr-body p { margin-bottom:.8rem; }
+.narrative{max-width:1100px;margin:0 auto;padding:3.5rem 3rem;border-top:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr 1fr;gap:3rem}
+.n-section h3{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:400;color:var(--cream);margin-bottom:.8rem;line-height:1.2}
+.n-section h3 em{font-style:italic;color:var(--gold-lt)}
+.n-section p{font-size:.78rem;color:var(--mist);line-height:1.85;margin-bottom:.8rem;font-weight:300}
+.n-section ul{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+.n-section ul li{font-size:.78rem;color:var(--mist);line-height:1.7;padding-left:1.1rem;position:relative}
+.n-section ul li::before{content:'✦';position:absolute;left:0;color:var(--gold);font-size:.45rem;top:.35rem}
 
 /* FOOTER */
-.page-footer {
-  max-width:1100px; margin:0 auto;
-  padding:1.6rem 0; border-top:1px solid var(--border);
-  display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;
-}
-.foot-note {
-  font-family:'Cormorant SC',serif; font-size:.52rem;
-  letter-spacing:.22em; color:var(--mist); text-transform:uppercase;
-}
-.foot-back {
-  font-family:'Cormorant SC',serif; font-size:.56rem; letter-spacing:.22em;
-  text-transform:uppercase; color:var(--mist); text-decoration:none;
-  border-bottom:1px solid rgba(122,140,160,.3); padding-bottom:2px;
-  transition:color .25s, border-color .25s;
-}
-.foot-back:hover { color:var(--gold-lt); border-color:var(--gold); }
+.page-footer{max-width:1100px;margin:0 auto;padding:1.6rem 3rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.foot-note{font-family:'Cormorant SC',serif;font-size:.52rem;letter-spacing:.22em;color:var(--mist);text-transform:uppercase}
+.foot-back{font-family:'Cormorant SC',serif;font-size:.55rem;letter-spacing:.22em;text-transform:uppercase;color:var(--mist);text-decoration:none;border-bottom:1px solid rgba(122,140,160,0.3);padding-bottom:2px;transition:color .25s,border-color .25s}
+.foot-back:hover{color:var(--gold-lt);border-color:var(--gold)}
 
-@media(max-width:860px){
-  nav, .page-hero, .page-footer { padding-left:1.5rem; padding-right:1.5rem; }
-  .calc-grid { grid-template-columns:1fr; }
-  .chart-canvas-wrap { height:320px; }
-  .stats-row { grid-template-columns:1fr 1fr; }
-  .bridge-section, .narrative { grid-template-columns:1fr; }
+@media(max-width:800px){
+  nav,nav.scrolled{padding:1rem 1.5rem}
+  .page-hero{padding:6rem 1.5rem 2rem}
+  .tool-wrap{grid-template-columns:1fr}
+  .inputs{border-bottom:1px solid var(--border)}
+  .metrics{grid-template-columns:1fr 1fr}
+  .narrative{grid-template-columns:1fr;gap:2rem;padding:2.5rem 1.5rem}
+  .page-footer{padding:1.5rem}
+  .chart-container{height:320px}
 }
 </style>
 </head>
@@ -316,712 +149,625 @@ nav {
 </nav>
 
 <div class="page-hero">
-  <div class="hero-left">
+  <div>
     <p class="page-tag">Portfolio · Financial Tools</p>
     <h1 class="page-title">Bitcoin Early<br><em>Retirement Calculator</em></h1>
   </div>
-  <div class="hero-right">
-    <p class="page-desc">
-      Built on the <strong>Bitcoin Power Law</strong> — a log-log model showing BTC price as a function of days since genesis. Models the bridge period before 59½, the perpetual portfolio needed after, and the full trajectory of your path to freedom.
-    </p>
-  </div>
+  <p class="page-desc">
+    Built on the <strong>Bitcoin Power Law</strong> — a model showing BTC price follows a deterministic relationship with time since genesis. Model your accumulation phase, the critical pre-59½ bridge period, and whether your portfolio sustains full retirement.
+  </p>
 </div>
 
-<div class="main-wrap">
-  <div class="calc-grid">
+<div class="tool-wrap">
 
-    <!-- INPUTS -->
-    <div class="inputs">
-      <p class="inputs-label">Variables</p>
+  <!-- INPUTS -->
+  <div class="inputs">
+    <p class="panel-lbl">Variables</p>
 
-      <div class="power-law-badge">
-        <p>Price modeled via the <strong>Bitcoin Power Law</strong>: log₁₀(price) = 5.82 × log₁₀(days since genesis) + B, anchored to your current price input.</p>
-      </div>
-
-      <div class="field">
-        <label class="f-label" for="current-age">Your Current Age</label>
-        <div class="f-wrap">
-          <input class="f-input no-sym" type="number" id="current-age" value="32" min="18" max="65">
-        </div>
-      </div>
-
-      <div class="field">
-        <label class="f-label" for="target-age">Target Retirement Age</label>
-        <div class="f-wrap">
-          <input class="f-input no-sym" type="number" id="target-age" value="45" min="25" max="65">
-        </div>
-      </div>
-
-      <div class="section-div"></div>
-
-      <div class="field">
-        <label class="f-label" for="btc-held">BTC Currently Held</label>
-        <div class="f-wrap">
-          <span class="f-sym">₿</span>
-          <input class="f-input" type="number" id="btc-held" value="0.5" min="0" step="0.001">
-        </div>
-      </div>
-
-      <div class="field">
-        <label class="f-label" for="monthly-dca">Monthly DCA (USD)</label>
-        <div class="f-wrap">
-          <span class="f-sym">$</span>
-          <input class="f-input" type="number" id="monthly-dca" value="500" min="0" step="50">
-        </div>
-      </div>
-
-      <div class="field">
-        <label class="f-label" for="btc-price">Current BTC Price (USD)</label>
-        <div class="f-wrap">
-          <span class="f-sym">$</span>
-          <input class="f-input" type="number" id="btc-price" value="83000" min="1000" step="1000">
-        </div>
-      </div>
-
-      <div class="section-div"></div>
-
-      <div class="field">
-        <label class="f-label">Annual Spending in Retirement</label>
-        <div class="f-slider-wrap">
-          <input class="f-slider" type="range" id="spending" min="20000" max="500000" step="5000" value="80000">
-          <span class="f-val" id="spending-val">$80K</span>
-        </div>
-      </div>
-
-      <div class="field">
-        <label class="f-label">Safe Withdrawal Rate</label>
-        <div class="f-slider-wrap">
-          <input class="f-slider" type="range" id="swr" min="2" max="6" step="0.5" value="3.5">
-          <span class="f-val" id="swr-val">3.5%</span>
-        </div>
-      </div>
-
-      <div class="field">
-        <label class="f-label">Post-59½ Other Income / Year</label>
-        <div class="f-wrap">
-          <span class="f-sym">$</span>
-          <input class="f-input" type="number" id="other-income" value="0" min="0" step="1000">
-        </div>
-      </div>
-
+    <div class="power-law-badge">
+      <span class="plb-label">Power Law Fair Value Today</span>
+      <span class="plb-value" id="pl-today">—</span>
+      <span class="plb-sub" id="pl-sub">Projected by Santostasi model</span>
     </div>
 
-    <!-- CHART PANEL -->
-    <div class="chart-panel">
-      <p class="chart-head">Your Freedom Timeline</p>
-      <div class="chart-legend">
-        <div class="legend-item"><div class="legend-dot" style="background:#C9A84C;width:20px;height:2px;"></div>BTC Portfolio</div>
-        <div class="legend-item"><div class="legend-dot dashed" style="border-color:#F0EAD6;width:20px;"></div>Freedom Number</div>
-        <div class="legend-item"><div class="legend-dot dashed" style="border-color:#5CB87A;width:20px;"></div>Bridge Target</div>
-        <div class="legend-item"><div class="legend-dot" style="background:rgba(201,168,76,0.25);width:14px;height:10px;border-radius:2px;"></div>Accumulation</div>
-        <div class="legend-item"><div class="legend-dot" style="background:rgba(201,168,76,0.12);width:14px;height:10px;border-radius:2px;"></div>Bridge Period</div>
-        <div class="legend-item"><div class="legend-dot" style="background:rgba(92,184,122,0.1);width:14px;height:10px;border-radius:2px;"></div>Sustained</div>
-      </div>
-      <div class="chart-canvas-wrap">
-        <canvas id="mainChart"></canvas>
+    <div class="field">
+      <label class="field-lbl" for="i-age">Current Age</label>
+      <div class="f-wrap">
+        <input type="number" id="i-age" class="no-sym" value="32" min="18" max="65">
       </div>
     </div>
 
-  </div><!-- end calc-grid -->
+    <div class="field">
+      <label class="field-lbl" for="i-retire">Target Retirement Age</label>
+      <div class="f-wrap">
+        <input type="number" id="i-retire" class="no-sym" value="45" min="25" max="70">
+      </div>
+    </div>
 
-  <!-- STATS ROW -->
-  <div class="stats-row">
-    <div class="stat">
-      <span class="stat-label">Portfolio at Target Age</span>
-      <span class="stat-value" id="s-portfolio">—</span>
-      <span class="stat-sub" id="s-btc-held">— BTC held</span>
+    <div class="divider"></div>
+
+    <div class="field">
+      <label class="field-lbl" for="i-btc">BTC Currently Held</label>
+      <div class="f-wrap">
+        <span class="f-sym">₿</span>
+        <input type="number" id="i-btc" value="0.5" min="0" step="0.001">
+      </div>
     </div>
-    <div class="stat">
-      <span class="stat-label">Freedom Number</span>
-      <span class="stat-value" id="s-freedom">—</span>
-      <span class="stat-sub" id="s-freedom-sub">Bridge + Perpetual</span>
+
+    <div class="field">
+      <label class="field-lbl" for="i-dca">Monthly DCA</label>
+      <div class="f-wrap">
+        <span class="f-sym">$</span>
+        <input type="number" id="i-dca" value="500" min="0">
+      </div>
     </div>
-    <div class="stat">
-      <span class="stat-label">BTC Price at Target Age</span>
-      <span class="stat-value" id="s-btc-price">—</span>
-      <span class="stat-sub">Power Law projection</span>
+
+    <div class="divider"></div>
+
+    <div class="field">
+      <label class="field-lbl">Annual Retirement Spending</label>
+      <div class="slider-row">
+        <input type="range" id="i-spend" min="24000" max="500000" step="4000" value="80000">
+        <span class="s-val" id="sv-spend">$80K</span>
+      </div>
     </div>
-    <div class="stat">
-      <span class="stat-label">Status</span>
-      <span class="stat-value" id="s-status">—</span>
-      <span class="stat-sub" id="s-status-sub">—</span>
+
+    <div class="field">
+      <label class="field-lbl">Safe Withdrawal Rate</label>
+      <div class="slider-row">
+        <input type="range" id="i-swr" min="2" max="6" step="0.25" value="3.5">
+        <span class="s-val" id="sv-swr">3.5%</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-lbl" for="i-401k">Est. 401k / IRA at Age 59½</label>
+      <span class="field-hint">Reduces required BTC portfolio post-59½</span>
+      <div class="f-wrap">
+        <span class="f-sym">$</span>
+        <input type="number" id="i-401k" value="150000" min="0">
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-lbl">Life Expectancy</label>
+      <div class="slider-row">
+        <input type="range" id="i-life" min="75" max="100" step="1" value="90">
+        <span class="s-val" id="sv-life">90</span>
+      </div>
     </div>
   </div>
 
-</div><!-- end main-wrap -->
+  <!-- CHART AREA -->
+  <div class="chart-area">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem">
+      <div>
+        <p style="font-family:'Cormorant SC',serif;font-size:.56rem;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;margin-bottom:.4rem">Your Freedom Timeline</p>
+        <p style="font-family:'Cormorant Garamond',serif;font-size:.8rem;font-style:italic;color:var(--mist)" id="chart-subtitle">Power Law portfolio projection vs retirement requirements</p>
+      </div>
+      <div class="phase-legend">
+        <div class="phase-item"><div class="phase-box" style="background:rgba(201,168,76,0.08)"></div>Accumulation</div>
+        <div class="phase-item"><div class="phase-box" style="background:rgba(232,203,122,0.12)"></div>Bridge (pre-59½)</div>
+        <div class="phase-item"><div class="phase-box" style="background:rgba(76,175,124,0.08)"></div>Full Retirement</div>
+      </div>
+    </div>
 
-<!-- BRIDGE SECTION -->
-<div class="bridge-section" style="max-width:1100px;margin:0 auto;">
-  <div class="bridge-panel">
-    <h3 class="bridge-title">The <em>Bridge Period</em></h3>
-    <p class="bridge-desc">
-      Before age 59½, traditional retirement accounts are locked without penalty. Your BTC portfolio must fund this gap entirely. This breakdown shows exactly what's needed — and what you'll have.
-    </p>
-    <div class="bridge-bars" id="bridge-bars"></div>
-  </div>
-  <div class="bridge-panel">
-    <h3 class="bridge-title">Annual <em>Expense Coverage</em></h3>
-    <p class="bridge-desc">
-      How many years your portfolio can sustain your spending, starting at your target retirement age. Shows the slope of drawdown against your projected BTC value.
-    </p>
-    <div class="bridge-chart-wrap">
-      <canvas id="bridgeChart"></canvas>
+    <div class="chart-container">
+      <canvas id="freedom-chart"></canvas>
+    </div>
+
+    <div class="legend">
+      <div class="leg-item"><div class="leg-line" style="background:#C9A84C;height:3px"></div>BTC Portfolio Value</div>
+      <div class="leg-item"><div class="leg-line" style="background:#4CAF7C;height:3px"></div>Post-Retirement Drawdown</div>
+      <div class="leg-item"><div class="leg-line dashed" style="border-color:#E8CB7A"></div>Freedom Number</div>
+      <div class="leg-item"><div class="leg-line dashed" style="border-color:rgba(76,175,124,0.7)"></div>Adjusted Freedom Number</div>
+      <div class="leg-item"><div class="leg-line" style="background:rgba(240,234,214,0.25);height:3px"></div>Annual Expenses (cumulative)</div>
+    </div>
+
+    <div class="metrics" id="metrics-row">
+      <div class="metric">
+        <span class="metric-lbl">Freedom Number</span>
+        <span class="metric-val" id="m-freedom">—</span>
+        <span class="metric-sub" id="m-freedom-sub">Required portfolio to retire</span>
+      </div>
+      <div class="metric">
+        <span class="metric-lbl">Portfolio at Target Age</span>
+        <span class="metric-val" id="m-portfolio">—</span>
+        <span class="metric-sub" id="m-portfolio-sub">BTC power law projection</span>
+      </div>
+      <div class="metric">
+        <span class="metric-lbl">Bridge Period</span>
+        <span class="metric-val" id="m-bridge">—</span>
+        <span class="metric-sub">Years before 59½ access</span>
+      </div>
+      <div class="metric">
+        <span class="metric-lbl">Portfolio Status</span>
+        <span class="metric-val" id="m-status">—</span>
+        <span class="metric-sub" id="m-status-sub">At target retirement age</span>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- NARRATIVE -->
-<div class="narrative" style="max-width:1100px;margin:0 auto;">
-  <div class="narr-panel">
-    <h3 class="narr-head">The <em>Power Law</em> model</h3>
-    <div class="narr-body">
-      <p>The Bitcoin Power Law, developed by physicist Giovanni Santostasi, models BTC price as a power function of time since the genesis block (Jan 3, 2009): log₁₀(price) = 5.82 × log₁₀(days) + B.</p>
-      <p>This calculator anchors B to your current price input, creating a forward projection consistent with observed historical growth. The exponent (5.82) reflects the network effect dynamics observed since 2009.</p>
-      <p>Unlike linear or exponential models, the power law captures the decelerating but sustained growth as Bitcoin matures — making it more conservative than pure exponential assumptions over long time horizons.</p>
-    </div>
+<div class="narrative">
+  <div class="n-section">
+    <h3>The <em>Power Law</em> model</h3>
+    <p>Unlike CAGR projections that assume constant percentage growth, the Bitcoin Power Law (Santostasi, 2024) models price as a function of time since genesis:</p>
+    <p style="font-family:'Cormorant Garamond',serif;font-size:.9rem;font-style:italic;color:var(--gold-lt);border-left:1px solid var(--border);padding-left:.8rem;margin:1rem 0">log₁₀(Price) = −17.1 + 5.8 × log₁₀(days since genesis)</p>
+    <p>This means growth slows over time — aggressively high early, tapering as BTC matures. Far more realistic than assuming a constant 20% forever.</p>
   </div>
-  <div class="narr-panel">
-    <h3 class="narr-head">The <em>Bridge Strategy</em></h3>
-    <div class="narr-body">
-      <p>Retiring before 59½ creates a funding gap: traditional accounts (401k, IRA) cannot be accessed without a 10% penalty. Your BTC portfolio must carry the entire load during this bridge period.</p>
-      <p>The calculator models this by computing two distinct portfolio requirements: (1) bridge fund = annual spending × years until 59½, and (2) perpetual portfolio = annual spending / safe withdrawal rate, reduced by any post-59½ income.</p>
-      <p>Your total freedom number is the sum. The chart shows whether your projected BTC value at your target age clears this bar.</p>
-    </div>
+  <div class="n-section">
+    <h3>The <em>pre-59½</em> problem</h3>
+    <p>Early retirement creates a gap: your IRA and 401k are locked until age 59½ without penalties. This "bridge period" must be funded entirely from your BTC portfolio (or other taxable accounts).</p>
+    <ul>
+      <li>The longer you retire early, the larger this bridge</li>
+      <li>Your BTC portfolio must sustain full spending alone during bridge years</li>
+      <li>At 59½, retirement accounts kick in — reducing the draw on BTC</li>
+      <li>The "Adjusted Freedom Number" accounts for this relief</li>
+    </ul>
   </div>
-  <div class="narr-panel">
-    <h3 class="narr-head">Reading the <em>Chart</em></h3>
-    <div class="narr-body">
-      <p>The gold curve is your portfolio — growing with the power law through your accumulation years, then declining as you sell BTC to fund retirement spending. BTC's continued appreciation means the decline is slower than a flat-asset model.</p>
-      <p>The cream dashed line is your total freedom number. The green dashed line is just the bridge fund portion. The vertical gold line marks your target retirement age; the silver line marks 59½.</p>
-      <p>Where the gold curve first crosses the cream line before retirement — that's your actual earliest freedom date given the power law trajectory. Adjust your inputs to move that intersection.</p>
-    </div>
+  <div class="n-section">
+    <h3>Reading <em>the chart</em></h3>
+    <ul>
+      <li><strong style="color:var(--cream);font-weight:400">Gold line</strong>: Your BTC portfolio accumulating via DCA + power law growth</li>
+      <li><strong style="color:var(--cream);font-weight:400">Green line</strong>: Portfolio after you retire — drawdown rate vs continued BTC growth</li>
+      <li><strong style="color:var(--cream);font-weight:400">Dashed gold</strong>: Your full Freedom Number (annual spend ÷ SWR)</li>
+      <li><strong style="color:var(--cream);font-weight:400">Dashed green</strong>: Adjusted Freedom Number — what you actually need if 401k helps post-59½</li>
+      <li><strong style="color:var(--cream);font-weight:400">Faint cream</strong>: Cumulative living expenses from now — the total cost of your life</li>
+    </ul>
+    <p style="margin-top:.8rem">If the gold line crosses the dashed line before your target retirement age, you're on track. If the green line stays above zero through life expectancy, the plan is sustainable.</p>
   </div>
 </div>
 
-<div style="max-width:1100px;margin:0 auto;padding:1.6rem 0;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
-  <span class="foot-note">© 2026 Jimmy Neyhart · For illustrative purposes only · Not financial advice</span>
+<div class="page-footer">
+  <span class="foot-note">Not financial advice · Power Law model by Giovanni Santostasi · © 2026 Jimmy Neyhart</span>
   <a href="index.html" class="foot-back">← Back to Portfolio</a>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <script>
-// ── CURSOR ──────────────────────────────────────────
-let mx=innerWidth/2, my=innerHeight/2, rx=mx, ry=my;
-const curOrb=document.getElementById('cur-orb'), curRing=document.getElementById('cur-ring');
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
-(function t(){
-  curOrb.style.left=mx+'px'; curOrb.style.top=my+'px';
-  rx+=(mx-rx)*0.07; ry+=(my-ry)*0.07;
-  curRing.style.left=rx+'px'; curRing.style.top=ry+'px';
-  requestAnimationFrame(t);
+// ── CURSOR ──────────────────────────────
+let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
+const orb=document.getElementById('cur-orb');
+const ring=document.getElementById('cur-ring');
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
+(function tick(){
+  orb.style.left=mx+'px';orb.style.top=my+'px';
+  rx+=(mx-rx)*0.07;ry+=(my-ry)*0.07;
+  ring.style.left=rx+'px';ring.style.top=ry+'px';
+  requestAnimationFrame(tick);
 })();
 document.querySelectorAll('a,button,input').forEach(el=>{
   el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
   el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
 });
 
-// ── POWER LAW ─────────────────────────────────────────
-const GENESIS_MS = new Date('2009-01-03').getTime();
-const POWER_EXP  = 5.82;
+// ── POWER LAW ───────────────────────────
+// Santostasi model: log10(Price) = -17.1 + 5.8 * log10(days_since_genesis)
+const GENESIS = new Date('2009-01-03T00:00:00Z');
 
-function getPowerLawB(currentPrice) {
-  const days = (Date.now() - GENESIS_MS) / 86400000;
-  return Math.log10(currentPrice) - POWER_EXP * Math.log10(days);
+function daysSinceGenesis(date) {
+  return (date - GENESIS) / 86400000;
 }
 
-function powerLawPrice(dateMs, B) {
-  const days = (dateMs - GENESIS_MS) / 86400000;
-  if (days <= 1) return 0;
-  return Math.pow(10, POWER_EXP * Math.log10(days) + B);
+function powerLawPrice(date) {
+  const d = daysSinceGenesis(date);
+  if (d <= 0) return 0;
+  return Math.pow(10, -17.1 + 5.8 * Math.log10(d));
 }
 
-// ── FORMAT ────────────────────────────────────────────
-function fmt(n, dec=0) {
-  if (!isFinite(n) || n < 0) return '$0';
+function fmt(n, decimals) {
+  if (n == null || isNaN(n)) return '—';
   if (n >= 1e9) return '$' + (n/1e9).toFixed(2) + 'B';
   if (n >= 1e6) return '$' + (n/1e6).toFixed(2) + 'M';
   if (n >= 1e3) return '$' + Math.round(n/1000) + 'K';
-  return '$' + n.toFixed(dec);
-}
-function fmtBTC(n) { return '₿ ' + n.toFixed(3); }
-
-// ── SIMULATION ────────────────────────────────────────
-function simulate(p) {
-  const {currentAge, targetAge, btcHeld: initBTC, monthlyDCA,
-         currentBTCPrice, annualSpending, swr, otherIncome} = p;
-
-  const B = getPowerLawB(currentBTCPrice);
-  const now = Date.now();
-  const msPerYear = 365.25 * 86400000;
-
-  const bridgeYears    = Math.max(0, 59.5 - targetAge);
-  const bridgeFund     = annualSpending * bridgeYears;
-  // After 59.5 you have other income reducing the BTC burden
-  const netSpendPost   = Math.max(0, annualSpending - otherIncome);
-  const perpetualFund  = netSpendPost / swr;
-  const freedomNumber  = bridgeFund + perpetualFund;
-  const bridgeTarget   = bridgeFund; // just the bridge portion
-
-  // Simulate year by year from currentAge to 85
-  const horizon = 85;
-  const ages    = [];
-  const portfolio = [];
-  const spending  = []; // cumulative expense from retirement
-
-  let btc = initBTC;
-  let retired = false;
-  let retirementBTC = 0;
-  let freedomAge = null;
-  let portfolioAtTarget = 0;
-  let btcPriceAtTarget  = 0;
-  let btcAtTarget       = 0;
-
-  // Monthly simulation for accuracy, store yearly snapshots
-  const totalMonths = (horizon - currentAge) * 12;
-  let snapshotBTC  = [];
-  let snapshotVal  = [];
-  let snapshotPow  = [];
-  let monthBTC = initBTC;
-
-  for (let m = 0; m <= totalMonths; m++) {
-    const ageNow = currentAge + m / 12;
-    const dateMs = now + (ageNow - currentAge) * msPerYear;
-    const bprice = powerLawPrice(dateMs, B);
-
-    if (ageNow < targetAge) {
-      // Accumulation: buy DCA each month
-      monthBTC += monthlyDCA / bprice;
-    } else {
-      // Retirement: sell BTC to fund spending each month
-      // During bridge (< 59.5): sell to cover full spending
-      // After 59.5: sell to cover net spending (minus other income)
-      const monthlyExpense = ageNow < 59.5
-        ? annualSpending / 12
-        : Math.max(0, annualSpending - otherIncome) / 12;
-      const btcSold = monthlyExpense / bprice;
-      monthBTC = Math.max(0, monthBTC - btcSold);
-    }
-
-    // Yearly snapshot
-    if (m % 12 === 0) {
-      const ageInt = Math.round(ageNow);
-      const portVal = monthBTC * bprice;
-      ages.push(ageInt);
-      snapshotBTC.push(monthBTC);
-      snapshotVal.push(portVal);
-      snapshotPow.push(bprice);
-
-      // Capture key values at target age
-      if (Math.abs(ageNow - targetAge) < 0.5) {
-        portfolioAtTarget = portVal;
-        btcPriceAtTarget  = bprice;
-        btcAtTarget       = monthBTC;
-      }
-      // First time portfolio >= freedom number during accumulation
-      if (!freedomAge && ageNow <= targetAge && portVal >= freedomNumber) {
-        freedomAge = ageNow;
-      }
-    }
-  }
-
-  // Cumulative expenses from retirement (for bridge chart)
-  const bridgeRunway = [];
-  for (let i = 0; i < ages.length; i++) {
-    const age = ages[i];
-    if (age < targetAge) {
-      bridgeRunway.push(null);
-    } else {
-      const yearsIn = age - targetAge;
-      const cumExpense = Math.min(yearsIn * annualSpending, annualSpending * 50);
-      bridgeRunway.push(cumExpense);
-    }
-  }
-
-  return {
-    ages, snapshotVal, snapshotBTC, snapshotPow, bridgeRunway,
-    bridgeYears, bridgeFund, perpetualFund, freedomNumber, bridgeTarget,
-    portfolioAtTarget, btcPriceAtTarget, btcAtTarget, B,
-    targetAge, currentAge, annualSpending, freedomAge
-  };
+  return '$' + n.toFixed(decimals || 0);
 }
 
-// ── CHART SETUP ───────────────────────────────────────
-let mainChart   = null;
-let bridgeChart = null;
+// ── CHART SETUP ─────────────────────────
+const ctx = document.getElementById('freedom-chart').getContext('2d');
 
-const GOLD      = '#C9A84C';
-const GOLD_LT   = '#E8CB7A';
-const CREAM     = 'rgba(240,234,214,0.75)';
-const GREEN     = '#5CB87A';
-const SILVER    = 'rgba(184,196,208,0.6)';
-
-// Custom plugin: vertical lines + phase fills
-const phasePlugin = {
-  id: 'phases',
-  beforeDatasetsDraw(chart, args, opts) {
-    const {ctx, chartArea:{left,right,top,bottom}, scales:{x}} = chart;
-    if (!opts) return;
-
-    ctx.save();
-    ctx.beginPath();
-    ctx.rect(left, top, right-left, bottom-top);
-    ctx.clip();
-
-    // Phase fills
-    (opts.fills || []).forEach(f => {
-      const x1 = Math.max(x.getPixelForValue(f.from), left);
-      const x2 = Math.min(x.getPixelForValue(f.to),   right);
-      if (x1 >= x2) return;
-      ctx.fillStyle = f.color;
-      ctx.fillRect(x1, top, x2-x1, bottom-top);
-    });
-
-    ctx.restore();
-  },
-  afterDatasetsDraw(chart, args, opts) {
-    const {ctx, chartArea:{left,right,top,bottom}, scales:{x}} = chart;
-    if (!opts) return;
-
-    ctx.save();
-    ctx.beginPath();
-    ctx.rect(left, top, right-left, bottom-top);
-    ctx.clip();
-
-    // Vertical lines
-    (opts.vlines || []).forEach(l => {
-      const px = x.getPixelForValue(l.value);
-      if (px < left || px > right) return;
-      ctx.beginPath();
-      ctx.setLineDash(l.dash || []);
-      ctx.strokeStyle = l.color;
-      ctx.lineWidth = l.width || 1;
-      ctx.moveTo(px, top);
-      ctx.lineTo(px, bottom);
-      ctx.stroke();
-
-      if (l.label) {
-        ctx.setLineDash([]);
-        ctx.fillStyle = l.color;
-        ctx.font = `300 10px 'Cormorant SC', serif`;
-        ctx.textAlign = 'center';
-        ctx.fillText(l.label, px, top - 6);
-      }
-    });
-
-    // Freedom dot
-    if (opts.freedomDot) {
-      const fd = opts.freedomDot;
-      const px = x.getPixelForValue(fd.age);
-      if (px >= left && px <= right) {
-        const py = chart.scales.y.getPixelForValue(fd.value);
-        ctx.setLineDash([]);
-        ctx.beginPath();
-        ctx.arc(px, py, 6, 0, Math.PI*2);
-        ctx.fillStyle = GREEN;
-        ctx.fill();
-        ctx.beginPath();
-        ctx.arc(px, py, 10, 0, Math.PI*2);
-        ctx.strokeStyle = 'rgba(92,184,122,0.4)';
-        ctx.lineWidth = 1.5;
-        ctx.stroke();
-        ctx.fillStyle = GREEN;
-        ctx.font = `300 10px 'DM Sans', sans-serif`;
-        ctx.textAlign = 'left';
-        ctx.fillText(`Freedom at ${Math.floor(fd.age)}`, px+14, py+4);
-      }
-    }
-
-    ctx.restore();
+// Background zone plugin
+const zonePlugin = {
+  id: 'zones',
+  beforeDraw(chart, args, opts) {
+    const {ctx: c, chartArea: {left, right, top, bottom}, scales: {x, y}} = chart;
+    if (!opts.retireX || !opts.age595X) return;
+    // Accumulation zone
+    c.save();
+    c.fillStyle = 'rgba(201,168,76,0.05)';
+    c.fillRect(left, top, opts.retireX - left, bottom - top);
+    // Bridge zone
+    c.fillStyle = 'rgba(232,203,122,0.09)';
+    c.fillRect(opts.retireX, top, opts.age595X - opts.retireX, bottom - top);
+    // Full retirement zone
+    c.fillStyle = 'rgba(76,175,124,0.06)';
+    c.fillRect(opts.age595X, top, right - opts.age595X, bottom - top);
+    c.restore();
   }
 };
 
-Chart.register(phasePlugin);
+Chart.register(zonePlugin);
 
-function buildMainChart(sim) {
-  const ctx = document.getElementById('mainChart').getContext('2d');
-  if (mainChart) mainChart.destroy();
+let myChart = null;
+let zoneOpts = {};
 
-  const {ages, snapshotVal, freedomNumber, bridgeTarget,
-         targetAge, bridgeYears, portfolioAtTarget, freedomAge} = sim;
+function getChartData() {
+  const currentAge  = +document.getElementById('i-age').value    || 32;
+  const retireAge   = +document.getElementById('i-retire').value  || 45;
+  const btcHeld     = +document.getElementById('i-btc').value     || 0;
+  const monthlyDCA  = +document.getElementById('i-dca').value     || 0;
+  const spending    = +document.getElementById('i-spend').value   || 80000;
+  const swr         = +document.getElementById('i-swr').value/100 || 0.035;
+  const ira         = +document.getElementById('i-401k').value    || 0;
+  const lifeExp     = +document.getElementById('i-life').value    || 90;
 
-  const freedomFlat = ages.map(() => freedomNumber);
-  const bridgeFlat  = bridgeTarget > 0 ? ages.map(() => bridgeTarget) : null;
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  const retireYear  = currentYear + (retireAge - currentAge);
+  const age595Year  = currentYear + (59.5 - currentAge);
+  const endYear     = currentYear + (lifeExp - currentAge);
 
-  // Cap display at 3× freedom number for readability
-  const maxY = Math.max(freedomNumber * 1.6, portfolioAtTarget * 1.2);
+  // Power law today
+  const plToday = powerLawPrice(now);
 
-  const phaseOpts = {
-    fills: [
-      { from: ages[0],  to: targetAge,   color: 'rgba(201,168,76,0.04)' },
-      { from: targetAge, to: 59.5,        color: 'rgba(201,168,76,0.08)' },
-      { from: 59.5,     to: ages[ages.length-1]+1, color: 'rgba(92,184,122,0.04)' },
-    ],
-    vlines: [
-      { value: targetAge, color: 'rgba(201,168,76,0.7)', dash:[],  width:1.5, label: `Retire ${targetAge}` },
-      { value: 59.5,      color: 'rgba(184,196,208,0.5)', dash:[4,3], width:1, label: '59½' },
-    ],
-    freedomDot: freedomAge
-      ? { age: freedomAge, value: freedomNumber }
-      : null,
+  // Freedom numbers
+  const freedomNumber = spending / swr;
+  // Retirement income from 401k at 59.5
+  const iraIncome = ira * swr;
+  // Adjusted: BTC only needs to cover (spending - ira_income) post 59.5
+  const adjustedFreedom = Math.max(0, (spending - iraIncome) / swr);
+
+  // Build year-by-year data (monthly precision for DCA, yearly for chart)
+  const labels = [];
+  const portfolioLine = []; // accumulation phase
+  const drawdownLine  = []; // post-retirement (index offset to retireYear)
+  const freedomFlat   = [];
+  const adjFreedomFlat = [];
+  const cumulExpenses = []; // cumulative annual spending from now
+
+  let btcAccumulated = btcHeld;
+  let portfolioAtRetire = 0;
+
+  // Build accumulation data month by month, snapshot per year
+  const monthlyGrowth = () => {};
+
+  // For each year from now to endYear, compute portfolio value
+  for (let yr = currentYear; yr <= endYear; yr++) {
+    const age = currentAge + (yr - currentYear);
+    labels.push(yr);
+    freedomFlat.push(freedomNumber);
+    adjFreedomFlat.push(adjustedFreedom);
+    cumulExpenses.push(spending * (yr - currentYear));
+
+    const dateAtYear = new Date(yr, 6, 1); // mid-year
+    const btcPrice   = powerLawPrice(dateAtYear);
+
+    if (yr <= retireYear) {
+      // Accumulation: compute BTC accumulated via monthly DCA
+      let dcaBtc = 0;
+      const monthsFromNow = (yr - currentYear) * 12;
+      for (let m = 0; m < monthsFromNow; m++) {
+        const mDate = new Date(currentYear, now.getMonth() + m, 1);
+        const mPrice = powerLawPrice(mDate);
+        if (mPrice > 0) dcaBtc += monthlyDCA / mPrice;
+      }
+      const totalBtc = btcHeld + dcaBtc;
+      const val = totalBtc * btcPrice;
+      portfolioLine.push(val);
+      drawdownLine.push(null);
+
+      if (yr === retireYear) {
+        portfolioAtRetire = val;
+      }
+    } else {
+      portfolioLine.push(null);
+    }
+  }
+
+  // Simulate post-retirement drawdown year by year
+  // Each year: portfolio grows with BTC power law, then subtract annual withdrawal
+  let portfolio = portfolioAtRetire;
+  let portfolioExhausted = false;
+
+  for (let yr = retireYear; yr <= endYear; yr++) {
+    const idx = yr - currentYear;
+    const age = currentAge + idx;
+
+    if (portfolioExhausted) {
+      drawdownLine[idx] = 0;
+      continue;
+    }
+
+    // Annual withdrawal: full spending pre-59.5, reduced post-59.5
+    const annualWithdrawal = age >= 59.5 ? Math.max(0, spending - iraIncome) : spending;
+
+    // BTC price growth this year
+    const dateThis = new Date(yr, 6, 1);
+    const dateNext = new Date(yr + 1, 6, 1);
+    const priceThis = powerLawPrice(dateThis);
+    const priceNext = powerLawPrice(dateNext);
+    const growthRate = priceNext / priceThis;
+
+    // Portfolio grows with BTC then subtract withdrawal
+    portfolio = portfolio * growthRate - annualWithdrawal;
+
+    if (portfolio < 0) {
+      portfolioExhausted = true;
+      portfolio = 0;
+    }
+
+    drawdownLine[idx] = portfolio;
+  }
+
+  return {
+    labels,
+    portfolioLine,
+    drawdownLine,
+    freedomFlat,
+    adjFreedomFlat,
+    cumulExpenses,
+    plToday,
+    freedomNumber,
+    adjustedFreedom,
+    portfolioAtRetire,
+    retireYear,
+    age595Year,
+    currentYear,
+    currentAge,
+    retireAge,
+    spending,
+    swr,
+    ira,
+    iraIncome,
+    lifeExp,
   };
+}
+
+function renderChart(d) {
+  const {
+    labels, portfolioLine, drawdownLine, freedomFlat, adjFreedomFlat,
+    cumulExpenses, plToday, freedomNumber, adjustedFreedom,
+    portfolioAtRetire, retireYear, age595Year, currentYear
+  } = d;
 
   const datasets = [
+    // Accumulation BTC portfolio (gold)
     {
       label: 'BTC Portfolio',
-      data: snapshotVal.map(v => Math.min(v, maxY * 2)),
-      borderColor: GOLD,
-      borderWidth: 2,
-      fill: false,
-      tension: 0.4,
+      data: portfolioLine,
+      borderColor: '#C9A84C',
+      borderWidth: 2.5,
       pointRadius: 0,
-      pointHoverRadius: 4,
+      tension: 0.4,
+      fill: false,
+      spanGaps: false,
     },
+    // Post-retirement drawdown (green)
+    {
+      label: 'Post-Retirement Portfolio',
+      data: drawdownLine,
+      borderColor: '#4CAF7C',
+      borderWidth: 2,
+      borderDash: [],
+      pointRadius: 0,
+      tension: 0.4,
+      fill: false,
+      spanGaps: false,
+    },
+    // Freedom number (dashed gold)
     {
       label: 'Freedom Number',
       data: freedomFlat,
-      borderColor: CREAM,
-      borderWidth: 1,
-      borderDash: [6,4],
-      fill: false,
-      tension: 0,
+      borderColor: 'rgba(232,203,122,0.7)',
+      borderWidth: 1.5,
+      borderDash: [6, 4],
       pointRadius: 0,
+      tension: 0,
+      fill: false,
+    },
+    // Adjusted freedom number (dashed green)
+    {
+      label: 'Adjusted Freedom Number',
+      data: adjFreedomFlat,
+      borderColor: 'rgba(76,175,124,0.55)',
+      borderWidth: 1.5,
+      borderDash: [4, 4],
+      pointRadius: 0,
+      tension: 0,
+      fill: false,
+    },
+    // Cumulative expenses (faint cream)
+    {
+      label: 'Cumulative Expenses',
+      data: cumulExpenses,
+      borderColor: 'rgba(240,234,214,0.18)',
+      borderWidth: 1,
+      pointRadius: 0,
+      tension: 0.3,
+      fill: false,
     },
   ];
 
-  if (bridgeFlat && bridgeTarget > 500) {
-    datasets.push({
-      label: 'Bridge Target',
-      data: bridgeFlat,
-      borderColor: 'rgba(92,184,122,0.55)',
-      borderWidth: 1,
-      borderDash: [3,3],
-      fill: false,
-      tension: 0,
-      pointRadius: 0,
+  // Zone plugin data — compute pixel positions after chart renders
+  const zoneData = { retireYear, age595Year };
+
+  if (myChart) {
+    myChart.data.labels = labels;
+    myChart.data.datasets = datasets;
+    myChart.options.plugins.zones = zoneData;
+    myChart.update('none');
+  } else {
+    myChart = new Chart(ctx, {
+      type: 'line',
+      data: { labels, datasets },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 400 },
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: 'rgba(8,8,15,0.95)',
+            borderColor: 'rgba(201,168,76,0.3)',
+            borderWidth: 1,
+            titleFont: { family: 'Cormorant SC, serif', size: 11 },
+            bodyFont: { family: 'Cormorant Garamond, serif', size: 13 },
+            titleColor: '#C9A84C',
+            bodyColor: '#F0EAD6',
+            padding: 12,
+            callbacks: {
+              title: items => `Age ${d.currentAge + (items[0].dataIndex)} — ${items[0].label}`,
+              label: item => {
+                const v = item.raw;
+                if (v == null) return null;
+                const name = item.dataset.label;
+                return ` ${name}: ${fmt(v)}`;
+              }
+            }
+          },
+          zones: zoneData,
+        },
+        scales: {
+          x: {
+            ticks: {
+              color: '#7A8CA0',
+              font: { family: 'Cormorant SC, serif', size: 10 },
+              maxTicksLimit: 12,
+              callback: val => labels[val],
+            },
+            grid: { color: 'rgba(201,168,76,0.06)' },
+            border: { color: 'rgba(201,168,76,0.15)' },
+          },
+          y: {
+            ticks: {
+              color: '#7A8CA0',
+              font: { family: 'Cormorant SC, serif', size: 10 },
+              callback: v => fmt(v),
+              maxTicksLimit: 8,
+            },
+            grid: { color: 'rgba(201,168,76,0.06)' },
+            border: { color: 'rgba(201,168,76,0.15)' },
+          }
+        }
+      },
+      plugins: [{
+        id: 'zones',
+        beforeDraw(chart) {
+          const {ctx: c, chartArea: {left, right, top, bottom}, scales: {x}} = chart;
+          const opts = chart.options.plugins.zones;
+          if (!opts) return;
+
+          const retireIdx = labels.indexOf(opts.retireYear);
+          const age595Idx = labels.indexOf(Math.floor(opts.age595Year));
+
+          if (retireIdx < 0) return;
+
+          const retireX = x.getPixelForValue(retireIdx);
+          const age595X = age595Idx >= 0 ? x.getPixelForValue(age595Idx) : right;
+
+          c.save();
+          // Accumulation
+          c.fillStyle = 'rgba(201,168,76,0.05)';
+          c.fillRect(left, top, retireX - left, bottom - top);
+          // Bridge
+          if (age595X > retireX) {
+            c.fillStyle = 'rgba(232,203,122,0.09)';
+            c.fillRect(retireX, top, age595X - retireX, bottom - top);
+          }
+          // Full retirement
+          c.fillStyle = 'rgba(76,175,124,0.06)';
+          c.fillRect(age595X, top, right - age595X, bottom - top);
+
+          // Vertical lines
+          const drawVline = (xPx, color, label) => {
+            c.strokeStyle = color;
+            c.lineWidth = 1;
+            c.setLineDash([4,4]);
+            c.beginPath(); c.moveTo(xPx, top); c.lineTo(xPx, bottom); c.stroke();
+            c.setLineDash([]);
+            c.fillStyle = color;
+            c.font = '500 10px Cormorant SC, serif';
+            c.fillText(label, xPx + 4, top + 14);
+          };
+
+          if (retireX > left && retireX < right)
+            drawVline(retireX, 'rgba(201,168,76,0.6)', `Retire (${opts.retireYear})`);
+          if (age595X > left && age595X < right)
+            drawVline(age595X, 'rgba(76,175,124,0.6)', '59½');
+
+          c.restore();
+        }
+      }]
     });
   }
-
-  mainChart = new Chart(ctx, {
-    type: 'line',
-    data: { labels: ages, datasets },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      animation: { duration: 600 },
-      interaction: { mode: 'index', intersect: false },
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          backgroundColor: 'rgba(8,8,15,0.92)',
-          borderColor: 'rgba(201,168,76,0.3)',
-          borderWidth: 1,
-          titleColor: GOLD_LT,
-          bodyColor: 'rgba(240,234,214,0.7)',
-          titleFont: { family: "'Cormorant SC', serif", size: 11 },
-          bodyFont: { family: "'DM Sans', sans-serif", size: 12, weight: '300' },
-          padding: 10,
-          callbacks: {
-            title: items => `Age ${items[0].label}`,
-            label: item => {
-              const val = item.raw;
-              if (item.datasetIndex === 0) return ` Portfolio: ${fmt(val)}`;
-              if (item.datasetIndex === 1) return ` Goal: ${fmt(val)}`;
-              return ` Bridge: ${fmt(val)}`;
-            }
-          }
-        },
-        phases: phaseOpts,
-      },
-      scales: {
-        x: {
-          grid: { color: 'rgba(201,168,76,0.05)', drawBorder: false },
-          ticks: {
-            color: 'rgba(122,140,160,0.6)',
-            font: { family: "'Cormorant SC', serif", size: 10 },
-            maxTicksLimit: 12,
-          },
-        },
-        y: {
-          min: 0,
-          max: maxY,
-          grid: { color: 'rgba(201,168,76,0.05)', drawBorder: false },
-          ticks: {
-            color: 'rgba(122,140,160,0.6)',
-            font: { family: "'Cormorant SC', serif", size: 10 },
-            callback: v => fmt(v),
-            maxTicksLimit: 8,
-          },
-        }
-      }
-    }
-  });
 }
 
-function buildBridgeChart(sim) {
-  const ctx2 = document.getElementById('bridgeChart').getContext('2d');
-  if (bridgeChart) bridgeChart.destroy();
+function updateMetrics(d) {
+  // Power law badge
+  document.getElementById('pl-today').textContent = fmt(d.plToday);
+  const pct = ((d.plToday / 83000 - 1) * 100).toFixed(1);
+  const sign = pct > 0 ? '+' : '';
+  document.getElementById('pl-sub').textContent =
+    `${sign}${pct}% vs $83K spot · Log₁₀(P) = −17.1 + 5.8×Log₁₀(days)`;
 
-  const {ages, snapshotVal, bridgeRunway, targetAge, annualSpending} = sim;
+  document.getElementById('m-freedom').textContent = fmt(d.freedomNumber);
+  document.getElementById('m-freedom-sub').textContent =
+    d.ira > 0 ? `Adj: ${fmt(d.adjustedFreedom)} with 401k` : 'Annual spend ÷ SWR';
 
-  // Only show from retirement age + 30 years
-  const startIdx = ages.findIndex(a => a >= targetAge);
-  const endIdx   = Math.min(startIdx + 31, ages.length);
-  const sliceAges = ages.slice(startIdx, endIdx);
-  const slicePort = snapshotVal.slice(startIdx, endIdx);
-  const sliceExp  = bridgeRunway.slice(startIdx, endIdx).map(v => v === null ? 0 : v);
+  const portEl = document.getElementById('m-portfolio');
+  portEl.textContent = fmt(d.portfolioAtRetire);
+  portEl.className = 'metric-val ' + (d.portfolioAtRetire >= d.freedomNumber ? 'green' : 'red');
+  document.getElementById('m-portfolio-sub').textContent =
+    `₿ value at age ${d.retireAge} (power law)`;
 
-  bridgeChart = new Chart(ctx2, {
-    type: 'line',
-    data: {
-      labels: sliceAges,
-      datasets: [
-        {
-          label: 'Portfolio Value',
-          data: slicePort,
-          borderColor: GOLD,
-          borderWidth: 1.5,
-          fill: false,
-          tension: 0.4,
-          pointRadius: 0,
-        },
-        {
-          label: 'Cumulative Expenses',
-          data: sliceExp,
-          borderColor: 'rgba(200,97,90,0.6)',
-          borderWidth: 1,
-          borderDash: [4,3],
-          fill: false,
-          tension: 0,
-          pointRadius: 0,
-        }
-      ]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      animation: { duration: 500 },
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          backgroundColor:'rgba(8,8,15,0.9)', borderColor:'rgba(201,168,76,0.3)', borderWidth:1,
-          titleColor:GOLD_LT, bodyColor:'rgba(240,234,214,0.7)',
-          callbacks: {
-            title: items => `Age ${items[0].label}`,
-            label: item => item.datasetIndex===0 ? ` Portfolio: ${fmt(item.raw)}` : ` Spent: ${fmt(item.raw)}`,
-          }
-        }
-      },
-      scales: {
-        x: {
-          grid: { color:'rgba(201,168,76,0.05)', drawBorder:false },
-          ticks: { color:'rgba(122,140,160,0.6)', font:{family:"'Cormorant SC',serif",size:9}, maxTicksLimit:8 }
-        },
-        y: {
-          min: 0,
-          grid: { color:'rgba(201,168,76,0.05)', drawBorder:false },
-          ticks: { color:'rgba(122,140,160,0.6)', font:{family:"'Cormorant SC',serif",size:9}, callback:v=>fmt(v), maxTicksLimit:5 }
-        }
-      }
-    }
-  });
-}
+  const bridge = Math.max(0, 59.5 - d.retireAge);
+  document.getElementById('m-bridge').textContent = bridge.toFixed(1) + ' yrs';
 
-function buildBridgeBars(sim) {
-  const {bridgeFund, perpetualFund, freedomNumber, portfolioAtTarget,
-         bridgeYears, annualSpending, targetAge} = sim;
-  const bars = document.getElementById('bridge-bars');
-  const maxVal = Math.max(freedomNumber, portfolioAtTarget) * 1.05;
-
-  const rows = [
-    { label: 'Bridge Fund',   val: bridgeFund,       color: 'rgba(201,168,76,0.6)', sub: `${bridgeYears.toFixed(1)} yrs × ${fmt(annualSpending)} (ages ${targetAge}–59½)` },
-    { label: 'Perpetual',     val: perpetualFund,     color: 'rgba(201,168,76,0.85)', sub: `Annual spending ÷ ${document.getElementById('swr').value}% SWR` },
-    { label: 'Total Needed',  val: freedomNumber,     color: GOLD_LT, sub: 'Bridge + Perpetual' },
-    { label: "You'll Have",   val: portfolioAtTarget, color: portfolioAtTarget >= freedomNumber ? '#5CB87A' : '#C8615A', sub: `BTC portfolio at age ${targetAge}` },
-  ];
-
-  bars.innerHTML = rows.map(r => {
-    const pct = Math.min((r.val / maxVal) * 100, 100).toFixed(1);
-    return `<div class="b-bar-row">
-      <span class="b-bar-label">${r.label}</span>
-      <div class="b-bar-track">
-        <div class="b-bar-fill" style="width:${pct}%;background:${r.color}"></div>
-      </div>
-      <span class="b-bar-amt">${fmt(r.val)}</span>
-    </div>
-    <div style="font-family:'Cormorant Garamond',serif;font-size:.72rem;font-style:italic;color:rgba(122,140,160,0.6);padding-left:118px;margin-top:-4px;margin-bottom:8px;">${r.sub}</div>`;
-  }).join('');
-}
-
-function updateStats(sim) {
-  const {portfolioAtTarget, freedomNumber, btcPriceAtTarget, btcAtTarget,
-         targetAge, bridgeFund, perpetualFund} = sim;
-
-  document.getElementById('s-portfolio').textContent = fmt(portfolioAtTarget);
-  document.getElementById('s-portfolio').className = 'stat-value' + (portfolioAtTarget >= freedomNumber ? ' green' : '');
-  document.getElementById('s-btc-held').textContent = fmtBTC(btcAtTarget) + ' at retirement';
-
-  document.getElementById('s-freedom').textContent = fmt(freedomNumber);
-  document.getElementById('s-freedom-sub').textContent = `${fmt(bridgeFund)} bridge + ${fmt(perpetualFund)} perpetual`;
-
-  document.getElementById('s-btc-price').textContent = fmt(btcPriceAtTarget);
-
-  const statusEl  = document.getElementById('s-status');
-  const statusSub = document.getElementById('s-status-sub');
-  if (portfolioAtTarget >= freedomNumber) {
-    statusEl.textContent = 'On Track';
-    statusEl.className = 'stat-value green';
-    const surplus = portfolioAtTarget - freedomNumber;
-    statusSub.textContent = `${fmt(surplus)} surplus (${Math.round(portfolioAtTarget/freedomNumber*100)}% of goal)`;
+  const statusEl = document.getElementById('m-status');
+  const statusSub = document.getElementById('m-status-sub');
+  const needed = d.ira > 0 ? d.adjustedFreedom : d.freedomNumber;
+  if (d.portfolioAtRetire >= needed) {
+    statusEl.textContent = 'On Track ✦';
+    statusEl.className = 'metric-val green';
+    const surplus = d.portfolioAtRetire - needed;
+    statusSub.textContent = `${fmt(surplus)} surplus · ${Math.round(d.portfolioAtRetire/needed*100)}% of goal`;
+  } else if (d.portfolioAtRetire >= needed * 0.75) {
+    statusEl.textContent = 'Close';
+    statusEl.className = 'metric-val';
+    statusEl.style.color = 'var(--gold-lt)';
+    statusSub.textContent = `${Math.round(d.portfolioAtRetire/needed*100)}% of goal reached`;
   } else {
-    statusEl.textContent = 'Gap Exists';
-    statusEl.className = 'stat-value red';
-    const gap = freedomNumber - portfolioAtTarget;
-    statusSub.textContent = `${fmt(gap)} short (${Math.round(portfolioAtTarget/freedomNumber*100)}% of goal)`;
+    statusEl.textContent = 'Gap Remains';
+    statusEl.className = 'metric-val red';
+    statusSub.textContent = `${fmt(needed - d.portfolioAtRetire)} short of goal`;
   }
-}
-
-// ── MAIN CALCULATE ────────────────────────────────────
-function getInputs() {
-  return {
-    currentAge:     parseFloat(document.getElementById('current-age').value)  || 32,
-    targetAge:      parseFloat(document.getElementById('target-age').value)   || 45,
-    btcHeld:        parseFloat(document.getElementById('btc-held').value)     || 0,
-    monthlyDCA:     parseFloat(document.getElementById('monthly-dca').value)  || 0,
-    currentBTCPrice:parseFloat(document.getElementById('btc-price').value)    || 83000,
-    annualSpending: parseFloat(document.getElementById('spending').value)     || 80000,
-    swr:            parseFloat(document.getElementById('swr').value) / 100    || 0.035,
-    otherIncome:    parseFloat(document.getElementById('other-income').value) || 0,
-  };
 }
 
 function calculate() {
-  const inputs = getInputs();
-  if (inputs.targetAge <= inputs.currentAge) return;
-  const sim = simulate(inputs);
-  buildMainChart(sim);
-  buildBridgeChart(sim);
-  buildBridgeBars(sim);
-  updateStats(sim);
+  const d = getChartData();
+  renderChart(d);
+  updateMetrics(d);
 }
 
-// ── SLIDER DISPLAY ────────────────────────────────────
-document.getElementById('spending').addEventListener('input', function() {
-  const v = +this.value;
-  document.getElementById('spending-val').textContent = v >= 1000 ? '$'+Math.round(v/1000)+'K' : '$'+v;
-  calculate();
-});
-document.getElementById('swr').addEventListener('input', function() {
-  document.getElementById('swr-val').textContent = this.value + '%';
-  calculate();
-});
-document.querySelectorAll('.f-input, #spending, #swr').forEach(el => {
-  el.addEventListener('input', () => {
-    if (el.id !== 'spending' && el.id !== 'swr') calculate();
-  });
+// ── SLIDER LABELS ───────────────────────
+const sliders = [
+  ['i-spend', 'sv-spend', v => v >= 1e6 ? '$'+Math.round(v/1e6*10)/10+'M' : v >= 1e3 ? '$'+Math.round(v/1000)+'K' : '$'+v],
+  ['i-swr',   'sv-swr',   v => v+'%'],
+  ['i-life',  'sv-life',  v => v],
+];
+sliders.forEach(([id, valId, fmt]) => {
+  const el = document.getElementById(id);
+  const out = document.getElementById(valId);
+  out.textContent = fmt(el.value);
+  el.addEventListener('input', () => { out.textContent = fmt(el.value); calculate(); });
 });
 
-// ── INIT ──────────────────────────────────────────────
-document.getElementById('spending-val').textContent = '$80K';
-document.getElementById('swr-val').textContent = '3.5%';
+// All inputs trigger recalc
+document.querySelectorAll('input[type=number]').forEach(el => el.addEventListener('input', calculate));
+
+// Initial render
 calculate();
 </script>
 </body>
