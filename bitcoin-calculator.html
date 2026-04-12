@@ -155,15 +155,15 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;bor
       <p class="group-label">Your Position</p>
       <div class="field">
         <label class="field-lbl" for="i-age">Current Age</label>
-        <div class="f-wrap"><input type="number" id="i-age" class="no-sym" value="40" min="18" max="65" step="0.5"></div>
+        <div class="f-wrap"><input type="number" id="i-age" class="no-sym" value="41.5" min="18" max="65" step="0.5"></div>
       </div>
       <div class="field">
         <label class="field-lbl" for="i-btc">BTC Holdings</label>
-        <div class="f-wrap"><span class="f-sym">₿</span><input type="number" id="i-btc" value="0.5" min="0" step="0.01"></div>
+        <div class="f-wrap"><span class="f-sym">₿</span><input type="number" id="i-btc" value="3.03" min="0" step="0.01"></div>
       </div>
       <div class="field">
         <label class="field-lbl" for="i-dca">Monthly DCA</label>
-        <div class="f-wrap"><span class="f-sym">$</span><input type="number" id="i-dca" value="500" min="0"></div>
+        <div class="f-wrap"><span class="f-sym">$</span><input type="number" id="i-dca" value="2000" min="0"></div>
       </div>
       <div class="field">
         <label class="field-lbl" for="i-btcprice">Current BTC Price</label>
@@ -178,7 +178,7 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;bor
       <p class="group-label">Retirement Goals</p>
       <div class="field">
         <label class="field-lbl" for="i-retire">Target Retirement Age</label>
-        <div class="f-wrap"><input type="number" id="i-retire" class="no-sym" value="48" min="30" max="65" step="0.5"></div>
+        <div class="f-wrap"><input type="number" id="i-retire" class="no-sym" value="46.5" min="30" max="65" step="0.5"></div>
       </div>
       <div class="field">
         <label class="field-lbl">Annual Spending (today's dollars)</label>
@@ -249,13 +249,13 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;bor
     <div class="chart-header">
       <div class="chart-title-block">
         <p>BTC Retirement Gap Analysis</p>
-        <p class="chart-subtitle" id="chart-sub">Bridge + post-supplement BTC needed by age vs your holdings</p>
+        <p class="chart-subtitle" id="chart-sub">BTC needed by age vs holdings + DCA accumulation</p>
       </div>
       <div class="legend">
         <div class="leg"><div class="leg-line" style="background:var(--gold);height:3px"></div>Total BTC Required</div>
         <div class="leg"><div class="leg-dash" style="border-color:var(--amber)"></div>Bridge (pre-59½)</div>
         <div class="leg"><div class="leg-dash" style="border-color:var(--blue)"></div>Post-59½ (net)</div>
-        <div class="leg"><div class="leg-dash" style="border-color:rgba(240,234,214,0.45)"></div>Your Holdings</div>
+        <div class="leg"><div class="leg-dash" style="border-color:rgba(240,234,214,0.45)"></div>Holdings + DCA</div>
         <div class="leg"><div class="leg-line" style="background:rgba(180,190,210,0.5)"></div>BTC Price (right axis)</div>
       </div>
     </div>
@@ -328,8 +328,8 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;bor
       <li><strong style="color:var(--cream);font-weight:400">Gold line</strong> — total BTC needed at each age</li>
       <li><strong style="color:var(--amber);font-weight:400">Orange dashed</strong> — bridge component only (drops to zero at 59½)</li>
       <li><strong style="color:var(--blue);font-weight:400">Blue dashed</strong> — post-supplement component (net of retirement accounts)</li>
-      <li><strong style="color:rgba(240,234,214,0.6);font-weight:400">Cream dotted</strong> — your current BTC holdings (flat line)</li>
-      <li>Where the cream line crosses below the gold line is the <em>earliest retirement date</em> your holdings support</li>
+      <li><strong style="color:rgba(240,234,214,0.6);font-weight:400">Cream dashed</strong> — your BTC holdings growing via monthly DCA at power law price, stopping at retirement</li>
+      <li>Where the cream line crosses above the gold line is the <em>earliest retirement date</em> your plan supports</li>
     </ul>
   </div>
 </div>
@@ -476,6 +476,22 @@ function findIntercept(holdings, ages, reqArr) {
   return null;
 }
 
+// Intercept where a GROWING holdings array crosses below required array
+function findInterceptArrays(holdingsArr, ages, reqArr) {
+  // Already funded at current age
+  if (holdingsArr[0] >= reqArr[0]) return ages[0];
+  for (let i = 1; i < ages.length; i++) {
+    if (holdingsArr[i-1] < reqArr[i-1] && holdingsArr[i] >= reqArr[i]) {
+      const dH = holdingsArr[i] - holdingsArr[i-1];
+      const dR = reqArr[i] - reqArr[i-1];
+      if (Math.abs(dH - dR) < 1e-12) return ages[i];
+      const t  = (reqArr[i-1] - holdingsArr[i-1]) / (dH - dR);
+      return ages[i-1] + t * (ages[i] - ages[i-1]);
+    }
+  }
+  return null;
+}
+
 // ── FORMAT HELPERS ───────────────────────
 function fmtUSD(n) {
   if (n == null || isNaN(n)) return '—';
@@ -572,8 +588,8 @@ function ageToIdx(age, ages) {
   return best;
 }
 
-function buildChart(ages, totalArr, bridgeArr, postArr, priceArr, holdingsVal, interceptAge, retireAge) {
-  const holdingsArr = ages.map(()=>holdingsVal);
+function buildChart(ages, totalArr, bridgeArr, postArr, priceArr, holdingsArr, interceptAge, retireAge) {
+  // holdingsArr is pre-computed with DCA growth baked in
 
   const retireIdx  = ageToIdx(retireAge, ages);
   const s595Idx    = SUPPLEMENT_AGE <= ages[ages.length-1] ? ageToIdx(SUPPLEMENT_AGE, ages) : null;
@@ -587,7 +603,7 @@ function buildChart(ages, totalArr, bridgeArr, postArr, priceArr, holdingsVal, i
     {label:'Total BTC Required',data:totalArr,borderColor:'#C9A84C',borderWidth:2.5,pointRadius:0,tension:.4,fill:false,yAxisID:'y'},
     {label:'Bridge BTC (pre-59½)',data:bridgeArr,borderColor:'rgba(232,146,60,0.85)',borderWidth:1.5,borderDash:[6,4],pointRadius:0,tension:.4,fill:false,yAxisID:'y'},
     {label:'Post-59½ BTC (net)',data:postArr,borderColor:'rgba(91,155,213,0.8)',borderWidth:1.5,borderDash:[4,4],pointRadius:0,tension:.4,fill:false,yAxisID:'y'},
-    {label:'Your Holdings',data:holdingsArr,borderColor:'rgba(240,234,214,0.4)',borderWidth:1.5,borderDash:[3,5],pointRadius:0,tension:0,fill:false,yAxisID:'y'},
+    {label:'Holdings + DCA',data:holdingsArr,borderColor:'rgba(240,234,214,0.4)',borderWidth:1.5,borderDash:[3,5],pointRadius:0,tension:0.3,fill:false,yAxisID:'y'},
     {label:'BTC Price (Power Law)',data:priceArr,borderColor:'rgba(180,195,215,0.4)',borderWidth:1,pointRadius:0,tension:.4,fill:false,yAxisID:'y2'},
   ];
 
@@ -692,42 +708,62 @@ function buildChart(ages, totalArr, bridgeArr, postArr, priceArr, holdingsVal, i
 function calculate() {
   const inp = getInputs();
 
-  // Build age series
-  const ages=[], totalArr=[], bridgeArr=[], postArr=[], priceArr=[];
+  // Build age series — holdings grow via DCA each month up to retirement, then flatten
+  const ages=[], totalArr=[], bridgeArr=[], postArr=[], priceArr=[], holdingsArr=[];
+  const maxDCAMonths = Math.max(0, Math.round((inp.retirementAge - inp.currentAge) * 12));
+
   for(let age=inp.currentAge; age<=inp.lifeExp+.01; age=+(age+AGE_STEP).toFixed(10)){
-    ages.push(+age.toFixed(3));
-    totalArr.push(totalBTC(age,inp));
-    bridgeArr.push(bridgeBTCOnly(age,inp));
-    postArr.push(postBTCOnly(age,inp));
-    priceArr.push(powerLawPrice(age,inp));
+    const a = +age.toFixed(3);
+    ages.push(a);
+    totalArr.push(totalBTC(a, inp));
+    bridgeArr.push(bridgeBTCOnly(a, inp));
+    postArr.push(postBTCOnly(a, inp));
+    priceArr.push(powerLawPrice(a, inp));
+
+    // BTC accumulates via monthly DCA at power law price, capped at retirement age
+    const monthsElapsed = Math.min(
+      Math.max(0, Math.round((a - inp.currentAge) * 12)),
+      maxDCAMonths
+    );
+    const dcaBTC = btcFromDCA(inp.monthlyDCA, monthsElapsed, inp.currentAge, inp);
+    holdingsArr.push(inp.btcHeld + dcaBTC);
   }
   currentAges = ages;
 
-  // Intercept
-  const interceptAge = findIntercept(inp.btcHeld, ages, totalArr);
+  // Intercept: first age where growing holdings meets/exceeds required BTC
+  const interceptAge = findInterceptArrays(holdingsArr, ages, totalArr);
 
-  // Shortfall today
-  const reqNow = totalBTC(inp.currentAge, inp);
+  // Shortfall today (no DCA credit — gap right now)
+  const reqNow   = totalBTC(inp.currentAge, inp);
   const shortfall = Math.max(0, reqNow - inp.btcHeld);
 
-  // Monthly DCA needed
-  const monthsToRetire = Math.max(0, Math.round((inp.retirementAge - inp.currentAge)*12));
-  const reqAtRetire    = totalBTC(inp.retirementAge, inp);
-  const btcGap         = Math.max(0, reqAtRetire - inp.btcHeld);
-  const dca            = solveMonthlyDCA(btcGap, monthsToRetire, inp.currentAge, inp);
+  // Holdings at retirement age (current BTC + DCA accumulation)
+  const holdingsAtRetire = holdingsArr[Math.min(
+    ages.findIndex(a => a >= inp.retirementAge - 0.001),
+    holdingsArr.length - 1
+  )] ?? holdingsArr[holdingsArr.length - 1];
 
-  // Days sooner per 0.01 BTC
-  const interceptPlus  = findIntercept(inp.btcHeld+0.01, ages, totalArr);
+  const reqAtRetire  = totalBTC(inp.retirementAge, inp);
+  const btcGap       = Math.max(0, reqAtRetire - holdingsAtRetire);
+
+  // Additional monthly DCA needed on top of current DCA to close remaining gap
+  const additionalDCA  = solveMonthlyDCA(btcGap, maxDCAMonths, inp.currentAge, inp);
+  const totalDCANeeded = inp.monthlyDCA + additionalDCA;
+
+  // Days sooner per extra 0.01 BTC today
+  const holdingsPlusArr = holdingsArr.map(h => h + 0.01);
+  const interceptPlus   = findInterceptArrays(holdingsPlusArr, ages, totalArr);
   let daysSooner = null;
-  if(interceptAge!=null&&interceptPlus!=null) daysSooner=Math.max(0,(interceptAge-interceptPlus)*365.25);
+  if(interceptAge != null && interceptPlus != null)
+    daysSooner = Math.max(0, (interceptAge - interceptPlus) * 365.25);
 
   // Values at retirement age
   const bridgeAtRetire = bridgeBTCOnly(inp.retirementAge, inp);
   const postAtRetire   = postBTCOnly(inp.retirementAge, inp);
   const priceAtRetire  = powerLawPrice(inp.retirementAge, inp);
 
-  // Update chart
-  buildChart(ages, totalArr, bridgeArr, postArr, priceArr, inp.btcHeld, interceptAge, inp.retirementAge);
+  // Update chart — pass growing holdingsArr
+  buildChart(ages, totalArr, bridgeArr, postArr, priceArr, holdingsArr, interceptAge, inp.retirementAge);
 
   // Update metrics
   const shortfallEl = document.getElementById('m-shortfall');
@@ -735,10 +771,21 @@ function calculate() {
   shortfallEl.className = 'metric-val '+(shortfall<=0?'green':shortfall<1?'amber':'red');
 
   const dcaEl = document.getElementById('m-dca');
-  dcaEl.textContent = dca > 0 ? fmtUSD(dca)+'/mo' : '₿ Funded';
-  dcaEl.className = 'metric-val '+(dca<=0?'green':dca<2000?'amber':'gold');
-  document.getElementById('m-dca-sub').textContent =
-    dca > 0 ? 'to accumulate ₿'+btcGap.toFixed(3)+' by age '+inp.retirementAge : 'current holdings sufficient';
+  if (btcGap <= 0) {
+    dcaEl.textContent = '₿ Funded';
+    dcaEl.className = 'metric-val green';
+    document.getElementById('m-dca-sub').textContent =
+      inp.monthlyDCA > 0
+        ? 'current DCA of '+fmtUSD(inp.monthlyDCA)+'/mo is sufficient'
+        : 'current holdings are sufficient';
+  } else {
+    dcaEl.textContent = fmtUSD(totalDCANeeded)+'/mo';
+    dcaEl.className = 'metric-val '+(additionalDCA < 500 ? 'amber' : 'gold');
+    document.getElementById('m-dca-sub').textContent =
+      inp.monthlyDCA > 0
+        ? '+'+fmtUSD(additionalDCA)+'/mo on top of your current DCA'
+        : 'to close ₿'+btcGap.toFixed(3)+' gap by age '+inp.retirementAge;
+  }
 
   const intEl = document.getElementById('m-intercept');
   intEl.textContent = interceptAge ? fmtAge(interceptAge) : '> '+inp.lifeExp;
@@ -751,13 +798,13 @@ function calculate() {
   document.getElementById('bk-post').textContent   = fmtBTC(postAtRetire);
   document.getElementById('bk-price').textContent  = fmtUSD(priceAtRetire);
   document.getElementById('bk-price-sub').textContent =
-    '× for ₿'+inp.btcHeld.toFixed(3)+' = '+fmtUSD(inp.btcHeld*priceAtRetire);
+    '× for ₿'+holdingsAtRetire.toFixed(3)+' (with DCA) = '+fmtUSD(holdingsAtRetire * priceAtRetire);
 
   // Chart subtitle
   document.getElementById('chart-sub').textContent =
     interceptAge
-      ? 'Earliest retirement supported by current holdings: age '+fmtAge(interceptAge)
-      : 'Current holdings do not meet requirement within analysis window';
+      ? 'Holdings (with DCA) meet requirement at age ' + fmtAge(interceptAge)
+      : 'Current DCA plan does not meet requirement within analysis window';
 }
 
 // ── SLIDER WIRING ────────────────────────
