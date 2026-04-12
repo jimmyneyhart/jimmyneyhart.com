@@ -11,29 +11,14 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --bg:#08080F;
-  --gold:#C9A84C;
-  --gold-lt:#E8CB7A;
-  --gold-dim:rgba(201,168,76,0.08);
-  --cream:#F0EAD6;
-  --mist:#7A8CA0;
-  --silver:#B8C4D0;
+  --gold:#C9A84C;--gold-lt:#E8CB7A;--gold-dim:rgba(201,168,76,0.08);
+  --cream:#F0EAD6;--mist:#7A8CA0;--silver:#B8C4D0;
   --border:rgba(201,168,76,0.15);
-  --green:#4CAF7C;
-  --green-dim:rgba(76,175,124,0.08);
-  --red:#E05252;
+  --green:#4CAF7C;--amber:#E8923C;--blue:#5B9BD5;--red:#E05252;
 }
 html{scroll-behavior:smooth}
-body{
-  background:var(--bg);
-  color:var(--cream);
-  font-family:'DM Sans',sans-serif;
-  font-weight:300;
-  cursor:none;
-  overflow-x:hidden;
-  background-image:
-    radial-gradient(ellipse 80% 50% at 50% -10%,rgba(60,40,120,0.3) 0%,transparent 70%),
-    radial-gradient(ellipse 50% 40% at 90% 50%,rgba(30,20,80,0.18) 0%,transparent 60%);
-}
+body{background:var(--bg);color:var(--cream);font-family:'DM Sans',sans-serif;font-weight:300;cursor:none;overflow-x:hidden;
+  background-image:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(60,40,120,0.3) 0%,transparent 70%)}
 
 /* CURSOR */
 #cur-orb{position:fixed;top:0;left:0;width:8px;height:8px;border-radius:50%;background:radial-gradient(circle,rgba(232,203,122,1) 0%,rgba(201,168,76,0.3) 60%,transparent 100%);transform:translate(-50%,-50%);pointer-events:none;z-index:9999;box-shadow:0 0 10px 2px rgba(201,168,76,0.4);transition:width .2s,height .2s}
@@ -51,27 +36,28 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.2rem 3rem;display:
 .nav-back:hover{color:var(--gold-lt)}
 
 /* PAGE HERO */
-.page-hero{padding:7rem 3rem 2.5rem;max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1.5rem;border-bottom:1px solid var(--border)}
+.page-hero{padding:7rem 3rem 2.5rem;max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1.5rem;border-bottom:1px solid var(--border)}
 .page-tag{font-family:'Cormorant SC',serif;font-size:.58rem;letter-spacing:.38em;color:var(--gold);text-transform:uppercase;display:flex;align-items:center;gap:1rem;margin-bottom:1rem}
 .page-tag::before{content:'';width:24px;height:1px;background:var(--gold);opacity:.5}
 .page-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,5vw,4rem);font-weight:300;line-height:.92;letter-spacing:-.02em;color:var(--cream)}
 .page-title em{font-style:italic;color:var(--gold-lt)}
-.page-desc{max-width:420px;font-size:.82rem;color:var(--mist);line-height:1.85;font-weight:300}
+.page-desc{max-width:460px;font-size:.82rem;color:var(--mist);line-height:1.85;font-weight:300}
 .page-desc strong{color:var(--silver);font-weight:400}
 
-/* MAIN LAYOUT */
-.tool-wrap{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:280px 1fr;gap:1px;background:var(--border);border:1px solid var(--border);border-top:none}
+/* TOOL LAYOUT */
+.tool-wrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:300px 1fr;gap:1px;background:var(--border);border:1px solid var(--border);border-top:none}
 
 /* INPUTS */
-.inputs{background:var(--bg);padding:2rem;display:flex;flex-direction:column;gap:0}
-.panel-lbl{font-family:'Cormorant SC',serif;font-size:.56rem;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;display:flex;align-items:center;gap:.8rem;margin-bottom:1.6rem}
-.panel-lbl::after{content:'';flex:1;height:1px;background:var(--border)}
-.field{margin-bottom:1.4rem}
-.field-lbl{font-family:'Cormorant SC',serif;font-size:.55rem;letter-spacing:.2em;color:var(--mist);text-transform:uppercase;display:block;margin-bottom:.45rem}
-.field-hint{font-family:'Cormorant Garamond',serif;font-size:.75rem;font-style:italic;color:var(--mist);opacity:.6;display:block;margin-bottom:.35rem}
+.inputs{background:var(--bg);padding:2rem;overflow-y:auto;max-height:calc(100vh - 8rem);position:sticky;top:4rem}
+.input-group{margin-bottom:1.6rem}
+.group-label{font-family:'Cormorant SC',serif;font-size:.54rem;letter-spacing:.32em;color:var(--gold);text-transform:uppercase;display:flex;align-items:center;gap:.8rem;margin-bottom:1.2rem}
+.group-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.field{margin-bottom:1.1rem}
+.field-lbl{font-family:'Cormorant SC',serif;font-size:.54rem;letter-spacing:.2em;color:var(--mist);text-transform:uppercase;display:block;margin-bottom:.4rem}
+.field-hint{font-family:'Cormorant Garamond',serif;font-size:.72rem;font-style:italic;color:var(--mist);opacity:.55;display:block;margin-bottom:.3rem}
 .f-wrap{position:relative}
 .f-sym{position:absolute;left:.8rem;top:50%;transform:translateY(-50%);color:var(--gold);font-family:'Cormorant Garamond',serif;font-size:1rem;pointer-events:none;z-index:1}
-input[type=number]{width:100%;background:rgba(201,168,76,0.04);border:1px solid var(--border);color:var(--cream);font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:300;padding:.6rem .8rem .6rem 1.8rem;outline:none;transition:border-color .25s,background .25s;cursor:none;-moz-appearance:textfield}
+input[type=number]{width:100%;background:rgba(201,168,76,0.04);border:1px solid var(--border);color:var(--cream);font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:300;padding:.55rem .8rem .55rem 1.8rem;outline:none;transition:border-color .25s,background .25s;cursor:none;-moz-appearance:textfield}
 input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
 input[type=number]:focus{border-color:rgba(201,168,76,0.45);background:rgba(201,168,76,0.07)}
 input.no-sym{padding-left:.8rem}
@@ -79,59 +65,61 @@ input.no-sym{padding-left:.8rem}
 input[type=range]{flex:1;-webkit-appearance:none;appearance:none;height:1px;background:var(--border);outline:none;cursor:none}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;border-radius:50%;background:var(--gold);cursor:none;box-shadow:0 0 6px rgba(201,168,76,0.5)}
 input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;border:none;background:var(--gold);cursor:none}
-.s-val{font-family:'Cormorant Garamond',serif;font-size:.95rem;color:var(--gold-lt);min-width:52px;text-align:right}
-.divider{height:1px;background:var(--border);margin:1.2rem 0}
-.power-law-badge{padding:.7rem .9rem;background:rgba(201,168,76,0.05);border:1px solid var(--border);margin-bottom:1.4rem}
-.plb-label{font-family:'Cormorant SC',serif;font-size:.52rem;letter-spacing:.25em;color:var(--gold);text-transform:uppercase;display:block;margin-bottom:.25rem}
-.plb-value{font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--cream)}
-.plb-sub{font-family:'Cormorant Garamond',serif;font-size:.72rem;font-style:italic;color:var(--mist);margin-top:.15rem;display:block}
+.s-val{font-family:'Cormorant Garamond',serif;font-size:.92rem;color:var(--gold-lt);min-width:52px;text-align:right;white-space:nowrap}
+.divider{height:1px;background:var(--border);margin:1.4rem 0}
 
 /* CHART AREA */
 .chart-area{background:rgba(201,168,76,0.015);padding:2rem;display:flex;flex-direction:column;gap:1.5rem}
-.chart-container{position:relative;width:100%;height:420px}
-canvas{display:block}
-
-/* METRICS ROW */
-.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border-top:1px solid var(--border)}
-.metric{background:var(--bg);padding:1.2rem 1.5rem}
-.metric-lbl{font-family:'Cormorant SC',serif;font-size:.52rem;letter-spacing:.25em;color:var(--mist);text-transform:uppercase;display:block;margin-bottom:.35rem}
-.metric-val{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:300;color:var(--gold-lt);display:block;line-height:1}
-.metric-val.green{color:var(--green)}
-.metric-val.red{color:var(--red)}
-.metric-sub{font-family:'Cormorant Garamond',serif;font-size:.72rem;font-style:italic;color:var(--mist);margin-top:.2rem;display:block}
+.chart-header{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem}
+.chart-title-block p:first-child{font-family:'Cormorant SC',serif;font-size:.56rem;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;margin-bottom:.35rem}
+.chart-subtitle{font-family:'Cormorant Garamond',serif;font-size:.8rem;font-style:italic;color:var(--mist)}
+.chart-container{position:relative;width:100%;height:400px}
 
 /* LEGEND */
-.legend{display:flex;gap:1.5rem;flex-wrap:wrap;padding:.2rem 0}
-.leg-item{display:flex;align-items:center;gap:.5rem;font-family:'Cormorant SC',serif;font-size:.52rem;letter-spacing:.2em;color:var(--mist);text-transform:uppercase}
-.leg-line{width:20px;height:2px;flex-shrink:0;border-radius:1px}
-.leg-line.dashed{background:none;border-top:2px dashed}
+.legend{display:flex;gap:1.4rem;flex-wrap:wrap}
+.leg{display:flex;align-items:center;gap:.45rem;font-family:'Cormorant SC',serif;font-size:.5rem;letter-spacing:.18em;color:var(--mist);text-transform:uppercase}
+.leg-line{width:18px;height:2px;flex-shrink:0;border-radius:1px}
+.leg-dash{width:18px;border-top-width:2px;border-top-style:dashed;border-radius:0}
 
-/* PHASE LEGEND */
-.phase-legend{display:flex;gap:1.2rem;flex-wrap:wrap}
-.phase-item{display:flex;align-items:center;gap:.5rem;font-family:'Cormorant SC',serif;font-size:.5rem;letter-spacing:.18em;color:var(--mist);text-transform:uppercase}
-.phase-box{width:12px;height:12px;flex-shrink:0}
+/* METRICS */
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border-top:1px solid var(--border)}
+.metric{background:var(--bg);padding:1.2rem 1.4rem}
+.metric-lbl{font-family:'Cormorant SC',serif;font-size:.5rem;letter-spacing:.24em;color:var(--mist);text-transform:uppercase;display:block;margin-bottom:.3rem}
+.metric-val{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:300;line-height:1;display:block}
+.green{color:var(--green)}.amber{color:var(--amber)}.red{color:var(--red)}.gold{color:var(--gold-lt)}
+.metric-sub{font-family:'Cormorant Garamond',serif;font-size:.72rem;font-style:italic;color:var(--mist);margin-top:.2rem;display:block}
+
+/* BREAKDOWN TABLE */
+.breakdown{max-width:1200px;margin:0 auto;border-top:1px solid var(--border)}
+.breakdown-inner{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--border)}
+.bk-cell{background:var(--bg);padding:1.4rem 2rem}
+.bk-lbl{font-family:'Cormorant SC',serif;font-size:.54rem;letter-spacing:.28em;color:var(--mist);text-transform:uppercase;display:block;margin-bottom:.4rem}
+.bk-val{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;display:block;line-height:1.1}
+.bk-sub{font-family:'Cormorant Garamond',serif;font-size:.75rem;font-style:italic;color:var(--mist);margin-top:.3rem;display:block}
 
 /* NARRATIVE */
-.narrative{max-width:1100px;margin:0 auto;padding:3.5rem 3rem;border-top:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr 1fr;gap:3rem}
-.n-section h3{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:400;color:var(--cream);margin-bottom:.8rem;line-height:1.2}
-.n-section h3 em{font-style:italic;color:var(--gold-lt)}
-.n-section p{font-size:.78rem;color:var(--mist);line-height:1.85;margin-bottom:.8rem;font-weight:300}
-.n-section ul{list-style:none;display:flex;flex-direction:column;gap:.5rem}
-.n-section ul li{font-size:.78rem;color:var(--mist);line-height:1.7;padding-left:1.1rem;position:relative}
-.n-section ul li::before{content:'✦';position:absolute;left:0;color:var(--gold);font-size:.45rem;top:.35rem}
+.narrative{max-width:1200px;margin:0 auto;padding:3.5rem 3rem;border-top:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr 1fr;gap:3rem}
+.n-sec h3{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:400;color:var(--cream);margin-bottom:.8rem;line-height:1.2}
+.n-sec h3 em{font-style:italic;color:var(--gold-lt)}
+.n-sec p{font-size:.78rem;color:var(--mist);line-height:1.85;margin-bottom:.8rem;font-weight:300}
+.n-sec ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+.n-sec li{font-size:.78rem;color:var(--mist);line-height:1.7;padding-left:1rem;position:relative}
+.n-sec li::before{content:'✦';position:absolute;left:0;color:var(--gold);font-size:.42rem;top:.35rem}
+.model-eq{font-family:'Cormorant Garamond',serif;font-size:.88rem;font-style:italic;color:var(--gold-lt);border-left:1px solid var(--border);padding-left:.8rem;margin:.8rem 0;line-height:1.6}
 
 /* FOOTER */
-.page-footer{max-width:1100px;margin:0 auto;padding:1.6rem 3rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.page-footer{max-width:1200px;margin:0 auto;padding:1.6rem 3rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
 .foot-note{font-family:'Cormorant SC',serif;font-size:.52rem;letter-spacing:.22em;color:var(--mist);text-transform:uppercase}
 .foot-back{font-family:'Cormorant SC',serif;font-size:.55rem;letter-spacing:.22em;text-transform:uppercase;color:var(--mist);text-decoration:none;border-bottom:1px solid rgba(122,140,160,0.3);padding-bottom:2px;transition:color .25s,border-color .25s}
 .foot-back:hover{color:var(--gold-lt);border-color:var(--gold)}
 
-@media(max-width:800px){
-  nav,nav.scrolled{padding:1rem 1.5rem}
+@media(max-width:900px){
+  nav{padding:1rem 1.5rem}
   .page-hero{padding:6rem 1.5rem 2rem}
   .tool-wrap{grid-template-columns:1fr}
-  .inputs{border-bottom:1px solid var(--border)}
+  .inputs{position:static;max-height:none;border-bottom:1px solid var(--border)}
   .metrics{grid-template-columns:1fr 1fr}
+  .breakdown-inner{grid-template-columns:1fr}
   .narrative{grid-template-columns:1fr;gap:2rem;padding:2.5rem 1.5rem}
   .page-footer{padding:1.5rem}
   .chart-container{height:320px}
@@ -154,7 +142,7 @@ canvas{display:block}
     <h1 class="page-title">Bitcoin Early<br><em>Retirement Calculator</em></h1>
   </div>
   <p class="page-desc">
-    Built on the <strong>Bitcoin Power Law</strong> — a model showing BTC price follows a deterministic relationship with time since genesis. Model your accumulation phase, the critical pre-59½ bridge period, and whether your portfolio sustains full retirement.
+    Models two distinct funding requirements: the <strong>bridge period</strong> (retirement to 59½, funded entirely from BTC) and the <strong>post-supplement period</strong> (59½+, net of retirement accounts). Power Law calibrated to today's BTC price. All math runs in the browser.
   </p>
 </div>
 
@@ -162,165 +150,192 @@ canvas{display:block}
 
   <!-- INPUTS -->
   <div class="inputs">
-    <p class="panel-lbl">Variables</p>
 
-    <div class="power-law-badge">
-      <span class="plb-label">Power Law Fair Value Today</span>
-      <span class="plb-value" id="pl-today">—</span>
-      <span class="plb-sub" id="pl-sub">Projected by Santostasi model</span>
-    </div>
-
-    <div class="field">
-      <label class="field-lbl" for="i-age">Current Age</label>
-      <div class="f-wrap">
-        <input type="number" id="i-age" class="no-sym" value="32" min="18" max="65">
+    <div class="input-group">
+      <p class="group-label">Your Position</p>
+      <div class="field">
+        <label class="field-lbl" for="i-age">Current Age</label>
+        <div class="f-wrap"><input type="number" id="i-age" class="no-sym" value="40" min="18" max="65" step="0.5"></div>
       </div>
-    </div>
-
-    <div class="field">
-      <label class="field-lbl" for="i-retire">Target Retirement Age</label>
-      <div class="f-wrap">
-        <input type="number" id="i-retire" class="no-sym" value="45" min="25" max="70">
+      <div class="field">
+        <label class="field-lbl" for="i-btc">BTC Holdings</label>
+        <div class="f-wrap"><span class="f-sym">₿</span><input type="number" id="i-btc" value="0.5" min="0" step="0.01"></div>
       </div>
-    </div>
-
-    <div class="divider"></div>
-
-    <div class="field">
-      <label class="field-lbl" for="i-btc">BTC Currently Held</label>
-      <div class="f-wrap">
-        <span class="f-sym">₿</span>
-        <input type="number" id="i-btc" value="0.5" min="0" step="0.001">
+      <div class="field">
+        <label class="field-lbl" for="i-dca">Monthly DCA</label>
+        <div class="f-wrap"><span class="f-sym">$</span><input type="number" id="i-dca" value="500" min="0"></div>
       </div>
-    </div>
-
-    <div class="field">
-      <label class="field-lbl" for="i-dca">Monthly DCA</label>
-      <div class="f-wrap">
-        <span class="f-sym">$</span>
-        <input type="number" id="i-dca" value="500" min="0">
+      <div class="field">
+        <label class="field-lbl" for="i-btcprice">Current BTC Price</label>
+        <span class="field-hint">Calibrates the power law to today</span>
+        <div class="f-wrap"><span class="f-sym">$</span><input type="number" id="i-btcprice" value="83000" min="1"></div>
       </div>
     </div>
 
     <div class="divider"></div>
 
-    <div class="field">
-      <label class="field-lbl">Annual Retirement Spending</label>
-      <div class="slider-row">
-        <input type="range" id="i-spend" min="24000" max="500000" step="4000" value="80000">
-        <span class="s-val" id="sv-spend">$80K</span>
+    <div class="input-group">
+      <p class="group-label">Retirement Goals</p>
+      <div class="field">
+        <label class="field-lbl" for="i-retire">Target Retirement Age</label>
+        <div class="f-wrap"><input type="number" id="i-retire" class="no-sym" value="48" min="30" max="65" step="0.5"></div>
+      </div>
+      <div class="field">
+        <label class="field-lbl">Annual Spending (today's dollars)</label>
+        <div class="slider-row">
+          <input type="range" id="i-spend" min="30000" max="500000" step="5000" value="125000">
+          <span class="s-val" id="sv-spend">$125K</span>
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-lbl">Life Expectancy</label>
+        <div class="slider-row">
+          <input type="range" id="i-life" min="70" max="100" step="1" value="85">
+          <span class="s-val" id="sv-life">85</span>
+        </div>
       </div>
     </div>
 
-    <div class="field">
-      <label class="field-lbl">Safe Withdrawal Rate</label>
-      <div class="slider-row">
-        <input type="range" id="i-swr" min="2" max="6" step="0.25" value="3.5">
-        <span class="s-val" id="sv-swr">3.5%</span>
+    <div class="divider"></div>
+
+    <div class="input-group">
+      <p class="group-label">Other Accounts</p>
+      <div class="field">
+        <label class="field-lbl" for="i-ira">401k / IRA Balance Today</label>
+        <div class="f-wrap"><span class="f-sym">$</span><input type="number" id="i-ira" value="140000" min="0"></div>
+      </div>
+      <div class="field">
+        <label class="field-lbl">Retirement Account Growth Rate</label>
+        <div class="slider-row">
+          <input type="range" id="i-iragrow" min="3" max="12" step="0.5" value="8">
+          <span class="s-val" id="sv-iragrow">8%</span>
+        </div>
       </div>
     </div>
 
-    <div class="field">
-      <label class="field-lbl" for="i-401k">Est. 401k / IRA at Age 59½</label>
-      <span class="field-hint">Reduces required BTC portfolio post-59½</span>
-      <div class="f-wrap">
-        <span class="f-sym">$</span>
-        <input type="number" id="i-401k" value="150000" min="0">
+    <div class="divider"></div>
+
+    <div class="input-group">
+      <p class="group-label">Model Parameters</p>
+      <div class="field">
+        <label class="field-lbl">BTC Bridge Growth Rate</label>
+        <span class="field-hint">Return assumed on BTC during bridge period</span>
+        <div class="slider-row">
+          <input type="range" id="i-btcgrow" min="5" max="40" step="1" value="20">
+          <span class="s-val" id="sv-btcgrow">20%</span>
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-lbl">Inflation Rate</label>
+        <div class="slider-row">
+          <input type="range" id="i-inf" min="1" max="8" step="0.5" value="3">
+          <span class="s-val" id="sv-inf">3%</span>
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-lbl">Safe Withdrawal Rate (post-59½)</label>
+        <div class="slider-row">
+          <input type="range" id="i-swr" min="2" max="8" step="0.25" value="4">
+          <span class="s-val" id="sv-swr">4%</span>
+        </div>
       </div>
     </div>
 
-    <div class="field">
-      <label class="field-lbl">Life Expectancy</label>
-      <div class="slider-row">
-        <input type="range" id="i-life" min="75" max="100" step="1" value="90">
-        <span class="s-val" id="sv-life">90</span>
-      </div>
-    </div>
   </div>
 
-  <!-- CHART AREA -->
+  <!-- RIGHT PANEL -->
   <div class="chart-area">
-    <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem">
-      <div>
-        <p style="font-family:'Cormorant SC',serif;font-size:.56rem;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;margin-bottom:.4rem">Your Freedom Timeline</p>
-        <p style="font-family:'Cormorant Garamond',serif;font-size:.8rem;font-style:italic;color:var(--mist)" id="chart-subtitle">Power Law portfolio projection vs retirement requirements</p>
+
+    <div class="chart-header">
+      <div class="chart-title-block">
+        <p>BTC Retirement Gap Analysis</p>
+        <p class="chart-subtitle" id="chart-sub">Bridge + post-supplement BTC needed by age vs your holdings</p>
       </div>
-      <div class="phase-legend">
-        <div class="phase-item"><div class="phase-box" style="background:rgba(201,168,76,0.08)"></div>Accumulation</div>
-        <div class="phase-item"><div class="phase-box" style="background:rgba(232,203,122,0.12)"></div>Bridge (pre-59½)</div>
-        <div class="phase-item"><div class="phase-box" style="background:rgba(76,175,124,0.08)"></div>Full Retirement</div>
+      <div class="legend">
+        <div class="leg"><div class="leg-line" style="background:var(--gold);height:3px"></div>Total BTC Required</div>
+        <div class="leg"><div class="leg-dash" style="border-color:var(--amber)"></div>Bridge (pre-59½)</div>
+        <div class="leg"><div class="leg-dash" style="border-color:var(--blue)"></div>Post-59½ (net)</div>
+        <div class="leg"><div class="leg-dash" style="border-color:rgba(240,234,214,0.45)"></div>Your Holdings</div>
+        <div class="leg"><div class="leg-line" style="background:rgba(180,190,210,0.5)"></div>BTC Price (right axis)</div>
       </div>
     </div>
 
-    <div class="chart-container">
-      <canvas id="freedom-chart"></canvas>
-    </div>
-
-    <div class="legend">
-      <div class="leg-item"><div class="leg-line" style="background:#C9A84C;height:3px"></div>BTC Portfolio Value</div>
-      <div class="leg-item"><div class="leg-line" style="background:#4CAF7C;height:3px"></div>Post-Retirement Drawdown</div>
-      <div class="leg-item"><div class="leg-line dashed" style="border-color:#E8CB7A"></div>Freedom Number</div>
-      <div class="leg-item"><div class="leg-line dashed" style="border-color:rgba(76,175,124,0.7)"></div>Adjusted Freedom Number</div>
-      <div class="leg-item"><div class="leg-line" style="background:rgba(240,234,214,0.25);height:3px"></div>Annual Expenses (cumulative)</div>
-    </div>
+    <div class="chart-container"><canvas id="freedom-chart"></canvas></div>
 
     <div class="metrics" id="metrics-row">
       <div class="metric">
-        <span class="metric-lbl">Freedom Number</span>
-        <span class="metric-val" id="m-freedom">—</span>
-        <span class="metric-sub" id="m-freedom-sub">Required portfolio to retire</span>
+        <span class="metric-lbl">BTC Shortfall Today</span>
+        <span class="metric-val" id="m-shortfall">—</span>
+        <span class="metric-sub">vs current holdings</span>
       </div>
       <div class="metric">
-        <span class="metric-lbl">Portfolio at Target Age</span>
-        <span class="metric-val" id="m-portfolio">—</span>
-        <span class="metric-sub" id="m-portfolio-sub">BTC power law projection</span>
+        <span class="metric-lbl">Required Monthly DCA</span>
+        <span class="metric-val gold" id="m-dca">—</span>
+        <span class="metric-sub" id="m-dca-sub">to hit target at retirement</span>
       </div>
       <div class="metric">
-        <span class="metric-lbl">Bridge Period</span>
-        <span class="metric-val" id="m-bridge">—</span>
-        <span class="metric-sub">Years before 59½ access</span>
+        <span class="metric-lbl">Earliest Retirement Age</span>
+        <span class="metric-val" id="m-intercept">—</span>
+        <span class="metric-sub">holdings meet requirement</span>
       </div>
       <div class="metric">
-        <span class="metric-lbl">Portfolio Status</span>
-        <span class="metric-val" id="m-status">—</span>
-        <span class="metric-sub" id="m-status-sub">At target retirement age</span>
+        <span class="metric-lbl">Days Sooner / 0.01 BTC</span>
+        <span class="metric-val green" id="m-days">—</span>
+        <span class="metric-sub">marginal impact of saving more</span>
       </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- BREAKDOWN BAR -->
+<div class="breakdown">
+  <div class="breakdown-inner">
+    <div class="bk-cell">
+      <span class="bk-lbl">At Retirement Age — Bridge BTC</span>
+      <span class="bk-val amber" id="bk-bridge">—</span>
+      <span class="bk-sub">pre-59½ funding from BTC only</span>
+    </div>
+    <div class="bk-cell">
+      <span class="bk-lbl">At Retirement Age — Post-59½ BTC</span>
+      <span class="bk-val" style="color:var(--blue)" id="bk-post">—</span>
+      <span class="bk-sub">net of projected retirement accounts</span>
+    </div>
+    <div class="bk-cell">
+      <span class="bk-lbl">Power Law BTC Price at Retirement</span>
+      <span class="bk-val gold" id="bk-price">—</span>
+      <span class="bk-sub" id="bk-price-sub">calibrated to today's price</span>
     </div>
   </div>
 </div>
 
 <div class="narrative">
-  <div class="n-section">
-    <h3>The <em>Power Law</em> model</h3>
-    <p>Unlike CAGR projections that assume constant percentage growth, the Bitcoin Power Law (Santostasi, 2024) models price as a function of time since genesis:</p>
-    <p style="font-family:'Cormorant Garamond',serif;font-size:.9rem;font-style:italic;color:var(--gold-lt);border-left:1px solid var(--border);padding-left:.8rem;margin:1rem 0">log₁₀(Price) = −17.1 + 5.8 × log₁₀(days since genesis)</p>
-    <p>This means growth slows over time — aggressively high early, tapering as BTC matures. Far more realistic than assuming a constant 20% forever.</p>
+  <div class="n-sec">
+    <h3>The <em>Bridge Problem</em></h3>
+    <p>Retiring before 59½ creates a gap: 401k and IRA funds are inaccessible without penalty. Your BTC portfolio must fund 100% of spending alone during this period.</p>
+    <p>The model solves for the exact starting balance needed using a year-by-year simulation: withdraw inflation-adjusted spending, then apply BTC growth to the remainder. The bridge BTC requirement falls as you age toward 59½.</p>
+    <p class="model-eq">Balance(t+1) = (Balance(t) − Spend(t)) × (1 + r<sub>BTC</sub>)</p>
   </div>
-  <div class="n-section">
-    <h3>The <em>pre-59½</em> problem</h3>
-    <p>Early retirement creates a gap: your IRA and 401k are locked until age 59½ without penalties. This "bridge period" must be funded entirely from your BTC portfolio (or other taxable accounts).</p>
-    <ul>
-      <li>The longer you retire early, the larger this bridge</li>
-      <li>Your BTC portfolio must sustain full spending alone during bridge years</li>
-      <li>At 59½, retirement accounts kick in — reducing the draw on BTC</li>
-      <li>The "Adjusted Freedom Number" accounts for this relief</li>
-    </ul>
+  <div class="n-sec">
+    <h3>The <em>Power Law</em> Model</h3>
+    <p>Rather than assuming a fixed growth rate, the BTC Power Law (Santostasi) models price as a function of time since genesis — with growth naturally decelerating as Bitcoin matures.</p>
+    <p class="model-eq">Price(t) = Scale × (years since 2009)<sup>5.8</sup></p>
+    <p>The scale constant is calibrated to your entered current price, so the model anchors to reality today and projects forward deterministically.</p>
   </div>
-  <div class="n-section">
-    <h3>Reading <em>the chart</em></h3>
+  <div class="n-sec">
+    <h3>Reading <em>the Chart</em></h3>
     <ul>
-      <li><strong style="color:var(--cream);font-weight:400">Gold line</strong>: Your BTC portfolio accumulating via DCA + power law growth</li>
-      <li><strong style="color:var(--cream);font-weight:400">Green line</strong>: Portfolio after you retire — drawdown rate vs continued BTC growth</li>
-      <li><strong style="color:var(--cream);font-weight:400">Dashed gold</strong>: Your full Freedom Number (annual spend ÷ SWR)</li>
-      <li><strong style="color:var(--cream);font-weight:400">Dashed green</strong>: Adjusted Freedom Number — what you actually need if 401k helps post-59½</li>
-      <li><strong style="color:var(--cream);font-weight:400">Faint cream</strong>: Cumulative living expenses from now — the total cost of your life</li>
+      <li><strong style="color:var(--cream);font-weight:400">Gold line</strong> — total BTC needed at each age</li>
+      <li><strong style="color:var(--amber);font-weight:400">Orange dashed</strong> — bridge component only (drops to zero at 59½)</li>
+      <li><strong style="color:var(--blue);font-weight:400">Blue dashed</strong> — post-supplement component (net of retirement accounts)</li>
+      <li><strong style="color:rgba(240,234,214,0.6);font-weight:400">Cream dotted</strong> — your current BTC holdings (flat line)</li>
+      <li>Where the cream line crosses below the gold line is the <em>earliest retirement date</em> your holdings support</li>
     </ul>
-    <p style="margin-top:.8rem">If the gold line crosses the dashed line before your target retirement age, you're on track. If the green line stays above zero through life expectancy, the plan is sustainable.</p>
   </div>
 </div>
 
 <div class="page-footer">
-  <span class="foot-note">Not financial advice · Power Law model by Giovanni Santostasi · © 2026 Jimmy Neyhart</span>
+  <span class="foot-note">Not financial advice · Power Law by Santostasi · Model inspired by original Python analysis · © 2026 Jimmy Neyhart</span>
   <a href="index.html" class="foot-back">← Back to Portfolio</a>
 </div>
 
@@ -328,446 +343,438 @@ canvas{display:block}
 <script>
 // ── CURSOR ──────────────────────────────
 let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
-const orb=document.getElementById('cur-orb');
-const ring=document.getElementById('cur-ring');
+const orb=document.getElementById('cur-orb'),ring=document.getElementById('cur-ring');
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
-(function tick(){
-  orb.style.left=mx+'px';orb.style.top=my+'px';
-  rx+=(mx-rx)*0.07;ry+=(my-ry)*0.07;
-  ring.style.left=rx+'px';ring.style.top=ry+'px';
-  requestAnimationFrame(tick);
-})();
-document.querySelectorAll('a,button,input').forEach(el=>{
-  el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
-  el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
-});
+(function tick(){orb.style.left=mx+'px';orb.style.top=my+'px';rx+=(mx-rx)*.07;ry+=(my-ry)*.07;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(tick)})();
+document.querySelectorAll('a,button,input').forEach(el=>{el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'))});
 
-// ── POWER LAW ───────────────────────────
-// Santostasi model: log10(Price) = -17.1 + 5.8 * log10(days_since_genesis)
-const GENESIS = new Date('2009-01-03T00:00:00Z');
+// ── CONSTANTS ───────────────────────────
+const SUPPLEMENT_AGE = 59.5;
+const POWER_LAW_EXP  = 5.8;
+const GENESIS_YEAR   = 2009;
+const AGE_STEP       = 0.25;
+const TODAY_YEAR     = new Date().getFullYear();
 
-function daysSinceGenesis(date) {
-  return (date - GENESIS) / 86400000;
+// ── POWER LAW (calibrated to current BTC price) ──
+function powerLawPrice(age, inp) {
+  const targetYear   = TODAY_YEAR + (age - inp.currentAge);
+  const yearsNow     = Math.max(1, TODAY_YEAR - GENESIS_YEAR);
+  const scale        = inp.currentBTCPrice / Math.pow(yearsNow, POWER_LAW_EXP);
+  const yearsFuture  = Math.max(1, targetYear - GENESIS_YEAR);
+  return scale * Math.pow(yearsFuture, POWER_LAW_EXP);
 }
 
-function powerLawPrice(date) {
-  const d = daysSinceGenesis(date);
-  if (d <= 0) return 0;
-  return Math.pow(10, -17.1 + 5.8 * Math.log10(d));
+// ── INFLATION-ADJUSTED SPENDING ─────────
+function spendingAtAge(age, inp) {
+  return inp.annualSpending * Math.pow(1 + inp.inflationRate, age - inp.currentAge);
 }
 
-function fmt(n, decimals) {
+// ── PROJECTED RETIREMENT ACCOUNT ────────
+function projectedIRA(age, inp) {
+  const years = Math.max(0, age - inp.currentAge);
+  return inp.iraBalance * Math.pow(1 + inp.iraGrowthRate, years);
+}
+
+// ── BINARY SEARCH: min starting USD to fund N years of withdrawals ──
+function findRequiredStartingUSD(spendStart, years, annualGrowth, inflationRate) {
+  if (years <= 0) return 0;
+  let lo = 0, hi = 1e10;
+  for (let iter = 0; iter < 60; iter++) {
+    const mid = (lo + hi) / 2;
+    let bal = mid, wd = spendStart, ok = true;
+    const whole = Math.floor(years);
+    for (let y = 0; y < whole; y++) {
+      bal -= wd;
+      if (bal < 0) { ok = false; break; }
+      bal *= (1 + annualGrowth);
+      wd  *= (1 + inflationRate);
+    }
+    const frac = years - whole;
+    if (ok && frac > 0) { bal -= wd * frac; bal *= Math.pow(1 + annualGrowth, frac); }
+    if (ok && bal >= 0) hi = mid; else lo = mid;
+  }
+  return hi;
+}
+
+// ── BRIDGE USD AT AGE ────────────────────
+function bridgeUSD(age, inp) {
+  const startAge = Math.max(age, inp.retirementAge);
+  const years    = SUPPLEMENT_AGE - startAge;
+  if (years <= 0) return 0;
+  return findRequiredStartingUSD(
+    spendingAtAge(startAge, inp),
+    years,
+    inp.btcGrowthRate,
+    inp.inflationRate
+  );
+}
+
+// ── POST-SUPPLEMENT USD AT AGE ───────────
+function postSupplementUSD(age, inp) {
+  const ira = projectedIRA(age, inp);
+  const foreverMult = 1 / inp.swr;
+  if (age < SUPPLEMENT_AGE) {
+    const yrs = SUPPLEMENT_AGE - age;
+    const spendAtSupplement = spendingAtAge(SUPPLEMENT_AGE, inp);
+    const foreverAtSupplement = spendAtSupplement * foreverMult;
+    const iraAtSupplement = projectedIRA(SUPPLEMENT_AGE, inp);
+    const netAtSupplement = Math.max(0, foreverAtSupplement - iraAtSupplement);
+    return netAtSupplement / Math.pow(1 + inp.btcGrowthRate, yrs);
+  }
+  return Math.max(0, spendingAtAge(age, inp) * foreverMult - ira);
+}
+
+// ── TOTAL BTC REQUIRED AT AGE ─────────── 
+function totalBTC(age, inp) {
+  const p = powerLawPrice(age, inp);
+  if (p <= 0) return 0;
+  return (bridgeUSD(age, inp) + postSupplementUSD(age, inp)) / p;
+}
+function bridgeBTCOnly(age, inp) {
+  const p = powerLawPrice(age, inp);
+  return p > 0 ? bridgeUSD(age, inp) / p : 0;
+}
+function postBTCOnly(age, inp) {
+  const p = powerLawPrice(age, inp);
+  return p > 0 ? postSupplementUSD(age, inp) / p : 0;
+}
+
+// ── BTC ACCUMULATED VIA DCA ──────────────
+function btcFromDCA(monthlyUSD, months, startAge, inp) {
+  if (months <= 0 || monthlyUSD <= 0) return 0;
+  let acc = 0;
+  for (let m = 1; m <= months; m++) {
+    const p = powerLawPrice(startAge + m / 12, inp);
+    if (p > 0) acc += monthlyUSD / p;
+  }
+  return acc;
+}
+
+// ── SOLVE MONTHLY DCA FOR BTC TARGET ────
+function solveMonthlyDCA(targetBTC, months, startAge, inp) {
+  if (targetBTC <= 0 || months <= 0) return 0;
+  let lo = 0, hi = 50000;
+  while (btcFromDCA(hi, months, startAge, inp) < targetBTC) {
+    hi *= 2;
+    if (hi > 1e9) break;
+  }
+  for (let iter = 0; iter < 60; iter++) {
+    const mid = (lo + hi) / 2;
+    if (btcFromDCA(mid, months, startAge, inp) >= targetBTC) hi = mid; else lo = mid;
+  }
+  return hi;
+}
+
+// ── FIND INTERCEPT AGE ───────────────────
+function findIntercept(holdings, ages, reqArr) {
+  for (let i = 1; i < ages.length; i++) {
+    if (reqArr[i-1] > holdings && reqArr[i] <= holdings) {
+      const r = (holdings - reqArr[i-1]) / (reqArr[i] - reqArr[i-1]);
+      return ages[i-1] + r * (ages[i] - ages[i-1]);
+    }
+  }
+  return null;
+}
+
+// ── FORMAT HELPERS ───────────────────────
+function fmtUSD(n) {
   if (n == null || isNaN(n)) return '—';
-  if (n >= 1e9) return '$' + (n/1e9).toFixed(2) + 'B';
-  if (n >= 1e6) return '$' + (n/1e6).toFixed(2) + 'M';
-  if (n >= 1e3) return '$' + Math.round(n/1000) + 'K';
-  return '$' + n.toFixed(decimals || 0);
+  if (n >= 1e9) return '$'+(n/1e9).toFixed(2)+'B';
+  if (n >= 1e6) return '$'+(n/1e6).toFixed(2)+'M';
+  if (n >= 1e3) return '$'+Math.round(n/1000)+'K';
+  return '$'+Math.round(n);
+}
+function fmtBTC(n) {
+  if (n == null || isNaN(n)) return '—';
+  return '₿ '+n.toFixed(3);
+}
+function fmtAge(a) {
+  if (a == null) return '—';
+  return a.toFixed(2);
 }
 
-// ── CHART SETUP ─────────────────────────
-const ctx = document.getElementById('freedom-chart').getContext('2d');
+// ── GET INPUTS ───────────────────────────
+function getInputs() {
+  return {
+    currentAge:    +document.getElementById('i-age').value     || 41.5,
+    btcHeld:       +document.getElementById('i-btc').value     || 3.03,
+    monthlyDCA:    +document.getElementById('i-dca').value     || 0,
+    currentBTCPrice: +document.getElementById('i-btcprice').value || 83000,
+    retirementAge: +document.getElementById('i-retire').value  || 46.5,
+    annualSpending:+document.getElementById('i-spend').value   || 125000,
+    lifeExp:       +document.getElementById('i-life').value    || 85,
+    iraBalance:    +document.getElementById('i-ira').value     || 140000,
+    iraGrowthRate: +document.getElementById('i-iragrow').value / 100 || 0.08,
+    btcGrowthRate: +document.getElementById('i-btcgrow').value / 100 || 0.20,
+    inflationRate: +document.getElementById('i-inf').value    / 100 || 0.03,
+    swr:           +document.getElementById('i-swr').value    / 100 || 0.04,
+  };
+}
 
-// Background zone plugin
+// ── CHART ────────────────────────────────
+const ctx = document.getElementById('freedom-chart').getContext('2d');
+let myChart = null;
+let currentAges = [];
+
 const zonePlugin = {
   id: 'zones',
-  beforeDraw(chart, args, opts) {
-    const {ctx: c, chartArea: {left, right, top, bottom}, scales: {x, y}} = chart;
-    if (!opts.retireX || !opts.age595X) return;
-    // Accumulation zone
+  beforeDraw(chart) {
+    const {ctx:c, chartArea:{left,right,top,bottom}, scales:{x}} = chart;
+    const opts = chart.options.plugins.zones;
+    if (!opts) return;
+    const {retireIdx, s595Idx} = opts;
+    if (retireIdx == null) return;
+
+    const retireX  = x.getPixelForValue(retireIdx);
+    const s595X    = s595Idx != null ? x.getPixelForValue(s595Idx) : right;
+    const interceptX = opts.interceptX;
+
     c.save();
-    c.fillStyle = 'rgba(201,168,76,0.05)';
-    c.fillRect(left, top, opts.retireX - left, bottom - top);
+    // Accumulation zone
+    c.fillStyle='rgba(201,168,76,0.04)';
+    c.fillRect(left,top,Math.min(retireX,right)-left,bottom-top);
     // Bridge zone
-    c.fillStyle = 'rgba(232,203,122,0.09)';
-    c.fillRect(opts.retireX, top, opts.age595X - opts.retireX, bottom - top);
+    if(s595X>retireX){c.fillStyle='rgba(232,146,60,0.09)';c.fillRect(retireX,top,Math.min(s595X,right)-retireX,bottom-top);}
     // Full retirement zone
-    c.fillStyle = 'rgba(76,175,124,0.06)';
-    c.fillRect(opts.age595X, top, right - opts.age595X, bottom - top);
-    c.restore();
+    if(s595X<right){c.fillStyle='rgba(76,175,124,0.06)';c.fillRect(s595X,top,right-s595X,bottom-top);}
+
+    // Vertical line: retirement age
+    if(retireX>left&&retireX<right){
+      c.strokeStyle='rgba(201,168,76,0.5)';c.lineWidth=1;c.setLineDash([5,4]);
+      c.beginPath();c.moveTo(retireX,top);c.lineTo(retireX,bottom);c.stroke();
+      c.fillStyle='rgba(201,168,76,0.7)';c.font='500 10px Cormorant SC, serif';
+      c.fillText('Retire '+opts.retireAge.toFixed(1),retireX+4,top+14);
+    }
+    // Vertical line: 59.5
+    if(s595X>left&&s595X<right){
+      c.strokeStyle='rgba(76,175,124,0.55)';c.setLineDash([5,4]);
+      c.beginPath();c.moveTo(s595X,top);c.lineTo(s595X,bottom);c.stroke();
+      c.fillStyle='rgba(76,175,124,0.8)';
+      c.fillText('59½',s595X+4,top+14);
+    }
+    // Intercept vertical line
+    if(interceptX&&interceptX>left&&interceptX<right){
+      c.strokeStyle='rgba(224,82,82,0.7)';c.lineWidth=1.5;c.setLineDash([4,4]);
+      c.beginPath();c.moveTo(interceptX,top);c.lineTo(interceptX,bottom);c.stroke();
+      c.fillStyle='rgba(224,82,82,0.9)';
+      c.fillText('Age '+opts.interceptAge.toFixed(1),interceptX+4,top+30);
+    }
+
+    c.setLineDash([]);c.restore();
   }
 };
 
 Chart.register(zonePlugin);
 
-let myChart = null;
-let zoneOpts = {};
-
-function getChartData() {
-  const currentAge  = +document.getElementById('i-age').value    || 32;
-  const retireAge   = +document.getElementById('i-retire').value  || 45;
-  const btcHeld     = +document.getElementById('i-btc').value     || 0;
-  const monthlyDCA  = +document.getElementById('i-dca').value     || 0;
-  const spending    = +document.getElementById('i-spend').value   || 80000;
-  const swr         = +document.getElementById('i-swr').value/100 || 0.035;
-  const ira         = +document.getElementById('i-401k').value    || 0;
-  const lifeExp     = +document.getElementById('i-life').value    || 90;
-
-  const now = new Date();
-  const currentYear = now.getFullYear();
-  const retireYear  = currentYear + (retireAge - currentAge);
-  const age595Year  = currentYear + (59.5 - currentAge);
-  const endYear     = currentYear + (lifeExp - currentAge);
-
-  // Power law today
-  const plToday = powerLawPrice(now);
-
-  // Freedom numbers
-  const freedomNumber = spending / swr;
-  // Retirement income from 401k at 59.5
-  const iraIncome = ira * swr;
-  // Adjusted: BTC only needs to cover (spending - ira_income) post 59.5
-  const adjustedFreedom = Math.max(0, (spending - iraIncome) / swr);
-
-  // Build year-by-year data (monthly precision for DCA, yearly for chart)
-  const labels = [];
-  const portfolioLine = []; // accumulation phase
-  const drawdownLine  = []; // post-retirement (index offset to retireYear)
-  const freedomFlat   = [];
-  const adjFreedomFlat = [];
-  const cumulExpenses = []; // cumulative annual spending from now
-
-  let btcAccumulated = btcHeld;
-  let portfolioAtRetire = 0;
-
-  // Build accumulation data month by month, snapshot per year
-  const monthlyGrowth = () => {};
-
-  // For each year from now to endYear, compute portfolio value
-  for (let yr = currentYear; yr <= endYear; yr++) {
-    const age = currentAge + (yr - currentYear);
-    labels.push(yr);
-    freedomFlat.push(freedomNumber);
-    adjFreedomFlat.push(adjustedFreedom);
-    cumulExpenses.push(spending * (yr - currentYear));
-
-    const dateAtYear = new Date(yr, 6, 1); // mid-year
-    const btcPrice   = powerLawPrice(dateAtYear);
-
-    if (yr <= retireYear) {
-      // Accumulation: compute BTC accumulated via monthly DCA
-      let dcaBtc = 0;
-      const monthsFromNow = (yr - currentYear) * 12;
-      for (let m = 0; m < monthsFromNow; m++) {
-        const mDate = new Date(currentYear, now.getMonth() + m, 1);
-        const mPrice = powerLawPrice(mDate);
-        if (mPrice > 0) dcaBtc += monthlyDCA / mPrice;
-      }
-      const totalBtc = btcHeld + dcaBtc;
-      const val = totalBtc * btcPrice;
-      portfolioLine.push(val);
-      drawdownLine.push(null);
-
-      if (yr === retireYear) {
-        portfolioAtRetire = val;
-      }
-    } else {
-      portfolioLine.push(null);
-    }
-  }
-
-  // Simulate post-retirement drawdown year by year
-  // Each year: portfolio grows with BTC power law, then subtract annual withdrawal
-  let portfolio = portfolioAtRetire;
-  let portfolioExhausted = false;
-
-  for (let yr = retireYear; yr <= endYear; yr++) {
-    const idx = yr - currentYear;
-    const age = currentAge + idx;
-
-    if (portfolioExhausted) {
-      drawdownLine[idx] = 0;
-      continue;
-    }
-
-    // Annual withdrawal: full spending pre-59.5, reduced post-59.5
-    const annualWithdrawal = age >= 59.5 ? Math.max(0, spending - iraIncome) : spending;
-
-    // BTC price growth this year
-    const dateThis = new Date(yr, 6, 1);
-    const dateNext = new Date(yr + 1, 6, 1);
-    const priceThis = powerLawPrice(dateThis);
-    const priceNext = powerLawPrice(dateNext);
-    const growthRate = priceNext / priceThis;
-
-    // Portfolio grows with BTC then subtract withdrawal
-    portfolio = portfolio * growthRate - annualWithdrawal;
-
-    if (portfolio < 0) {
-      portfolioExhausted = true;
-      portfolio = 0;
-    }
-
-    drawdownLine[idx] = portfolio;
-  }
-
-  return {
-    labels,
-    portfolioLine,
-    drawdownLine,
-    freedomFlat,
-    adjFreedomFlat,
-    cumulExpenses,
-    plToday,
-    freedomNumber,
-    adjustedFreedom,
-    portfolioAtRetire,
-    retireYear,
-    age595Year,
-    currentYear,
-    currentAge,
-    retireAge,
-    spending,
-    swr,
-    ira,
-    iraIncome,
-    lifeExp,
-  };
+function ageToIdx(age, ages) {
+  let best=0;
+  for(let i=1;i<ages.length;i++) if(Math.abs(ages[i]-age)<Math.abs(ages[best]-age)) best=i;
+  return best;
 }
 
-function renderChart(d) {
-  const {
-    labels, portfolioLine, drawdownLine, freedomFlat, adjFreedomFlat,
-    cumulExpenses, plToday, freedomNumber, adjustedFreedom,
-    portfolioAtRetire, retireYear, age595Year, currentYear
-  } = d;
+function buildChart(ages, totalArr, bridgeArr, postArr, priceArr, holdingsVal, interceptAge, retireAge) {
+  const holdingsArr = ages.map(()=>holdingsVal);
+
+  const retireIdx  = ageToIdx(retireAge, ages);
+  const s595Idx    = SUPPLEMENT_AGE <= ages[ages.length-1] ? ageToIdx(SUPPLEMENT_AGE, ages) : null;
+  let interceptX   = null;
+  if(interceptAge!=null){
+    const iIdx = ageToIdx(interceptAge, ages);
+    // will compute pixel after chart renders
+  }
 
   const datasets = [
-    // Accumulation BTC portfolio (gold)
-    {
-      label: 'BTC Portfolio',
-      data: portfolioLine,
-      borderColor: '#C9A84C',
-      borderWidth: 2.5,
-      pointRadius: 0,
-      tension: 0.4,
-      fill: false,
-      spanGaps: false,
-    },
-    // Post-retirement drawdown (green)
-    {
-      label: 'Post-Retirement Portfolio',
-      data: drawdownLine,
-      borderColor: '#4CAF7C',
-      borderWidth: 2,
-      borderDash: [],
-      pointRadius: 0,
-      tension: 0.4,
-      fill: false,
-      spanGaps: false,
-    },
-    // Freedom number (dashed gold)
-    {
-      label: 'Freedom Number',
-      data: freedomFlat,
-      borderColor: 'rgba(232,203,122,0.7)',
-      borderWidth: 1.5,
-      borderDash: [6, 4],
-      pointRadius: 0,
-      tension: 0,
-      fill: false,
-    },
-    // Adjusted freedom number (dashed green)
-    {
-      label: 'Adjusted Freedom Number',
-      data: adjFreedomFlat,
-      borderColor: 'rgba(76,175,124,0.55)',
-      borderWidth: 1.5,
-      borderDash: [4, 4],
-      pointRadius: 0,
-      tension: 0,
-      fill: false,
-    },
-    // Cumulative expenses (faint cream)
-    {
-      label: 'Cumulative Expenses',
-      data: cumulExpenses,
-      borderColor: 'rgba(240,234,214,0.18)',
-      borderWidth: 1,
-      pointRadius: 0,
-      tension: 0.3,
-      fill: false,
-    },
+    {label:'Total BTC Required',data:totalArr,borderColor:'#C9A84C',borderWidth:2.5,pointRadius:0,tension:.4,fill:false,yAxisID:'y'},
+    {label:'Bridge BTC (pre-59½)',data:bridgeArr,borderColor:'rgba(232,146,60,0.85)',borderWidth:1.5,borderDash:[6,4],pointRadius:0,tension:.4,fill:false,yAxisID:'y'},
+    {label:'Post-59½ BTC (net)',data:postArr,borderColor:'rgba(91,155,213,0.8)',borderWidth:1.5,borderDash:[4,4],pointRadius:0,tension:.4,fill:false,yAxisID:'y'},
+    {label:'Your Holdings',data:holdingsArr,borderColor:'rgba(240,234,214,0.4)',borderWidth:1.5,borderDash:[3,5],pointRadius:0,tension:0,fill:false,yAxisID:'y'},
+    {label:'BTC Price (Power Law)',data:priceArr,borderColor:'rgba(180,195,215,0.4)',borderWidth:1,pointRadius:0,tension:.4,fill:false,yAxisID:'y2'},
   ];
 
-  // Zone plugin data — compute pixel positions after chart renders
-  const zoneData = { retireYear, age595Year };
+  const labels = ages.map(a=>a.toFixed(1));
 
-  if (myChart) {
+  const zoneOpts = {
+    retireIdx, s595Idx, retireAge, interceptAge,
+    interceptX: null, // updated after render
+  };
+
+  if(myChart){
     myChart.data.labels = labels;
     myChart.data.datasets = datasets;
-    myChart.options.plugins.zones = zoneData;
+    myChart.options.plugins.zones = zoneOpts;
     myChart.update('none');
   } else {
-    myChart = new Chart(ctx, {
-      type: 'line',
-      data: { labels, datasets },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        animation: { duration: 400 },
-        interaction: { mode: 'index', intersect: false },
-        plugins: {
-          legend: { display: false },
-          tooltip: {
-            backgroundColor: 'rgba(8,8,15,0.95)',
-            borderColor: 'rgba(201,168,76,0.3)',
-            borderWidth: 1,
-            titleFont: { family: 'Cormorant SC, serif', size: 11 },
-            bodyFont: { family: 'Cormorant Garamond, serif', size: 13 },
-            titleColor: '#C9A84C',
-            bodyColor: '#F0EAD6',
-            padding: 12,
-            callbacks: {
-              title: items => `Age ${d.currentAge + (items[0].dataIndex)} — ${items[0].label}`,
-              label: item => {
-                const v = item.raw;
-                if (v == null) return null;
-                const name = item.dataset.label;
-                return ` ${name}: ${fmt(v)}`;
+    myChart = new Chart(ctx,{
+      type:'line',
+      data:{labels,datasets},
+      options:{
+        responsive:true,
+        maintainAspectRatio:false,
+        animation:{duration:300},
+        interaction:{mode:'index',intersect:false},
+        plugins:{
+          legend:{display:false},
+          tooltip:{
+            backgroundColor:'rgba(8,8,15,0.95)',
+            borderColor:'rgba(201,168,76,0.3)',
+            borderWidth:1,
+            titleFont:{family:'Cormorant SC, serif',size:10},
+            bodyFont:{family:'Cormorant Garamond, serif',size:12},
+            titleColor:'#C9A84C',bodyColor:'#F0EAD6',padding:10,
+            callbacks:{
+              title:items=>'Age '+items[0].label,
+              label:item=>{
+                const v=item.raw;if(v==null)return null;
+                const n=item.dataset.label;
+                if(n.includes('Price')) return ' '+n+': '+fmtUSD(v);
+                return ' '+n+': '+fmtBTC(v);
               }
             }
           },
-          zones: zoneData,
+          zones: zoneOpts,
         },
-        scales: {
-          x: {
-            ticks: {
-              color: '#7A8CA0',
-              font: { family: 'Cormorant SC, serif', size: 10 },
-              maxTicksLimit: 12,
-              callback: val => labels[val],
-            },
-            grid: { color: 'rgba(201,168,76,0.06)' },
-            border: { color: 'rgba(201,168,76,0.15)' },
+        scales:{
+          x:{
+            ticks:{color:'#7A8CA0',font:{family:'Cormorant SC, serif',size:10},maxTicksLimit:14,
+              callback:(v,i)=>i%4===0?labels[i]:''},
+            grid:{color:'rgba(201,168,76,0.06)'},
+            border:{color:'rgba(201,168,76,0.15)'},
           },
-          y: {
-            ticks: {
-              color: '#7A8CA0',
-              font: { family: 'Cormorant SC, serif', size: 10 },
-              callback: v => fmt(v),
-              maxTicksLimit: 8,
-            },
-            grid: { color: 'rgba(201,168,76,0.06)' },
-            border: { color: 'rgba(201,168,76,0.15)' },
+          y:{
+            position:'left',
+            ticks:{color:'#7A8CA0',font:{family:'Cormorant SC, serif',size:10},
+              callback:v=>'₿'+v.toFixed(2)},
+            grid:{color:'rgba(201,168,76,0.06)'},
+            border:{color:'rgba(201,168,76,0.15)'},
+          },
+          y2:{
+            position:'right',
+            type:'logarithmic',
+            grid:{drawOnChartArea:false},
+            ticks:{color:'rgba(180,195,215,0.55)',font:{family:'Cormorant SC, serif',size:9},
+              callback:v=>{
+                if(v>=1e6)return'$'+(v/1e6).toFixed(0)+'M';
+                if(v>=1e3)return'$'+(v/1000).toFixed(0)+'K';
+                return'$'+v;
+              }},
+            border:{color:'rgba(180,195,215,0.2)'},
           }
         }
       },
-      plugins: [{
-        id: 'zones',
-        beforeDraw(chart) {
-          const {ctx: c, chartArea: {left, right, top, bottom}, scales: {x}} = chart;
+      plugins:[{
+        id:'zones',
+        beforeDraw(chart){
           const opts = chart.options.plugins.zones;
-          if (!opts) return;
-
-          const retireIdx = labels.indexOf(opts.retireYear);
-          const age595Idx = labels.indexOf(Math.floor(opts.age595Year));
-
-          if (retireIdx < 0) return;
-
-          const retireX = x.getPixelForValue(retireIdx);
-          const age595X = age595Idx >= 0 ? x.getPixelForValue(age595Idx) : right;
-
-          c.save();
-          // Accumulation
-          c.fillStyle = 'rgba(201,168,76,0.05)';
-          c.fillRect(left, top, retireX - left, bottom - top);
-          // Bridge
-          if (age595X > retireX) {
-            c.fillStyle = 'rgba(232,203,122,0.09)';
-            c.fillRect(retireX, top, age595X - retireX, bottom - top);
+          if(!opts)return;
+          // compute interceptX here where scales are available
+          if(opts.interceptAge!=null&&!opts.interceptX){
+            const iIdx=ageToIdx(opts.interceptAge,currentAges);
+            opts.interceptX=chart.scales.x.getPixelForValue(iIdx);
           }
-          // Full retirement
-          c.fillStyle = 'rgba(76,175,124,0.06)';
-          c.fillRect(age595X, top, right - age595X, bottom - top);
-
-          // Vertical lines
-          const drawVline = (xPx, color, label) => {
-            c.strokeStyle = color;
-            c.lineWidth = 1;
-            c.setLineDash([4,4]);
-            c.beginPath(); c.moveTo(xPx, top); c.lineTo(xPx, bottom); c.stroke();
-            c.setLineDash([]);
-            c.fillStyle = color;
-            c.font = '500 10px Cormorant SC, serif';
-            c.fillText(label, xPx + 4, top + 14);
-          };
-
-          if (retireX > left && retireX < right)
-            drawVline(retireX, 'rgba(201,168,76,0.6)', `Retire (${opts.retireYear})`);
-          if (age595X > left && age595X < right)
-            drawVline(age595X, 'rgba(76,175,124,0.6)', '59½');
-
-          c.restore();
+          // Delegate to registered plugin
+          zonePlugin.beforeDraw(chart,null,opts);
         }
       }]
     });
   }
-}
 
-function updateMetrics(d) {
-  // Power law badge
-  document.getElementById('pl-today').textContent = fmt(d.plToday);
-  const pct = ((d.plToday / 83000 - 1) * 100).toFixed(1);
-  const sign = pct > 0 ? '+' : '';
-  document.getElementById('pl-sub').textContent =
-    `${sign}${pct}% vs $83K spot · Log₁₀(P) = −17.1 + 5.8×Log₁₀(days)`;
-
-  document.getElementById('m-freedom').textContent = fmt(d.freedomNumber);
-  document.getElementById('m-freedom-sub').textContent =
-    d.ira > 0 ? `Adj: ${fmt(d.adjustedFreedom)} with 401k` : 'Annual spend ÷ SWR';
-
-  const portEl = document.getElementById('m-portfolio');
-  portEl.textContent = fmt(d.portfolioAtRetire);
-  portEl.className = 'metric-val ' + (d.portfolioAtRetire >= d.freedomNumber ? 'green' : 'red');
-  document.getElementById('m-portfolio-sub').textContent =
-    `₿ value at age ${d.retireAge} (power law)`;
-
-  const bridge = Math.max(0, 59.5 - d.retireAge);
-  document.getElementById('m-bridge').textContent = bridge.toFixed(1) + ' yrs';
-
-  const statusEl = document.getElementById('m-status');
-  const statusSub = document.getElementById('m-status-sub');
-  const needed = d.ira > 0 ? d.adjustedFreedom : d.freedomNumber;
-  if (d.portfolioAtRetire >= needed) {
-    statusEl.textContent = 'On Track ✦';
-    statusEl.className = 'metric-val green';
-    const surplus = d.portfolioAtRetire - needed;
-    statusSub.textContent = `${fmt(surplus)} surplus · ${Math.round(d.portfolioAtRetire/needed*100)}% of goal`;
-  } else if (d.portfolioAtRetire >= needed * 0.75) {
-    statusEl.textContent = 'Close';
-    statusEl.className = 'metric-val';
-    statusEl.style.color = 'var(--gold-lt)';
-    statusSub.textContent = `${Math.round(d.portfolioAtRetire/needed*100)}% of goal reached`;
-  } else {
-    statusEl.textContent = 'Gap Remains';
-    statusEl.className = 'metric-val red';
-    statusSub.textContent = `${fmt(needed - d.portfolioAtRetire)} short of goal`;
+  // Post-render: update intercept pixel
+  if(interceptAge!=null){
+    const iIdx=ageToIdx(interceptAge,ages);
+    if(myChart.scales&&myChart.scales.x){
+      myChart.options.plugins.zones.interceptX=myChart.scales.x.getPixelForValue(iIdx);
+      myChart.update('none');
+    }
   }
 }
 
+// ── MAIN CALCULATE ───────────────────────
 function calculate() {
-  const d = getChartData();
-  renderChart(d);
-  updateMetrics(d);
+  const inp = getInputs();
+
+  // Build age series
+  const ages=[], totalArr=[], bridgeArr=[], postArr=[], priceArr=[];
+  for(let age=inp.currentAge; age<=inp.lifeExp+.01; age=+(age+AGE_STEP).toFixed(10)){
+    ages.push(+age.toFixed(3));
+    totalArr.push(totalBTC(age,inp));
+    bridgeArr.push(bridgeBTCOnly(age,inp));
+    postArr.push(postBTCOnly(age,inp));
+    priceArr.push(powerLawPrice(age,inp));
+  }
+  currentAges = ages;
+
+  // Intercept
+  const interceptAge = findIntercept(inp.btcHeld, ages, totalArr);
+
+  // Shortfall today
+  const reqNow = totalBTC(inp.currentAge, inp);
+  const shortfall = Math.max(0, reqNow - inp.btcHeld);
+
+  // Monthly DCA needed
+  const monthsToRetire = Math.max(0, Math.round((inp.retirementAge - inp.currentAge)*12));
+  const reqAtRetire    = totalBTC(inp.retirementAge, inp);
+  const btcGap         = Math.max(0, reqAtRetire - inp.btcHeld);
+  const dca            = solveMonthlyDCA(btcGap, monthsToRetire, inp.currentAge, inp);
+
+  // Days sooner per 0.01 BTC
+  const interceptPlus  = findIntercept(inp.btcHeld+0.01, ages, totalArr);
+  let daysSooner = null;
+  if(interceptAge!=null&&interceptPlus!=null) daysSooner=Math.max(0,(interceptAge-interceptPlus)*365.25);
+
+  // Values at retirement age
+  const bridgeAtRetire = bridgeBTCOnly(inp.retirementAge, inp);
+  const postAtRetire   = postBTCOnly(inp.retirementAge, inp);
+  const priceAtRetire  = powerLawPrice(inp.retirementAge, inp);
+
+  // Update chart
+  buildChart(ages, totalArr, bridgeArr, postArr, priceArr, inp.btcHeld, interceptAge, inp.retirementAge);
+
+  // Update metrics
+  const shortfallEl = document.getElementById('m-shortfall');
+  shortfallEl.textContent = fmtBTC(shortfall);
+  shortfallEl.className = 'metric-val '+(shortfall<=0?'green':shortfall<1?'amber':'red');
+
+  const dcaEl = document.getElementById('m-dca');
+  dcaEl.textContent = dca > 0 ? fmtUSD(dca)+'/mo' : '₿ Funded';
+  dcaEl.className = 'metric-val '+(dca<=0?'green':dca<2000?'amber':'gold');
+  document.getElementById('m-dca-sub').textContent =
+    dca > 0 ? 'to accumulate ₿'+btcGap.toFixed(3)+' by age '+inp.retirementAge : 'current holdings sufficient';
+
+  const intEl = document.getElementById('m-intercept');
+  intEl.textContent = interceptAge ? fmtAge(interceptAge) : '> '+inp.lifeExp;
+  intEl.className = 'metric-val '+(interceptAge&&interceptAge<=inp.retirementAge?'green':interceptAge?'amber':'red');
+
+  document.getElementById('m-days').textContent = daysSooner!=null ? Math.round(daysSooner)+' days' : '—';
+
+  // Breakdown
+  document.getElementById('bk-bridge').textContent = fmtBTC(bridgeAtRetire);
+  document.getElementById('bk-post').textContent   = fmtBTC(postAtRetire);
+  document.getElementById('bk-price').textContent  = fmtUSD(priceAtRetire);
+  document.getElementById('bk-price-sub').textContent =
+    '× for ₿'+inp.btcHeld.toFixed(3)+' = '+fmtUSD(inp.btcHeld*priceAtRetire);
+
+  // Chart subtitle
+  document.getElementById('chart-sub').textContent =
+    interceptAge
+      ? 'Earliest retirement supported by current holdings: age '+fmtAge(interceptAge)
+      : 'Current holdings do not meet requirement within analysis window';
 }
 
-// ── SLIDER LABELS ───────────────────────
-const sliders = [
-  ['i-spend', 'sv-spend', v => v >= 1e6 ? '$'+Math.round(v/1e6*10)/10+'M' : v >= 1e3 ? '$'+Math.round(v/1000)+'K' : '$'+v],
-  ['i-swr',   'sv-swr',   v => v+'%'],
-  ['i-life',  'sv-life',  v => v],
-];
-sliders.forEach(([id, valId, fmt]) => {
-  const el = document.getElementById(id);
-  const out = document.getElementById(valId);
-  out.textContent = fmt(el.value);
-  el.addEventListener('input', () => { out.textContent = fmt(el.value); calculate(); });
+// ── SLIDER WIRING ────────────────────────
+[
+  ['i-spend','sv-spend', v=>v>=1e6?'$'+(v/1e6).toFixed(1)+'M':v>=1e3?'$'+Math.round(v/1000)+'K':'$'+v],
+  ['i-life','sv-life',   v=>v],
+  ['i-iragrow','sv-iragrow', v=>v+'%'],
+  ['i-btcgrow','sv-btcgrow', v=>v+'%'],
+  ['i-inf','sv-inf',     v=>v+'%'],
+  ['i-swr','sv-swr',     v=>v+'%'],
+].forEach(([id,valId,fmt])=>{
+  const el=document.getElementById(id),out=document.getElementById(valId);
+  out.textContent=fmt(el.value);
+  el.addEventListener('input',()=>{out.textContent=fmt(el.value);calculate()});
 });
+document.querySelectorAll('input[type=number]').forEach(el=>el.addEventListener('input',calculate));
 
-// All inputs trigger recalc
-document.querySelectorAll('input[type=number]').forEach(el => el.addEventListener('input', calculate));
-
-// Initial render
 calculate();
 </script>
 </body>
