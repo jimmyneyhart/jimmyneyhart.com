@@ -581,20 +581,70 @@ footer {
   </div>
   <div class="grid" id="grid">
     <div class="card in" style="border-left:2px solid rgba(201,168,76,0.4)">
-      <div class="card-glow"></div>
-      <div class="card-sweep"></div>
+      <div class="card-glow"></div><div class="card-sweep"></div>
       <span class="card-num">I</span>
       <div class="card-link-wrap">
         <h3 class="card-name">Bitcoin Early Retirement Calculator</h3>
-        <a href="bitcoin-calculator.html" class="card-arrow">&#x2197;</a>
+        <a href="bitcoin-calculator.html" class="card-arrow">↗</a>
       </div>
-      <p class="card-desc">Model your path to financial freedom using the Bitcoin Power Law. Variables: DCA, holdings, spending, withdrawal rate, 401k bridge, life expectancy.</p>
+      <p class="card-desc">Model your path to financial freedom using the Bitcoin Power Law. DCA, holdings, spending, withdrawal rate, 401k bridge period, life expectancy.</p>
       <div class="card-foot">
         <span class="card-lang">Financial Tool</span>
         <span class="card-stars" style="font-family:'Cormorant SC',serif;font-size:.58rem;letter-spacing:.15em;color:var(--gold);font-style:normal">Featured</span>
       </div>
     </div>
-    <p class="loading" id="gh-loading">Loading repositories…</p>
+    <div class="card in">
+      <div class="card-glow"></div><div class="card-sweep"></div>
+      <span class="card-num">II</span>
+      <div class="card-link-wrap">
+        <h3 class="card-name">CanvasRoute</h3>
+        <a href="https://github.com/jimmyneyhart" target="_blank" rel="noopener" class="card-arrow">↗</a>
+      </div>
+      <p class="card-desc">Mobile-first B2B field sales canvassing app. Expo React Native, Supabase, Zustand, TanStack Query. Built from zero — architecture, UX, and backend.</p>
+      <div class="card-foot">
+        <span class="card-lang">React Native</span>
+        <span class="card-stars" style="font-family:'Cormorant SC',serif;font-size:.58rem;letter-spacing:.15em;color:var(--mist);font-style:normal">In Progress</span>
+      </div>
+    </div>
+    <div class="card in">
+      <div class="card-glow"></div><div class="card-sweep"></div>
+      <span class="card-num">III</span>
+      <div class="card-link-wrap">
+        <h3 class="card-name">Portfolio</h3>
+        <a href="https://github.com/jimmyneyhart/portfolio" target="_blank" rel="noopener" class="card-arrow">↗</a>
+      </div>
+      <p class="card-desc">A curated sampling of projects, capabilities, and use cases. Jupyter Notebooks and data analysis work spanning multiple domains.</p>
+      <div class="card-foot">
+        <span class="card-lang">Jupyter Notebook</span>
+        <span class="card-stars" style="font-family:'Cormorant SC',serif;font-size:.58rem;letter-spacing:.15em;color:var(--mist);font-style:normal">Public</span>
+      </div>
+    </div>
+    <div class="card in">
+      <div class="card-glow"></div><div class="card-sweep"></div>
+      <span class="card-num">IV</span>
+      <div class="card-link-wrap">
+        <h3 class="card-name">Analysis</h3>
+        <a href="https://github.com/jimmyneyhart/Analysis" target="_blank" rel="noopener" class="card-arrow">↗</a>
+      </div>
+      <p class="card-desc">Data analysis and research projects. Structured exploration across datasets with documented methodology and reproducible results.</p>
+      <div class="card-foot">
+        <span class="card-lang">Data / Research</span>
+        <span class="card-stars" style="font-family:'Cormorant SC',serif;font-size:.58rem;letter-spacing:.15em;color:var(--mist);font-style:normal">Public</span>
+      </div>
+    </div>
+    <div class="card in">
+      <div class="card-glow"></div><div class="card-sweep"></div>
+      <span class="card-num">V</span>
+      <div class="card-link-wrap">
+        <h3 class="card-name">jimmyneyhart.com</h3>
+        <a href="https://github.com/jimmyneyhart/jimmyneyhart.com" target="_blank" rel="noopener" class="card-arrow">↗</a>
+      </div>
+      <p class="card-desc">This site. Built with pure HTML, CSS, and vanilla JS — no frameworks, no build step. Cormorant Garamond, gold palette, power law thinking.</p>
+      <div class="card-foot">
+        <span class="card-lang">HTML</span>
+        <span class="card-stars" style="font-family:'Cormorant SC',serif;font-size:.58rem;letter-spacing:.15em;color:var(--mist);font-style:normal">Open Source</span>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -622,7 +672,7 @@ footer {
       <span class="portrait-role">Builder · Tennessee</span>
       <div class="portrait-stats">
         <div class="p-stat">
-          <span class="p-num" id="p-repos">—</span>
+          <span class="p-num" id="p-repos">6</span>
           <span class="p-lbl">Repos</span>
         </div>
         <div class="p-stat">
@@ -730,88 +780,9 @@ function tilt(card) {
   });
 }
 
-// ── GITHUB REPOS ────────────────────────
-async function loadRepos() {
-  const grid = document.getElementById('grid');
-  try {
-    const [uRes, rRes] = await Promise.all([
-      fetch('https://api.github.com/users/jimmyneyhart'),
-      fetch('https://api.github.com/users/jimmyneyhart/repos?sort=updated&per_page=20')
-    ]);
 
-    if (!uRes.ok || !rRes.ok) throw new Error('GitHub API error');
-
-    const user  = await uRes.json();
-    const repos = await rRes.json();
-
-    // update repo count stat
-    const pr = document.getElementById('p-repos');
-    if (pr && user.public_repos) {
-      countUp(pr, user.public_repos, 1200);
-    }
-
-    // Remove the loading placeholder, keep the featured card
-    const loadingEl = document.getElementById('gh-loading');
-    if (loadingEl) loadingEl.remove();
-
-    if (!Array.isArray(repos) || repos.length === 0) return;
-
-    const show = repos
-      .filter(r => !r.fork && r.name !== 'jimmyneyhart')
-      .sort((a, b) => (b.stargazers_count - a.stargazers_count) || (new Date(b.updated_at) - new Date(a.updated_at)))
-      .slice(0, 5);
-
-    const roman = ['II','III','IV','V','VI'];
-
-    // Append GitHub repo cards after the featured card
-    const repoHTML = show.map((r, i) => {
-      const desc = r.description || 'A work in progress.';
-      const lang = r.language || 'Code';
-      return `
-        <div class="card" data-i="${i}" style="transition-delay:${i*80}ms">
-          <div class="card-glow"></div>
-          <div class="card-sweep"></div>
-          <span class="card-num">${roman[i]}</span>
-          <div class="card-link-wrap">
-            <h3 class="card-name">${r.name.replace(/-/g,' ')}</h3>
-            <a href="${r.html_url}" target="_blank" rel="noopener" class="card-arrow">↗</a>
-          </div>
-          <p class="card-desc">${desc.length > 110 ? desc.slice(0,107) + '…' : desc}</p>
-          <div class="card-foot">
-            <span class="card-lang">${lang}</span>
-            <span class="card-stars">${r.stargazers_count}</span>
-          </div>
-        </div>`;
-    }).join('');
-
-    // Append repo cards to grid (featured card already in DOM)
-    grid.insertAdjacentHTML('beforeend', repoHTML);
-
-    // Init tilt + hover on newly added cards only
-    grid.querySelectorAll('.card[data-i]').forEach(c => {
-      tilt(c);
-      c.addEventListener('mouseenter', () => document.body.classList.add('hov'));
-      c.addEventListener('mouseleave', () => document.body.classList.remove('hov'));
-    });
-
-    // Staggered reveal for repo cards
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-      });
-    }, { threshold: 0.1 });
-    grid.querySelectorAll('.card[data-i]').forEach(c => io.observe(c));
-
-  } catch (err) {
-    const loadingEl = document.getElementById('gh-loading');
-    if (loadingEl) loadingEl.innerHTML = 'Could not load repositories. <a href="https://github.com/jimmyneyhart" target="_blank" style="color:var(--gold);border-bottom:1px solid var(--gold);text-decoration:none">View on GitHub →</a>';
-    console.error(err);
-  }
-}
-loadRepos();
-
-// Init the featured card (rendered from HTML, not JS)
-document.querySelectorAll('.card.in').forEach(c => {
+// ── INIT CARDS ─────────────────────────
+document.querySelectorAll('.card').forEach(c => {
   tilt(c);
   c.addEventListener('mouseenter', () => document.body.classList.add('hov'));
   c.addEventListener('mouseleave', () => document.body.classList.remove('hov'));
