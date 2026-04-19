@@ -10,119 +10,285 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#08080F;
+  --bg:#05050D;--bg2:#09091A;
   --gold:#C9A84C;--gold-lt:#E8CB7A;--gold-dim:rgba(201,168,76,0.08);
-  --cream:#F0EAD6;--mist:#7A8CA0;--silver:#B8C4D0;
-  --border:rgba(201,168,76,0.15);
-  --green:#4CAF7C;--amber:#E8923C;--blue:#5B9BD5;--red:#E05252;
+  --cream:#F0EAD6;--mist:#8A9DB5;--silver:#C4CDD6;
+  --border:rgba(201,168,76,0.11);
+  --green:#3DBF7C;--amber:#E8923C;--blue:#4B90D6;--red:#D94F4F;
 }
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--cream);font-family:'DM Sans',sans-serif;font-weight:300;cursor:none;overflow-x:hidden;
-  background-image:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(60,40,120,0.3) 0%,transparent 70%)}
+body{
+  background:var(--bg);color:var(--cream);
+  font-family:'DM Sans',sans-serif;font-weight:300;
+  cursor:none;overflow-x:hidden;min-height:100vh;
+}
 
-/* CURSOR */
-#cur-orb{position:fixed;top:0;left:0;width:8px;height:8px;border-radius:50%;background:radial-gradient(circle,rgba(232,203,122,1) 0%,rgba(201,168,76,0.3) 60%,transparent 100%);transform:translate(-50%,-50%);pointer-events:none;z-index:9999;box-shadow:0 0 10px 2px rgba(201,168,76,0.4);transition:width .2s,height .2s}
-#cur-ring{position:fixed;top:0;left:0;width:36px;height:36px;border-radius:50%;border:1px solid rgba(201,168,76,0.2);transform:translate(-50%,-50%);pointer-events:none;z-index:9998;transition:width .35s cubic-bezier(.34,1.56,.64,1),height .35s,border-color .3s}
-body.hov #cur-orb{width:14px;height:14px}
-body.hov #cur-ring{width:56px;height:56px;border-color:rgba(201,168,76,0.5)}
+/* ── AMBIENT ──────────────────────────── */
+.ambient{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.orb{position:absolute;border-radius:50%;filter:blur(130px)}
+.orb-1{width:900px;height:900px;top:-250px;left:-250px;opacity:.10;
+  background:radial-gradient(circle,rgba(70,30,150,1),transparent 70%);
+  animation:o1 28s ease-in-out infinite}
+.orb-2{width:700px;height:700px;top:15%;right:-180px;opacity:.09;
+  background:radial-gradient(circle,rgba(20,70,160,1),transparent 70%);
+  animation:o2 34s ease-in-out infinite}
+.orb-3{width:600px;height:600px;bottom:5%;left:25%;opacity:.055;
+  background:radial-gradient(circle,rgba(201,168,76,1),transparent 70%);
+  animation:o3 22s ease-in-out infinite}
+@keyframes o1{0%,100%{transform:translate(0,0) scale(1)}40%{transform:translate(70px,-50px) scale(1.06)}70%{transform:translate(-40px,60px) scale(.96)}}
+@keyframes o2{0%,100%{transform:translate(0,0)}35%{transform:translate(-60px,40px)}70%{transform:translate(50px,-70px)}}
+@keyframes o3{0%,100%{transform:translate(0,0)}50%{transform:translate(-50px,-35px)}}
 
-/* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.2rem 3rem;display:flex;justify-content:space-between;align-items:center;background:rgba(8,8,15,0.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
-.logo{font-family:'Cormorant SC',serif;font-size:.95rem;letter-spacing:.35em;color:var(--gold-lt);text-decoration:none}
-.logo::after{content:'';display:block;height:1px;background:var(--gold);width:0;transition:width .4s}
+.noise{
+  position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.022;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:160px 160px
+}
+
+/* stack everything above ambient */
+nav,main,.page-hero,.tool-wrap,.life-timeline,.breakdown,.narrative,.page-footer{position:relative;z-index:2}
+
+/* ── CURSOR ───────────────────────────── */
+#cur-orb{position:fixed;top:0;left:0;width:6px;height:6px;border-radius:50%;background:radial-gradient(circle,rgba(232,203,122,1),rgba(201,168,76,.3) 60%,transparent);transform:translate(-50%,-50%);pointer-events:none;z-index:9999;box-shadow:0 0 12px 3px rgba(201,168,76,.35);transition:width .2s,height .2s}
+#cur-ring{position:fixed;top:0;left:0;width:32px;height:32px;border-radius:50%;border:1px solid rgba(201,168,76,.18);transform:translate(-50%,-50%);pointer-events:none;z-index:9998;transition:width .35s cubic-bezier(.34,1.56,.64,1),height .35s,border-color .3s}
+body.hov #cur-orb{width:12px;height:12px}
+body.hov #cur-ring{width:52px;height:52px;border-color:rgba(201,168,76,.5)}
+
+/* ── NAV ──────────────────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:1rem 3rem;display:flex;justify-content:space-between;align-items:center;
+  background:rgba(5,5,13,.88);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);
+  border-bottom:1px solid var(--border)
+}
+.logo{font-family:'Cormorant SC',serif;font-size:.92rem;letter-spacing:.38em;color:var(--gold-lt);text-decoration:none}
+.logo::after{content:'';display:block;height:1px;background:linear-gradient(90deg,var(--gold),transparent);width:0;transition:width .4s}
 .logo:hover::after{width:100%}
-.nav-back{font-family:'Cormorant SC',serif;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--mist);text-decoration:none;display:flex;align-items:center;gap:.5rem;transition:color .25s}
-.nav-back::before{content:'←';font-family:serif}
+.nav-back{font-family:'Cormorant SC',serif;font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;color:var(--mist);text-decoration:none;display:flex;align-items:center;gap:.5rem;transition:color .25s}
+.nav-back::before{content:'←';font-family:serif;display:inline-block;transition:transform .25s}
 .nav-back:hover{color:var(--gold-lt)}
+.nav-back:hover::before{transform:translateX(-3px)}
 
-/* PAGE HERO */
-.page-hero{padding:7rem 3rem 2.5rem;max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1.5rem;border-bottom:1px solid var(--border)}
-.page-tag{font-family:'Cormorant SC',serif;font-size:.58rem;letter-spacing:.38em;color:var(--gold);text-transform:uppercase;display:flex;align-items:center;gap:1rem;margin-bottom:1rem}
-.page-tag::before{content:'';width:24px;height:1px;background:var(--gold);opacity:.5}
-.page-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,5vw,4rem);font-weight:300;line-height:.92;letter-spacing:-.02em;color:var(--cream)}
-.page-title em{font-style:italic;color:var(--gold-lt)}
-.page-desc{max-width:460px;font-size:.82rem;color:var(--mist);line-height:1.85;font-weight:300}
+/* ── HERO ─────────────────────────────── */
+.page-hero{
+  padding:8rem 3rem 3.5rem;max-width:1280px;margin:0 auto;
+  display:grid;grid-template-columns:1fr auto;gap:4rem;align-items:start;
+  border-bottom:1px solid var(--border)
+}
+.page-tag{font-family:'Cormorant SC',serif;font-size:.52rem;letter-spacing:.42em;color:var(--gold);text-transform:uppercase;display:flex;align-items:center;gap:1rem;margin-bottom:1.3rem}
+.page-tag::before{content:'';width:28px;height:1px;background:linear-gradient(90deg,var(--gold),transparent);opacity:.55}
+.page-title{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,5.5vw,5.2rem);font-weight:300;line-height:.88;letter-spacing:-.025em;color:var(--cream)}
+.page-title em{font-style:italic;color:var(--gold-lt);display:block;margin-top:.08em}
+.page-desc{max-width:560px;font-size:.96rem;color:var(--silver);line-height:2;font-weight:300;margin-top:1.6rem}
 .page-desc strong{color:var(--silver);font-weight:400}
 
-/* TOOL LAYOUT */
-.tool-wrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:300px 1fr;gap:1px;background:var(--border);border:1px solid var(--border);border-top:none}
+/* PRICE BADGE */
+.price-badge{
+  display:flex;flex-direction:column;align-items:flex-end;
+  border-left:1px solid var(--border);padding-left:2.5rem;
+  padding-top:1.1rem;min-width:200px
+}
+.price-badge-lbl{font-family:'Cormorant SC',serif;font-size:.48rem;letter-spacing:.36em;color:var(--mist);text-transform:uppercase;margin-bottom:.5rem}
+.price-badge-val{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:300;line-height:1;color:var(--gold-lt);letter-spacing:-.02em}
+.price-badge-src{font-family:'Cormorant Garamond',serif;font-size:.72rem;font-style:italic;color:var(--mist);opacity:.5;margin-top:.35rem}
 
-/* INPUTS */
-.inputs{background:var(--bg);padding:2rem;overflow-y:auto;max-height:calc(100vh - 8rem);position:sticky;top:4rem}
-.input-group{margin-bottom:1.6rem}
-.group-label{font-family:'Cormorant SC',serif;font-size:.54rem;letter-spacing:.32em;color:var(--gold);text-transform:uppercase;display:flex;align-items:center;gap:.8rem;margin-bottom:1.2rem}
-.group-label::after{content:'';flex:1;height:1px;background:var(--border)}
-.field{margin-bottom:1.1rem}
-.field-lbl{font-family:'Cormorant SC',serif;font-size:.54rem;letter-spacing:.2em;color:var(--mist);text-transform:uppercase;display:block;margin-bottom:.4rem}
-.field-hint{font-family:'Cormorant Garamond',serif;font-size:.72rem;font-style:italic;color:var(--mist);opacity:.55;display:block;margin-bottom:.3rem}
+/* ── TOOL GRID ────────────────────────── */
+.tool-wrap{
+  max-width:1280px;margin:0 auto;
+  display:grid;grid-template-columns:290px 1fr;
+  background:var(--border);border:1px solid var(--border);border-top:none
+}
+
+/* ── INPUTS ───────────────────────────── */
+.inputs{
+  background:var(--bg);padding:2rem 1.75rem;
+  overflow-y:auto;max-height:calc(100vh - 4rem);
+  position:sticky;top:4rem
+}
+.input-group{margin-bottom:1.75rem}
+.group-label{
+  font-family:'Cormorant SC',serif;font-size:.62rem;letter-spacing:.30em;
+  color:var(--gold);text-transform:uppercase;
+  display:flex;align-items:center;gap:.8rem;margin-bottom:1.3rem
+}
+.group-label::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent)}
+.field{margin-bottom:1.15rem}
+.field-lbl{font-family:'Cormorant SC',serif;font-size:.6rem;letter-spacing:.18em;color:var(--silver);text-transform:uppercase;display:block;margin-bottom:.45rem}
+.field-hint{font-family:'Cormorant Garamond',serif;font-size:.82rem;font-style:italic;color:var(--mist);opacity:.8;display:block;margin-top:.15rem}
 .f-wrap{position:relative}
 .f-sym{position:absolute;left:.8rem;top:50%;transform:translateY(-50%);color:var(--gold);font-family:'Cormorant Garamond',serif;font-size:1rem;pointer-events:none;z-index:1}
-input[type=number]{width:100%;background:rgba(201,168,76,0.04);border:1px solid var(--border);color:var(--cream);font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:300;padding:.55rem .8rem .55rem 1.8rem;outline:none;transition:border-color .25s,background .25s;cursor:none;-moz-appearance:textfield}
+input[type=number]{
+  width:100%;background:rgba(201,168,76,.03);
+  border:1px solid rgba(201,168,76,.08);border-bottom:1px solid rgba(201,168,76,.18);
+  color:var(--cream);font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:300;
+  padding:.52rem .8rem .52rem 1.9rem;outline:none;
+  transition:border-color .25s,background .25s;cursor:none;-moz-appearance:textfield
+}
 input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
-input[type=number]:focus{border-color:rgba(201,168,76,0.45);background:rgba(201,168,76,0.07)}
+input[type=number]:focus{border-color:rgba(201,168,76,.4);background:rgba(201,168,76,.06)}
 input.no-sym{padding-left:.8rem}
-.slider-row{display:flex;align-items:center;gap:.8rem;margin-top:.35rem}
-input[type=range]{flex:1;-webkit-appearance:none;appearance:none;height:1px;background:var(--border);outline:none;cursor:none}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;border-radius:50%;background:var(--gold);cursor:none;box-shadow:0 0 6px rgba(201,168,76,0.5)}
-input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;border:none;background:var(--gold);cursor:none}
-.s-val{font-family:'Cormorant Garamond',serif;font-size:.92rem;color:var(--gold-lt);min-width:52px;text-align:right;white-space:nowrap}
-.divider{height:1px;background:var(--border);margin:1.4rem 0}
+.birthdate-row{display:flex;gap:.4rem}
+.birthdate-row select{
+  flex:1;background:rgba(201,168,76,.03);
+  border:1px solid rgba(201,168,76,.08);border-bottom:1px solid rgba(201,168,76,.18);
+  color:var(--cream);font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:300;
+  padding:.52rem .6rem;outline:none;appearance:none;-webkit-appearance:none;
+  cursor:pointer;transition:border-color .25s,background .25s
+}
+.birthdate-row select:focus{border-color:rgba(201,168,76,.4);background:rgba(201,168,76,.06)}
+.birthdate-row select option{background:#05050D;color:var(--cream)}
+.slider-row{display:flex;align-items:center;gap:.8rem;margin-top:.3rem}
+input[type=range]{flex:1;-webkit-appearance:none;appearance:none;height:2px;background:rgba(201,168,76,.15);outline:none;cursor:none;border-radius:1px}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--gold);cursor:none;box-shadow:0 0 10px rgba(201,168,76,.6),0 0 0 3px rgba(201,168,76,.12)}
+input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;border:none;background:var(--gold);cursor:none}
+.s-val{font-family:'Cormorant Garamond',serif;font-size:.95rem;color:var(--gold-lt);min-width:52px;text-align:right;white-space:nowrap}
+.divider{height:1px;background:linear-gradient(90deg,rgba(201,168,76,.12),transparent);margin:1.5rem 0}
 
-/* CHART AREA */
-.chart-area{background:rgba(201,168,76,0.015);padding:2rem;display:flex;flex-direction:column;gap:1.5rem}
+/* ── TOGGLE CHIPS ─────────────────────── */
+.chart-toggles{display:flex;gap:1.5rem;flex-wrap:wrap;align-items:center}
+.toggle-group{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap}
+.toggle-label{font-family:'Cormorant SC',serif;font-size:.46rem;letter-spacing:.24em;color:var(--mist);text-transform:uppercase;margin-right:.2rem;white-space:nowrap}
+.toggle-chip{
+  font-family:'Cormorant SC',serif;font-size:.48rem;letter-spacing:.18em;text-transform:uppercase;
+  padding:.3rem .7rem;border:1px solid transparent;background:transparent;
+  color:var(--mist);cursor:none;outline:none;line-height:1;transition:all .2s
+}
+.toggle-chip span{opacity:.55}
+.toggle-chip:not(.active){opacity:.28}
+.toggle-chip[data-key="bear"].active{border-color:rgba(217,79,79,.4);color:#D94F4F;background:rgba(217,79,79,.06)}
+.toggle-chip[data-key="base"].active{border-color:rgba(201,168,76,.4);color:var(--gold-lt);background:rgba(201,168,76,.06)}
+.toggle-chip[data-key="bull"].active{border-color:rgba(61,191,124,.4);color:#3DBF7C;background:rgba(61,191,124,.06)}
+.toggle-chip[data-key="holdings"].active{border-color:rgba(240,234,214,.22);color:var(--silver);background:rgba(240,234,214,.04)}
+
+/* ── CHART AREA ───────────────────────── */
+.chart-area{background:rgba(201,168,76,.01);padding:2rem;display:flex;flex-direction:column;gap:1.5rem}
 .chart-header{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem}
-.chart-title-block p:first-child{font-family:'Cormorant SC',serif;font-size:.56rem;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;margin-bottom:.35rem}
-.chart-subtitle{font-family:'Cormorant Garamond',serif;font-size:.8rem;font-style:italic;color:var(--mist)}
-.chart-container{position:relative;width:100%;height:400px}
+.chart-title-block p:first-child{font-family:'Cormorant SC',serif;font-size:.52rem;letter-spacing:.36em;color:var(--gold);text-transform:uppercase;margin-bottom:.4rem}
+.chart-subtitle{font-family:'Cormorant Garamond',serif;font-size:.92rem;font-style:italic;color:var(--mist)}
+.chart-container{position:relative;width:100%;height:460px}
 
-/* LEGEND */
-.legend{display:flex;gap:1.4rem;flex-wrap:wrap}
-.leg{display:flex;align-items:center;gap:.45rem;font-family:'Cormorant SC',serif;font-size:.5rem;letter-spacing:.18em;color:var(--mist);text-transform:uppercase}
-.leg-line{width:18px;height:2px;flex-shrink:0;border-radius:1px}
-.leg-dash{width:18px;border-top-width:2px;border-top-style:dashed;border-radius:0}
+/* ── METRICS ──────────────────────────── */
+.metrics{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:1px;background:var(--border);border-top:1px solid var(--border)
+}
+.metric{
+  background:var(--bg);padding:1.5rem 1.6rem;
+  position:relative;overflow:hidden;transition:background .3s
+}
+.metric::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:var(--metric-accent,var(--gold));opacity:.5
+}
+.metric:hover{background:rgba(201,168,76,.022)}
+.metric:nth-child(1),.metric:nth-child(5){--metric-accent:linear-gradient(90deg,var(--gold),transparent)}
+.metric:nth-child(2),.metric:nth-child(6){--metric-accent:linear-gradient(90deg,var(--gold-lt),transparent)}
+.metric:nth-child(3),.metric:nth-child(7){--metric-accent:linear-gradient(90deg,var(--blue),transparent)}
+.metric:nth-child(4),.metric:nth-child(8){--metric-accent:linear-gradient(90deg,var(--green),transparent)}
 
-/* METRICS */
-.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border-top:1px solid var(--border)}
-.metric{background:var(--bg);padding:1.2rem 1.4rem}
-.metric-lbl{font-family:'Cormorant SC',serif;font-size:.5rem;letter-spacing:.24em;color:var(--mist);text-transform:uppercase;display:block;margin-bottom:.3rem}
-.metric-val{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:300;line-height:1;display:block}
+/* gradient accent lines via pseudo */
+.metric:nth-child(1)::after{background:linear-gradient(90deg,var(--gold),transparent)}
+.metric:nth-child(2)::after{background:linear-gradient(90deg,var(--gold-lt),transparent)}
+.metric:nth-child(3)::after{background:linear-gradient(90deg,var(--blue),transparent)}
+.metric:nth-child(4)::after{background:linear-gradient(90deg,var(--green),transparent)}
+.metric:nth-child(5)::after{background:linear-gradient(90deg,var(--amber),transparent)}
+.metric:nth-child(6)::after{background:linear-gradient(90deg,rgba(75,144,214,.8),transparent)}
+.metric:nth-child(7)::after{background:linear-gradient(90deg,rgba(75,144,214,.6),transparent)}
+.metric:nth-child(8)::after{background:linear-gradient(90deg,var(--green),transparent)}
+
+.metric-lbl{font-family:'Cormorant SC',serif;font-size:.58rem;letter-spacing:.2em;color:var(--silver);text-transform:uppercase;display:block;margin-bottom:.45rem}
+.metric-val{
+  font-family:'Cormorant Garamond',serif;font-size:1.75rem;font-weight:300;line-height:1;
+  display:block;transition:opacity .12s,transform .12s
+}
+.metric-val.flash{opacity:0;transform:translateY(4px)}
 .green{color:var(--green)}.amber{color:var(--amber)}.red{color:var(--red)}.gold{color:var(--gold-lt)}
-.metric-sub{font-family:'Cormorant Garamond',serif;font-size:.72rem;font-style:italic;color:var(--mist);margin-top:.2rem;display:block}
+.metric-sub{font-family:'Cormorant Garamond',serif;font-size:.8rem;font-style:italic;color:var(--mist);margin-top:.35rem;display:block}
 
-/* BREAKDOWN TABLE */
-.breakdown{max-width:1200px;margin:0 auto;border-top:1px solid var(--border)}
+/* ── LIFE RUNWAY ──────────────────────── */
+.life-timeline{
+  max-width:1280px;margin:0 auto;
+  padding:3.5rem 3rem 4rem;
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  background:rgba(201,168,76,.018)
+}
+.lt-header{display:flex;align-items:baseline;gap:1.8rem;margin-bottom:2.5rem;flex-wrap:wrap}
+.lt-title{
+  font-family:'Cormorant SC',serif;font-size:.58rem;letter-spacing:.4em;
+  color:var(--gold);text-transform:uppercase
+}
+.lt-sub{
+  font-family:'Cormorant Garamond',serif;font-size:1.05rem;
+  font-style:italic;color:var(--silver)
+}
+.lt-track-wrap{position:relative;margin-bottom:.8rem;padding-bottom:4rem}
+.lt-track{
+  height:20px;background:rgba(255,255,255,.045);
+  border-radius:3px;overflow:hidden;position:relative
+}
+.lt-seg{
+  position:absolute;top:0;height:100%;
+  transition:left .45s cubic-bezier(.4,0,.2,1),width .45s cubic-bezier(.4,0,.2,1)
+}
+.lt-markers{position:absolute;top:0;left:0;right:0;height:0;pointer-events:none}
+.lt-marker{
+  position:absolute;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center
+}
+.lt-tick{width:2px;height:28px;background:currentColor;opacity:.55;margin-top:2px;border-radius:1px}
+.lt-mlabel{
+  font-family:'Cormorant SC',serif;font-size:.62rem;letter-spacing:.15em;
+  text-transform:uppercase;white-space:nowrap;text-align:center;
+  line-height:1.6;margin-top:.6rem;opacity:.95;font-weight:400
+}
+.lt-legend{display:flex;gap:2rem;flex-wrap:wrap;margin-top:1.2rem}
+.lt-leg{display:flex;align-items:center;gap:.6rem;font-family:'Cormorant SC',serif;font-size:.62rem;letter-spacing:.15em;color:var(--silver);text-transform:uppercase}
+.lt-swatch{width:28px;height:6px;border-radius:3px;flex-shrink:0}
+
+/* ── BREAKDOWN ────────────────────────── */
+.breakdown{max-width:1280px;margin:0 auto;border-top:1px solid var(--border)}
 .breakdown-inner{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--border)}
-.bk-cell{background:var(--bg);padding:1.4rem 2rem}
-.bk-lbl{font-family:'Cormorant SC',serif;font-size:.54rem;letter-spacing:.28em;color:var(--mist);text-transform:uppercase;display:block;margin-bottom:.4rem}
-.bk-val{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;display:block;line-height:1.1}
-.bk-sub{font-family:'Cormorant Garamond',serif;font-size:.75rem;font-style:italic;color:var(--mist);margin-top:.3rem;display:block}
+.bk-cell{background:var(--bg);padding:1.75rem 2rem;transition:background .25s}
+.bk-cell:hover{background:rgba(201,168,76,.022)}
+.bk-lbl{font-family:'Cormorant SC',serif;font-size:.6rem;letter-spacing:.22em;color:var(--silver);text-transform:uppercase;display:block;margin-bottom:.5rem}
+.bk-val{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:300;display:block;line-height:1.1}
+.bk-sub{font-family:'Cormorant Garamond',serif;font-size:.84rem;font-style:italic;color:var(--mist);margin-top:.4rem;display:block}
 
-/* NARRATIVE */
-.narrative{max-width:1200px;margin:0 auto;padding:3.5rem 3rem;border-top:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr 1fr;gap:3rem}
-.n-sec h3{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:400;color:var(--cream);margin-bottom:.8rem;line-height:1.2}
+/* ── NARRATIVE ────────────────────────── */
+.narrative{max-width:1280px;margin:0 auto;padding:4.5rem 3rem;border-top:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr 1fr;gap:4.5rem}
+.n-sec h3{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:400;color:var(--cream);margin-bottom:.9rem;line-height:1.1}
 .n-sec h3 em{font-style:italic;color:var(--gold-lt)}
-.n-sec p{font-size:.78rem;color:var(--mist);line-height:1.85;margin-bottom:.8rem;font-weight:300}
-.n-sec ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
-.n-sec li{font-size:.78rem;color:var(--mist);line-height:1.7;padding-left:1rem;position:relative}
-.n-sec li::before{content:'✦';position:absolute;left:0;color:var(--gold);font-size:.42rem;top:.35rem}
-.model-eq{font-family:'Cormorant Garamond',serif;font-size:.88rem;font-style:italic;color:var(--gold-lt);border-left:1px solid var(--border);padding-left:.8rem;margin:.8rem 0;line-height:1.6}
+.n-sec p{font-size:.92rem;color:var(--silver);line-height:1.9;margin-bottom:.9rem;font-weight:300}
+.n-sec ul{list-style:none;display:flex;flex-direction:column;gap:.55rem}
+.n-sec li{font-size:.92rem;color:var(--silver);line-height:1.75;padding-left:1.2rem;position:relative}
+.n-sec li::before{content:'✦';position:absolute;left:0;color:var(--gold);font-size:.38rem;top:.42rem}
+.model-eq{font-family:'Cormorant Garamond',serif;font-size:.9rem;font-style:italic;color:var(--gold-lt);border-left:2px solid rgba(201,168,76,.2);padding-left:.9rem;margin:.9rem 0;line-height:1.75}
 
-/* FOOTER */
-.page-footer{max-width:1200px;margin:0 auto;padding:1.6rem 3rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
-.foot-note{font-family:'Cormorant SC',serif;font-size:.52rem;letter-spacing:.22em;color:var(--mist);text-transform:uppercase}
-.foot-back{font-family:'Cormorant SC',serif;font-size:.55rem;letter-spacing:.22em;text-transform:uppercase;color:var(--mist);text-decoration:none;border-bottom:1px solid rgba(122,140,160,0.3);padding-bottom:2px;transition:color .25s,border-color .25s}
+/* ── FOOTER ───────────────────────────── */
+.page-footer{max-width:1280px;margin:0 auto;padding:1.8rem 3rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.foot-note{font-family:'Cormorant SC',serif;font-size:.49rem;letter-spacing:.22em;color:var(--mist);text-transform:uppercase}
+.foot-back{font-family:'Cormorant SC',serif;font-size:.51rem;letter-spacing:.22em;text-transform:uppercase;color:var(--mist);text-decoration:none;border-bottom:1px solid rgba(122,140,160,.2);padding-bottom:2px;transition:color .25s,border-color .25s}
 .foot-back:hover{color:var(--gold-lt);border-color:var(--gold)}
 
-@media(max-width:900px){
+/* ── LEGEND ───────────────────────────── */
+.legend{display:flex;gap:1.4rem;flex-wrap:wrap}
+.leg{display:flex;align-items:center;gap:.45rem;font-family:'Cormorant SC',serif;font-size:.6rem;letter-spacing:.14em;color:var(--silver);text-transform:uppercase}
+.leg-line{width:18px;height:2px;flex-shrink:0;border-radius:1px}
+
+/* ── RESPONSIVE ───────────────────────── */
+@media(max-width:1024px){
   nav{padding:1rem 1.5rem}
-  .page-hero{padding:6rem 1.5rem 2rem}
+  .page-hero{grid-template-columns:1fr;gap:2.5rem;padding:6rem 1.5rem 2.5rem}
+  .price-badge{align-items:flex-start;border-left:none;border-top:1px solid var(--border);padding-left:0;padding-top:1.5rem}
   .tool-wrap{grid-template-columns:1fr}
   .inputs{position:static;max-height:none;border-bottom:1px solid var(--border)}
   .metrics{grid-template-columns:1fr 1fr}
   .breakdown-inner{grid-template-columns:1fr}
-  .narrative{grid-template-columns:1fr;gap:2rem;padding:2.5rem 1.5rem}
-  .page-footer{padding:1.5rem}
-  .chart-container{height:320px}
+  .narrative{grid-template-columns:1fr;gap:2.5rem;padding:2.5rem 1.5rem}
+  .page-footer{padding:2rem 1.5rem}
+  .life-timeline{padding:2.5rem 1.5rem 3rem}
+  .chart-container{height:340px}
 }
 </style>
 </head>
@@ -130,6 +296,13 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;bor
 
 <div id="cur-orb"></div>
 <div id="cur-ring"></div>
+
+<div class="ambient" aria-hidden="true">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+</div>
+<div class="noise" aria-hidden="true"></div>
 
 <nav>
   <a href="index.html" class="logo">J. Neyhart</a>
@@ -139,11 +312,16 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;bor
 <div class="page-hero">
   <div>
     <p class="page-tag">Portfolio · Financial Tools</p>
-    <h1 class="page-title">Bitcoin Early<br><em>Retirement Calculator</em></h1>
+    <h1 class="page-title">Bitcoin Early<em>Retirement Calculator</em></h1>
+    <p class="page-desc">
+      You've been stacking. Traditional tools don't speak Bitcoin — they ignore your DCA, the 59½ lockup, and early retirement entirely. This one does. <strong>Enter your numbers below and find out exactly when you can walk away.</strong>
+    </p>
   </div>
-  <p class="page-desc">
-    Models two distinct funding requirements: the <strong>bridge period</strong> (retirement to 59½, funded entirely from BTC) and the <strong>post-supplement period</strong> (59½+, net of retirement accounts). Power Law calibrated to today's BTC price. All math runs in the browser.
-  </p>
+  <div class="price-badge">
+    <span class="price-badge-lbl">Bitcoin · Live Price</span>
+    <span class="price-badge-val" id="btc-price-display">—</span>
+    <span class="price-badge-src" id="btc-price-source">fetching…</span>
+  </div>
 </div>
 
 <div class="tool-wrap">
@@ -154,8 +332,12 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;bor
     <div class="input-group">
       <p class="group-label">Your Position</p>
       <div class="field">
-        <label class="field-lbl" for="i-age">Current Age</label>
-        <div class="f-wrap"><input type="number" id="i-age" class="no-sym" value="40" min="18" max="65" step="0.5"></div>
+        <label class="field-lbl">Birth Month &amp; Year</label>
+        <div class="birthdate-row">
+          <select id="i-birth-month"></select>
+          <select id="i-birth-year"></select>
+        </div>
+        <span class="field-hint" id="age-display"></span>
       </div>
       <div class="field">
         <label class="field-lbl" for="i-btc">BTC Holdings</label>
@@ -165,11 +347,6 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;bor
         <label class="field-lbl" for="i-dca">Monthly DCA</label>
         <div class="f-wrap"><span class="f-sym">$</span><input type="number" id="i-dca" value="500" min="0"></div>
       </div>
-      <div class="field">
-        <label class="field-lbl" for="i-btcprice">Current BTC Price</label>
-        <span class="field-hint">Calibrates the power law to today</span>
-        <div class="f-wrap"><span class="f-sym">$</span><input type="number" id="i-btcprice" value="70000" min="1"></div>
-      </div>
     </div>
 
     <div class="divider"></div>
@@ -177,21 +354,10 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;bor
     <div class="input-group">
       <p class="group-label">Retirement Goals</p>
       <div class="field">
-        <label class="field-lbl" for="i-retire">Target Retirement Age</label>
-        <div class="f-wrap"><input type="number" id="i-retire" class="no-sym" value="47" min="30" max="65" step="0.5"></div>
-      </div>
-      <div class="field">
         <label class="field-lbl">Annual Spending (today's dollars)</label>
         <div class="slider-row">
           <input type="range" id="i-spend" min="30000" max="500000" step="5000" value="115000">
-          <span class="s-val" id="sv-spend">$125K</span>
-        </div>
-      </div>
-      <div class="field">
-        <label class="field-lbl">Life Expectancy</label>
-        <div class="slider-row">
-          <input type="range" id="i-life" min="70" max="100" step="1" value="85">
-          <span class="s-val" id="sv-life">85</span>
+          <span class="s-val" id="sv-spend">$115K</span>
         </div>
       </div>
     </div>
@@ -218,14 +384,6 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;bor
     <div class="input-group">
       <p class="group-label">Model Parameters</p>
       <div class="field">
-        <label class="field-lbl">BTC Bridge Growth Rate</label>
-        <span class="field-hint">Return assumed on BTC during bridge period</span>
-        <div class="slider-row">
-          <input type="range" id="i-btcgrow" min="5" max="40" step="1" value="20">
-          <span class="s-val" id="sv-btcgrow">20%</span>
-        </div>
-      </div>
-      <div class="field">
         <label class="field-lbl">Inflation Rate</label>
         <div class="slider-row">
           <input type="range" id="i-inf" min="1" max="8" step="0.5" value="3">
@@ -251,12 +409,17 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;bor
         <p>BTC Retirement Gap Analysis</p>
         <p class="chart-subtitle" id="chart-sub">BTC needed by age vs holdings + DCA accumulation</p>
       </div>
-      <div class="legend">
-        <div class="leg"><div class="leg-line" style="background:var(--gold);height:3px"></div>Total BTC Required</div>
-        <div class="leg"><div class="leg-dash" style="border-color:var(--amber)"></div>Bridge (pre-59½)</div>
-        <div class="leg"><div class="leg-dash" style="border-color:var(--blue)"></div>Post-59½ (net)</div>
-        <div class="leg"><div class="leg-dash" style="border-color:rgba(240,234,214,0.45)"></div>Holdings + DCA</div>
-        <div class="leg"><div class="leg-line" style="background:rgba(180,190,210,0.5)"></div>BTC Price (right axis)</div>
+      <div class="chart-toggles">
+        <div class="toggle-group">
+          <span class="toggle-label">Scenarios</span>
+          <button class="toggle-chip" data-key="bear">Bear <span>10%</span></button>
+          <button class="toggle-chip active" data-key="base">Base <span>20%</span></button>
+          <button class="toggle-chip" data-key="bull">Bull <span>35%</span></button>
+        </div>
+        <div class="toggle-group">
+          <span class="toggle-label">Overlays</span>
+          <button class="toggle-chip active" data-key="holdings">Holdings</button>
+        </div>
       </div>
     </div>
 
@@ -269,42 +432,81 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;bor
         <span class="metric-sub">vs current holdings</span>
       </div>
       <div class="metric">
-        <span class="metric-lbl">Required Monthly DCA</span>
+        <span class="metric-lbl" id="m-dca-lbl">Projected Retirement Age</span>
         <span class="metric-val gold" id="m-dca">—</span>
-        <span class="metric-sub" id="m-dca-sub">to hit target at retirement</span>
+        <span class="metric-sub" id="m-dca-sub">bear · base · bull</span>
       </div>
       <div class="metric">
-        <span class="metric-lbl">Earliest Retirement Age</span>
+        <span class="metric-lbl">Bull vs Bear Difference</span>
         <span class="metric-val" id="m-intercept">—</span>
-        <span class="metric-sub">holdings meet requirement</span>
+        <span class="metric-sub">years earlier in bull scenario</span>
       </div>
       <div class="metric">
         <span class="metric-lbl">Days Sooner / 0.01 BTC</span>
         <span class="metric-val green" id="m-days">—</span>
         <span class="metric-sub">marginal impact of saving more</span>
       </div>
+      <div class="metric">
+        <span class="metric-lbl" id="m-btcval-lbl">BTC Portfolio at Retirement</span>
+        <span class="metric-val gold" id="m-btcval">—</span>
+        <span class="metric-sub">total BTC stack in dollars</span>
+      </div>
+      <div class="metric">
+        <span class="metric-lbl" id="m-iraval-lbl">IRA / 401k at Retirement</span>
+        <span class="metric-val" style="color:var(--blue)" id="m-iraval">—</span>
+        <span class="metric-sub">after compounding to retirement age</span>
+      </div>
+      <div class="metric">
+        <span class="metric-lbl">IRA Covers Until</span>
+        <span class="metric-val" style="color:var(--blue)" id="m-iraend">—</span>
+        <span class="metric-sub">then BTC funds 100% of spending</span>
+      </div>
+      <div class="metric">
+        <span class="metric-lbl">Money Lasts To</span>
+        <span class="metric-val" id="m-btcend">—</span>
+        <span class="metric-sub" id="m-btcend-sub">active scenario projection</span>
+      </div>
     </div>
 
   </div>
 </div>
 
+<!-- LIFE RUNWAY -->
+<section class="life-timeline">
+  <div class="lt-header">
+    <span class="lt-title">Life Runway</span>
+    <span class="lt-sub" id="lt-sub">—</span>
+  </div>
+  <div class="lt-track-wrap">
+    <div class="lt-track" id="lt-track"></div>
+    <div class="lt-markers" id="lt-markers"></div>
+  </div>
+  <div class="lt-legend">
+    <span class="lt-leg"><span class="lt-swatch" style="background:rgba(201,168,76,.7)"></span>Accumulation</span>
+    <span class="lt-leg"><span class="lt-swatch" style="background:rgba(232,146,60,.75)"></span>Bridge</span>
+    <span class="lt-leg"><span class="lt-swatch" style="background:rgba(75,144,214,.72)"></span>IRA + BTC</span>
+    <span class="lt-leg"><span class="lt-swatch" style="background:rgba(232,146,60,.7)"></span>BTC Only</span>
+    <span class="lt-leg"><span class="lt-swatch" style="background:rgba(217,79,79,.4)"></span>Unfunded</span>
+  </div>
+</section>
+
 <!-- BREAKDOWN BAR -->
 <div class="breakdown">
   <div class="breakdown-inner">
     <div class="bk-cell">
-      <span class="bk-lbl">At Retirement Age — Bridge BTC</span>
+      <span class="bk-lbl" id="bk-bridge-lbl">Bridge Requirement</span>
       <span class="bk-val amber" id="bk-bridge">—</span>
-      <span class="bk-sub">pre-59½ funding from BTC only</span>
+      <span class="bk-sub">BTC needed from retirement → 59½, funded entirely from BTC</span>
     </div>
     <div class="bk-cell">
-      <span class="bk-lbl">At Retirement Age — Post-59½ BTC</span>
+      <span class="bk-lbl" id="bk-post-lbl">Post-59½ Requirement</span>
       <span class="bk-val" style="color:var(--blue)" id="bk-post">—</span>
-      <span class="bk-sub">net of projected retirement accounts</span>
+      <span class="bk-sub">BTC needed for lifetime spending net of retirement accounts</span>
     </div>
     <div class="bk-cell">
-      <span class="bk-lbl">Power Law BTC Price at Retirement</span>
+      <span class="bk-lbl">Power Law Price at Retirement</span>
       <span class="bk-val gold" id="bk-price">—</span>
-      <span class="bk-sub" id="bk-price-sub">calibrated to today's price</span>
+      <span class="bk-sub" id="bk-price-sub">calibrated to today's live price</span>
     </div>
   </div>
 </div>
@@ -312,24 +514,24 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;bor
 <div class="narrative">
   <div class="n-sec">
     <h3>The <em>Bridge Problem</em></h3>
-    <p>Retiring before 59½ creates a gap: 401k and IRA funds are inaccessible without penalty. Your BTC portfolio must fund 100% of spending alone during this period.</p>
-    <p>The model solves for the exact starting balance needed using a year-by-year simulation: withdraw inflation-adjusted spending, then apply BTC growth to the remainder. The bridge BTC requirement falls as you age toward 59½.</p>
+    <p>Retiring before 59½ creates a gap: 401k and IRA funds are locked without penalty until then. Your BTC portfolio must fund 100% of spending alone during this window.</p>
+    <p>The model works backward from 59½ — solving for the exact BTC balance needed at retirement so that inflation-adjusted withdrawals over the bridge period leave zero. That requirement falls naturally as you age closer to 59½.</p>
     <p class="model-eq">Balance(t+1) = (Balance(t) − Spend(t)) × (1 + r<sub>BTC</sub>)</p>
   </div>
   <div class="n-sec">
     <h3>The <em>Power Law</em> Model</h3>
-    <p>Rather than assuming a fixed growth rate, the BTC Power Law (Santostasi) models price as a function of time since genesis — with growth naturally decelerating as Bitcoin matures.</p>
+    <p>Rather than a fixed growth rate, the BTC Power Law (Santostasi) models price as a function of time since genesis — growth decelerates naturally as Bitcoin matures. Three scenario growth rates let you stress-test the outcome.</p>
     <p class="model-eq">Price(t) = Scale × (years since 2009)<sup>5.8</sup></p>
-    <p>The scale constant is calibrated to your entered current price, so the model anchors to reality today and projects forward deterministically.</p>
+    <p>The scale constant is anchored to today's live price, so projections are grounded in current reality rather than a theoretical baseline.</p>
   </div>
   <div class="n-sec">
     <h3>Reading <em>the Chart</em></h3>
     <ul>
-      <li><strong style="color:var(--cream);font-weight:400">Gold line</strong> — total BTC needed at each age</li>
-      <li><strong style="color:var(--amber);font-weight:400">Orange dashed</strong> — bridge component only (drops to zero at 59½)</li>
-      <li><strong style="color:var(--blue);font-weight:400">Blue dashed</strong> — post-supplement component (net of retirement accounts)</li>
-      <li><strong style="color:rgba(240,234,214,0.6);font-weight:400">Cream dashed</strong> — your BTC holdings growing via monthly DCA at power law price, stopping at retirement</li>
-      <li>Where the cream line crosses above the gold line is the <em>earliest retirement date</em> your plan supports</li>
+      <li><strong style="color:var(--red);font-weight:400">Red</strong> / <strong style="color:var(--gold-lt);font-weight:400">Gold</strong> / <strong style="color:var(--green);font-weight:400">Green</strong> — BTC required to retire at each age for bear, base, and bull scenarios (left axis)</li>
+      <li><strong style="color:rgba(240,234,214,.6);font-weight:400">Cream dashed</strong> — your BTC accumulation via holdings + DCA, stopping at the active scenario's retirement age (left axis)</li>
+      <li>Where cream crosses above the scenario line is your <em>earliest retirement age</em></li>
+      <li><strong style="color:rgba(75,144,214,.85);font-weight:400">Blue solid</strong> — IRA / 401k portfolio value post-retirement; compounds untouched through the bridge, then depletes first after 59½ (right axis)</li>
+      <li><strong style="color:var(--amber);font-weight:400">Orange solid</strong> — BTC portfolio dollar value post-retirement; the last line to deplete, covering any spending the IRA cannot (right axis)</li>
     </ul>
   </div>
 </div>
@@ -346,7 +548,55 @@ let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
 const orb=document.getElementById('cur-orb'),ring=document.getElementById('cur-ring');
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
 (function tick(){orb.style.left=mx+'px';orb.style.top=my+'px';rx+=(mx-rx)*.07;ry+=(my-ry)*.07;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(tick)})();
-document.querySelectorAll('a,button,input').forEach(el=>{el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'))});
+function refreshHoverTargets(){document.querySelectorAll('a,button,input,select').forEach(el=>{el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'))});}
+refreshHoverTargets();
+
+// ── BIRTHDATE SELECTS ────────────────────
+(function initBirthdate() {
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const mSel = document.getElementById('i-birth-month');
+  months.forEach((m, i) => {
+    const o = document.createElement('option');
+    o.value = i + 1; o.textContent = m; mSel.appendChild(o);
+  });
+  mSel.value = 4;
+  const ySel = document.getElementById('i-birth-year');
+  const curYear = new Date().getFullYear();
+  for (let y = curYear - 18; y >= 1940; y--) {
+    const o = document.createElement('option');
+    o.value = y; o.textContent = y; ySel.appendChild(o);
+  }
+  ySel.value = 1986;
+  [mSel, ySel].forEach(el => el.addEventListener('change', () => { updateAgeDisplay(); calculate(); }));
+  updateAgeDisplay();
+})();
+
+function computeAge() {
+  const bMonth = +document.getElementById('i-birth-month').value;
+  const bYear  = +document.getElementById('i-birth-year').value;
+  const now    = new Date();
+  return (now.getFullYear() - bYear) + (now.getMonth() + 1 - bMonth) / 12;
+}
+function updateAgeDisplay() {
+  document.getElementById('age-display').textContent = 'Age ' + computeAge().toFixed(1);
+}
+
+// ── LIVE BTC PRICE ───────────────────────
+let liveBTCPrice = 83000;
+async function fetchBTCPrice() {
+  try {
+    const res  = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');
+    const data = await res.json();
+    liveBTCPrice = data.bitcoin.usd;
+    document.getElementById('btc-price-display').textContent = '$' + liveBTCPrice.toLocaleString();
+    document.getElementById('btc-price-source').textContent  = 'live via CoinGecko';
+    calculate();
+  } catch {
+    document.getElementById('btc-price-display').textContent = '$' + liveBTCPrice.toLocaleString();
+    document.getElementById('btc-price-source').textContent  = 'default — could not fetch live';
+  }
+}
+fetchBTCPrice();
 
 // ── CONSTANTS ───────────────────────────
 const SUPPLEMENT_AGE = 59.5;
@@ -354,92 +604,61 @@ const POWER_LAW_EXP  = 5.8;
 const GENESIS_YEAR   = 2009;
 const AGE_STEP       = 0.25;
 const TODAY_YEAR     = new Date().getFullYear();
+const LIFE_EXP       = 100;
 
-// ── POWER LAW (calibrated to current BTC price) ──
+const SCENARIOS = [
+  { key:'bear', label:'Bear', rate:0.10, reqColor:'#D94F4F',            depColor:'rgba(232,146,60,0.65)', reqDash:[], depDash:[], reqWidth:1.5, depWidth:1.5 },
+  { key:'base', label:'Base', rate:0.20, reqColor:'#C9A84C',            depColor:'#E8923C',               reqDash:[], depDash:[], reqWidth:2.5, depWidth:2   },
+  { key:'bull', label:'Bull', rate:0.35, reqColor:'rgba(61,191,124,1)', depColor:'rgba(232,146,60,0.9)',  reqDash:[], depDash:[], reqWidth:1.5, depWidth:1.5 },
+];
+
+// ── MATH HELPERS ────────────────────────
 function powerLawPrice(age, inp) {
-  const targetYear   = TODAY_YEAR + (age - inp.currentAge);
-  const yearsNow     = Math.max(1, TODAY_YEAR - GENESIS_YEAR);
-  const scale        = inp.currentBTCPrice / Math.pow(yearsNow, POWER_LAW_EXP);
-  const yearsFuture  = Math.max(1, targetYear - GENESIS_YEAR);
+  const targetYear  = TODAY_YEAR + (age - inp.currentAge);
+  const yearsNow    = Math.max(1, TODAY_YEAR - GENESIS_YEAR);
+  const scale       = inp.currentBTCPrice / Math.pow(yearsNow, POWER_LAW_EXP);
+  const yearsFuture = Math.max(1, targetYear - GENESIS_YEAR);
   return scale * Math.pow(yearsFuture, POWER_LAW_EXP);
 }
-
-// ── INFLATION-ADJUSTED SPENDING ─────────
 function spendingAtAge(age, inp) {
   return inp.annualSpending * Math.pow(1 + inp.inflationRate, age - inp.currentAge);
 }
-
-// ── PROJECTED RETIREMENT ACCOUNT ────────
 function projectedIRA(age, inp) {
-  const years = Math.max(0, age - inp.currentAge);
-  return inp.iraBalance * Math.pow(1 + inp.iraGrowthRate, years);
+  return inp.iraBalance * Math.pow(1 + inp.iraGrowthRate, Math.max(0, age - inp.currentAge));
 }
-
-// ── BINARY SEARCH: min starting USD to fund N years of withdrawals ──
-function findRequiredStartingUSD(spendStart, years, annualGrowth, inflationRate) {
+function findRequiredStartingUSD(spendStart, years, growth, inflation) {
   if (years <= 0) return 0;
   let lo = 0, hi = 1e10;
-  for (let iter = 0; iter < 60; iter++) {
+  for (let i = 0; i < 60; i++) {
     const mid = (lo + hi) / 2;
     let bal = mid, wd = spendStart, ok = true;
-    const whole = Math.floor(years);
-    for (let y = 0; y < whole; y++) {
-      bal -= wd;
-      if (bal < 0) { ok = false; break; }
-      bal *= (1 + annualGrowth);
-      wd  *= (1 + inflationRate);
+    for (let y = 0; y < Math.floor(years); y++) {
+      bal -= wd; if (bal < 0) { ok = false; break; }
+      bal *= (1 + growth); wd *= (1 + inflation);
     }
-    const frac = years - whole;
-    if (ok && frac > 0) { bal -= wd * frac; bal *= Math.pow(1 + annualGrowth, frac); }
+    const frac = years - Math.floor(years);
+    if (ok && frac > 0) { bal -= wd * frac; bal *= Math.pow(1 + growth, frac); }
     if (ok && bal >= 0) hi = mid; else lo = mid;
   }
   return hi;
 }
-
-// ── BRIDGE USD AT AGE ────────────────────
-function bridgeUSD(age, inp) {
-  const startAge = Math.max(age, inp.retirementAge);
-  const years    = SUPPLEMENT_AGE - startAge;
+function bridgeUSD(age, inp, rate) {
+  const years = SUPPLEMENT_AGE - age;
   if (years <= 0) return 0;
-  return findRequiredStartingUSD(
-    spendingAtAge(startAge, inp),
-    years,
-    inp.btcGrowthRate,
-    inp.inflationRate
-  );
+  return findRequiredStartingUSD(spendingAtAge(age, inp), years, rate, inp.inflationRate);
 }
-
-// ── POST-SUPPLEMENT USD AT AGE ───────────
-function postSupplementUSD(age, inp) {
-  const ira = projectedIRA(age, inp);
-  const foreverMult = 1 / inp.swr;
+function postSupplementUSD(age, inp, rate) {
+  const fm = 1 / inp.swr;
   if (age < SUPPLEMENT_AGE) {
-    const yrs = SUPPLEMENT_AGE - age;
-    const spendAtSupplement = spendingAtAge(SUPPLEMENT_AGE, inp);
-    const foreverAtSupplement = spendAtSupplement * foreverMult;
-    const iraAtSupplement = projectedIRA(SUPPLEMENT_AGE, inp);
-    const netAtSupplement = Math.max(0, foreverAtSupplement - iraAtSupplement);
-    return netAtSupplement / Math.pow(1 + inp.btcGrowthRate, yrs);
+    const net = Math.max(0, spendingAtAge(SUPPLEMENT_AGE, inp) * fm - projectedIRA(SUPPLEMENT_AGE, inp));
+    return net / Math.pow(1 + rate, SUPPLEMENT_AGE - age);
   }
-  return Math.max(0, spendingAtAge(age, inp) * foreverMult - ira);
+  return Math.max(0, spendingAtAge(age, inp) * fm - projectedIRA(age, inp));
 }
-
-// ── TOTAL BTC REQUIRED AT AGE ─────────── 
-function totalBTC(age, inp) {
+function totalBTC(age, inp, rate) {
   const p = powerLawPrice(age, inp);
-  if (p <= 0) return 0;
-  return (bridgeUSD(age, inp) + postSupplementUSD(age, inp)) / p;
+  return p > 0 ? (bridgeUSD(age, inp, rate) + postSupplementUSD(age, inp, rate)) / p : 0;
 }
-function bridgeBTCOnly(age, inp) {
-  const p = powerLawPrice(age, inp);
-  return p > 0 ? bridgeUSD(age, inp) / p : 0;
-}
-function postBTCOnly(age, inp) {
-  const p = powerLawPrice(age, inp);
-  return p > 0 ? postSupplementUSD(age, inp) / p : 0;
-}
-
-// ── BTC ACCUMULATED VIA DCA ──────────────
 function btcFromDCA(monthlyUSD, months, startAge, inp) {
   if (months <= 0 || monthlyUSD <= 0) return 0;
   let acc = 0;
@@ -450,49 +669,51 @@ function btcFromDCA(monthlyUSD, months, startAge, inp) {
   return acc;
 }
 
-// ── SOLVE MONTHLY DCA FOR BTC TARGET ────
-function solveMonthlyDCA(targetBTC, months, startAge, inp) {
-  if (targetBTC <= 0 || months <= 0) return 0;
-  let lo = 0, hi = 50000;
-  while (btcFromDCA(hi, months, startAge, inp) < targetBTC) {
-    hi *= 2;
-    if (hi > 1e9) break;
-  }
-  for (let iter = 0; iter < 60; iter++) {
-    const mid = (lo + hi) / 2;
-    if (btcFromDCA(mid, months, startAge, inp) >= targetBTC) hi = mid; else lo = mid;
-  }
-  return hi;
-}
+// ── POST-RETIREMENT DEPLETION SIM ────────
+function simulateDepletion(retirementAge, startBTC, inp, rate) {
+  const btcUSD = [];
+  const iraUSD = [];
+  let btcBal = startBTC;
+  let iraBal = projectedIRA(retirementAge, inp);
 
-// ── FIND INTERCEPT AGE ───────────────────
-function findIntercept(holdings, ages, reqArr) {
-  for (let i = 1; i < ages.length; i++) {
-    if (reqArr[i-1] > holdings && reqArr[i] <= holdings) {
-      const r = (holdings - reqArr[i-1]) / (reqArr[i] - reqArr[i-1]);
-      return ages[i-1] + r * (ages[i] - ages[i-1]);
+  for (let age = retirementAge; age <= LIFE_EXP + 0.01; age = +(age + AGE_STEP).toFixed(10)) {
+    const a           = +age.toFixed(3);
+    const price       = powerLawPrice(a, inp);
+    const periodSpend = spendingAtAge(a, inp) * AGE_STEP;
+
+    btcUSD.push(btcBal > 0 && price > 0 ? btcBal * price : null);
+    iraUSD.push(iraBal > 0              ? iraBal          : null);
+
+    if (a < SUPPLEMENT_AGE) {
+      if (price > 0) btcBal = Math.max(0, btcBal - periodSpend / price);
+      iraBal *= Math.pow(1 + inp.iraGrowthRate, AGE_STEP);
+    } else {
+      iraBal *= Math.pow(1 + inp.iraGrowthRate, AGE_STEP);
+      const iraCovers = Math.min(iraBal, periodSpend);
+      iraBal          = Math.max(0, iraBal - iraCovers);
+      const remainder = periodSpend - iraCovers;
+      if (remainder > 0 && price > 0) btcBal = Math.max(0, btcBal - remainder / price);
     }
+    btcBal *= Math.pow(1 + rate, AGE_STEP);
   }
-  return null;
+
+  return { btcUSD, iraUSD };
 }
 
-// Intercept where a GROWING holdings array crosses below required array
-function findInterceptArrays(holdingsArr, ages, reqArr) {
-  // Already funded at current age
-  if (holdingsArr[0] >= reqArr[0]) return ages[0];
+// ── INTERCEPT ───────────────────────────
+function findInterceptArrays(holdArr, ages, reqArr) {
+  if (holdArr[0] >= reqArr[0]) return ages[0];
   for (let i = 1; i < ages.length; i++) {
-    if (holdingsArr[i-1] < reqArr[i-1] && holdingsArr[i] >= reqArr[i]) {
-      const dH = holdingsArr[i] - holdingsArr[i-1];
-      const dR = reqArr[i] - reqArr[i-1];
+    if (holdArr[i-1] < reqArr[i-1] && holdArr[i] >= reqArr[i]) {
+      const dH = holdArr[i] - holdArr[i-1], dR = reqArr[i] - reqArr[i-1];
       if (Math.abs(dH - dR) < 1e-12) return ages[i];
-      const t  = (reqArr[i-1] - holdingsArr[i-1]) / (dH - dR);
-      return ages[i-1] + t * (ages[i] - ages[i-1]);
+      return ages[i-1] + (reqArr[i-1] - holdArr[i-1]) / (dH - dR);
     }
   }
   return null;
 }
 
-// ── FORMAT HELPERS ───────────────────────
+// ── FORMAT ───────────────────────────────
 function fmtUSD(n) {
   if (n == null || isNaN(n)) return '—';
   if (n >= 1e9) return '$'+(n/1e9).toFixed(2)+'B';
@@ -500,31 +721,47 @@ function fmtUSD(n) {
   if (n >= 1e3) return '$'+Math.round(n/1000)+'K';
   return '$'+Math.round(n);
 }
-function fmtBTC(n) {
-  if (n == null || isNaN(n)) return '—';
-  return '₿ '+n.toFixed(3);
-}
-function fmtAge(a) {
-  if (a == null) return '—';
-  return a.toFixed(2);
+function fmtBTC(n) { return (n == null || isNaN(n)) ? '—' : '₿ '+n.toFixed(3); }
+function fmtAge(a) { return a == null ? '—' : a.toFixed(1); }
+
+// ── METRIC FLASH ─────────────────────────
+function setMetric(id, text, cls) {
+  const el = document.getElementById(id);
+  if (el.textContent === text && (!cls || el.className === cls)) return;
+  el.classList.add('flash');
+  setTimeout(() => {
+    el.textContent = text;
+    if (cls) el.className = cls;
+    el.classList.remove('flash');
+  }, 120);
 }
 
 // ── GET INPUTS ───────────────────────────
 function getInputs() {
   return {
-    currentAge:    +document.getElementById('i-age').value     || 41.5,
-    btcHeld:       +document.getElementById('i-btc').value     || 3.03,
-    monthlyDCA:    +document.getElementById('i-dca').value     || 0,
-    currentBTCPrice: +document.getElementById('i-btcprice').value || 83000,
-    retirementAge: +document.getElementById('i-retire').value  || 46.5,
-    annualSpending:+document.getElementById('i-spend').value   || 125000,
-    lifeExp:       +document.getElementById('i-life').value    || 85,
-    iraBalance:    +document.getElementById('i-ira').value     || 140000,
-    iraGrowthRate: +document.getElementById('i-iragrow').value / 100 || 0.08,
-    btcGrowthRate: +document.getElementById('i-btcgrow').value / 100 || 0.20,
-    inflationRate: +document.getElementById('i-inf').value    / 100 || 0.03,
-    swr:           +document.getElementById('i-swr').value    / 100 || 0.04,
+    currentAge:      computeAge(),
+    btcHeld:         +document.getElementById('i-btc').value    || 0,
+    monthlyDCA:      +document.getElementById('i-dca').value    || 0,
+    currentBTCPrice: liveBTCPrice,
+    annualSpending:  +document.getElementById('i-spend').value  || 115000,
+    iraBalance:      +document.getElementById('i-ira').value    || 125000,
+    iraGrowthRate:   +document.getElementById('i-iragrow').value / 100 || 0.08,
+    inflationRate:   +document.getElementById('i-inf').value    / 100 || 0.03,
+    swr:             +document.getElementById('i-swr').value    / 100 || 0.04,
   };
+}
+
+// ── TOGGLE STATE ────────────────────────
+const toggleState = { bear:false, base:true, bull:false, holdings:true };
+const SCENARIO_KEYS = new Set(['bear', 'base', 'bull']);
+// [0,1,2]=req  [3]=holdings  [4,5,6]=IRA-USD  [7,8,9]=BTC-USD
+const DS_MAP = { bear:[0,4,7], base:[1,5,8], bull:[2,6,9], holdings:[3] };
+function applyToggles() {
+  if (!myChart) return;
+  Object.entries(DS_MAP).forEach(([key, indices]) => {
+    indices.forEach(i => { myChart.data.datasets[i].hidden = !toggleState[key]; });
+  });
+  myChart.update('none');
 }
 
 // ── CHART ────────────────────────────────
@@ -532,295 +769,482 @@ const ctx = document.getElementById('freedom-chart').getContext('2d');
 let myChart = null;
 let currentAges = [];
 
-const zonePlugin = {
-  id: 'zones',
-  beforeDraw(chart) {
-    const {ctx:c, chartArea:{left,right,top,bottom}, scales:{x}} = chart;
-    const opts = chart.options.plugins.zones;
-    if (!opts) return;
-    const {retireIdx, s595Idx} = opts;
-    if (retireIdx == null) return;
-
-    const retireX  = x.getPixelForValue(retireIdx);
-    const s595X    = s595Idx != null ? x.getPixelForValue(s595Idx) : right;
-    const interceptX = opts.interceptX;
-
-    c.save();
-    // Accumulation zone
-    c.fillStyle='rgba(201,168,76,0.04)';
-    c.fillRect(left,top,Math.min(retireX,right)-left,bottom-top);
-    // Bridge zone
-    if(s595X>retireX){c.fillStyle='rgba(232,146,60,0.09)';c.fillRect(retireX,top,Math.min(s595X,right)-retireX,bottom-top);}
-    // Full retirement zone
-    if(s595X<right){c.fillStyle='rgba(76,175,124,0.06)';c.fillRect(s595X,top,right-s595X,bottom-top);}
-
-    // Vertical line: retirement age
-    if(retireX>left&&retireX<right){
-      c.strokeStyle='rgba(201,168,76,0.5)';c.lineWidth=1;c.setLineDash([5,4]);
-      c.beginPath();c.moveTo(retireX,top);c.lineTo(retireX,bottom);c.stroke();
-      c.fillStyle='rgba(201,168,76,0.7)';c.font='500 10px Cormorant SC, serif';
-      c.fillText('Retire '+opts.retireAge.toFixed(1),retireX+4,top+14);
-    }
-    // Vertical line: 59.5
-    if(s595X>left&&s595X<right){
-      c.strokeStyle='rgba(76,175,124,0.55)';c.setLineDash([5,4]);
-      c.beginPath();c.moveTo(s595X,top);c.lineTo(s595X,bottom);c.stroke();
-      c.fillStyle='rgba(76,175,124,0.8)';
-      c.fillText('59½',s595X+4,top+14);
-    }
-    // Intercept vertical line
-    if(interceptX&&interceptX>left&&interceptX<right){
-      c.strokeStyle='rgba(224,82,82,0.7)';c.lineWidth=1.5;c.setLineDash([4,4]);
-      c.beginPath();c.moveTo(interceptX,top);c.lineTo(interceptX,bottom);c.stroke();
-      c.fillStyle='rgba(224,82,82,0.9)';
-      c.fillText('Age '+opts.interceptAge.toFixed(1),interceptX+4,top+30);
-    }
-
-    c.setLineDash([]);c.restore();
-  }
-};
-
-Chart.register(zonePlugin);
-
 function ageToIdx(age, ages) {
-  let best=0;
-  for(let i=1;i<ages.length;i++) if(Math.abs(ages[i]-age)<Math.abs(ages[best]-age)) best=i;
+  let best = 0;
+  for (let i = 1; i < ages.length; i++) if (Math.abs(ages[i]-age) < Math.abs(ages[best]-age)) best = i;
   return best;
 }
 
-function buildChart(ages, totalArr, bridgeArr, postArr, priceArr, holdingsArr, interceptAge, retireAge) {
-  // holdingsArr is pre-computed with DCA growth baked in
+const zonePlugin = {
+  id: 'zones',
+  beforeDraw(chart) {
+    const { ctx:c, chartArea:{left,right,top,bottom}, scales:{x} } = chart;
+    const opts = chart.options.plugins.zones;
+    if (!opts || opts.retireIdx == null) return;
 
-  const retireIdx  = ageToIdx(retireAge, ages);
-  const s595Idx    = SUPPLEMENT_AGE <= ages[ages.length-1] ? ageToIdx(SUPPLEMENT_AGE, ages) : null;
-  let interceptX   = null;
-  if(interceptAge!=null){
-    const iIdx = ageToIdx(interceptAge, ages);
-    // will compute pixel after chart renders
+    const retireX = x.getPixelForValue(opts.retireIdx);
+    const s595X   = opts.s595Idx != null ? x.getPixelForValue(opts.s595Idx) : right;
+
+    c.save();
+    // Zone fills
+    c.fillStyle = 'rgba(201,168,76,0.035)';
+    c.fillRect(left, top, Math.min(retireX,right)-left, bottom-top);
+    if (s595X > retireX) {
+      c.fillStyle = 'rgba(232,146,60,0.06)';
+      c.fillRect(retireX, top, Math.min(s595X,right)-retireX, bottom-top);
+    }
+    if (s595X < right) {
+      c.fillStyle = 'rgba(61,191,124,0.04)';
+      c.fillRect(s595X, top, right-s595X, bottom-top);
+    }
+    c.font = '500 9px "Cormorant SC", serif';
+    // Retire line
+    if (retireX > left && retireX < right) {
+      c.strokeStyle='rgba(201,168,76,0.35)'; c.lineWidth=1; c.setLineDash([5,4]);
+      c.beginPath(); c.moveTo(retireX,top); c.lineTo(retireX,bottom); c.stroke();
+      c.fillStyle='rgba(201,168,76,0.6)';
+      c.fillText('Retire '+opts.retireAge.toFixed(1), retireX+4, top+13);
+    }
+    // 59½ line
+    if (s595X > left && s595X < right) {
+      c.strokeStyle='rgba(61,191,124,0.45)'; c.setLineDash([5,4]);
+      c.beginPath(); c.moveTo(s595X,top); c.lineTo(s595X,bottom); c.stroke();
+      c.fillStyle='rgba(61,191,124,0.7)';
+      c.fillText('59½', s595X+4, top+13);
+    }
+    // Per-scenario intercept markers
+    if (opts.intercepts) {
+      const colors = { bear:'rgba(217,79,79,0.85)', base:'rgba(201,168,76,0.85)', bull:'rgba(61,191,124,0.85)' };
+      opts.intercepts.forEach(({key, age}, row) => {
+        if (age == null) return;
+        const ix = x.getPixelForValue(ageToIdx(age, currentAges));
+        if (ix <= left || ix >= right) return;
+        c.strokeStyle = colors[key]; c.lineWidth = 1.5; c.setLineDash([3,4]);
+        c.beginPath(); c.moveTo(ix,top); c.lineTo(ix,bottom); c.stroke();
+        c.fillStyle = colors[key];
+        c.fillText(fmtAge(age), ix+3, top + 26 + row*12);
+      });
+    }
+    c.setLineDash([]); c.restore();
   }
+};
+Chart.register(zonePlugin);
+
+function buildChart(ages, scenarioData, holdingsLine, retireAge, intercepts) {
+  const labels    = ages.map(a => a.toFixed(1));
+  const retireIdx = ageToIdx(retireAge, ages);
+  const s595Idx   = SUPPLEMENT_AGE <= ages[ages.length-1] ? ageToIdx(SUPPLEMENT_AGE, ages) : null;
+
+  // Gradient fills
+  const h = ctx.canvas.offsetHeight || 460;
+  const holdFill = ctx.createLinearGradient(0, 0, 0, h);
+  holdFill.addColorStop(0, 'rgba(240,234,214,0.22)');
+  holdFill.addColorStop(0.5, 'rgba(240,234,214,0.06)');
+  holdFill.addColorStop(1, 'rgba(240,234,214,0)');
+
+  const iraFill = ctx.createLinearGradient(0, 0, 0, h);
+  iraFill.addColorStop(0, 'rgba(75,144,214,0.38)');
+  iraFill.addColorStop(0.5, 'rgba(75,144,214,0.12)');
+  iraFill.addColorStop(1, 'rgba(75,144,214,0)');
+
+  const btcDepFill = ctx.createLinearGradient(0, 0, 0, h);
+  btcDepFill.addColorStop(0, 'rgba(232,146,60,0.42)');
+  btcDepFill.addColorStop(0.5, 'rgba(232,146,60,0.14)');
+  btcDepFill.addColorStop(1, 'rgba(232,146,60,0)');
 
   const datasets = [
-    {label:'Total BTC Required',data:totalArr,borderColor:'#C9A84C',borderWidth:2.5,pointRadius:0,tension:.4,fill:false,yAxisID:'y'},
-    {label:'Bridge BTC (pre-59½)',data:bridgeArr,borderColor:'rgba(232,146,60,0.85)',borderWidth:1.5,borderDash:[6,4],pointRadius:0,tension:.4,fill:false,yAxisID:'y'},
-    {label:'Post-59½ BTC (net)',data:postArr,borderColor:'rgba(91,155,213,0.8)',borderWidth:1.5,borderDash:[4,4],pointRadius:0,tension:.4,fill:false,yAxisID:'y'},
-    {label:'Holdings + DCA',data:holdingsArr,borderColor:'rgba(240,234,214,0.4)',borderWidth:1.5,borderDash:[3,5],pointRadius:0,tension:0.3,fill:false,yAxisID:'y'},
-    {label:'BTC Price (Power Law)',data:priceArr,borderColor:'rgba(180,195,215,0.4)',borderWidth:1,pointRadius:0,tension:.4,fill:false,yAxisID:'y2'},
+    // 0,1,2 — requirement lines (BTC, left axis)
+    ...SCENARIOS.map(sc => ({
+      label:       'Required BTC ('+sc.label+')',
+      data:        scenarioData[sc.key].reqArr,
+      borderColor: sc.reqColor, borderWidth: sc.reqWidth,
+      borderDash:  sc.reqDash,  pointRadius: 0,
+      tension: 0.4, fill: false, yAxisID: 'y',
+      hidden: !toggleState[sc.key], spanGaps: false,
+    })),
+    // 3 — holdings + DCA (BTC, left axis)
+    {
+      label: 'Holdings + DCA',
+      data:  holdingsLine,
+      borderColor: 'rgba(240,234,214,0.55)', borderWidth: 2,
+      borderDash: [3,5], pointRadius: 0,
+      tension: 0.3, fill: true, backgroundColor: holdFill, yAxisID: 'y',
+      hidden: !toggleState.holdings, spanGaps: false,
+    },
+    // 4,5,6 — IRA value (USD, right axis)
+    ...SCENARIOS.map(sc => ({
+      label:       'IRA Value ('+sc.label+')',
+      data:        scenarioData[sc.key].iraYearsArr,
+      borderColor: 'rgba(75,144,214,0.8)', borderWidth: 1.5,
+      borderDash:  [], pointRadius: 0,
+      tension: 0.3, fill: true, backgroundColor: iraFill, yAxisID: 'y2',
+      hidden: !toggleState[sc.key], spanGaps: false,
+    })),
+    // 7,8,9 — BTC portfolio value (USD, right axis)
+    ...SCENARIOS.map(sc => ({
+      label:       'BTC Portfolio ('+sc.label+')',
+      data:        scenarioData[sc.key].btcYearsArr,
+      borderColor: sc.depColor, borderWidth: sc.depWidth,
+      borderDash:  sc.depDash,  pointRadius: 0,
+      tension: 0.3, fill: true, backgroundColor: btcDepFill, yAxisID: 'y2',
+      hidden: !toggleState[sc.key], spanGaps: false,
+    })),
   ];
 
-  const labels = ages.map(a=>a.toFixed(1));
+  const zoneOpts = { retireIdx, s595Idx, retireAge, intercepts };
 
-  const zoneOpts = {
-    retireIdx, s595Idx, retireAge, interceptAge,
-    interceptX: null, // updated after render
-  };
-
-  if(myChart){
-    myChart.data.labels = labels;
+  if (myChart) {
+    myChart.data.labels   = labels;
     myChart.data.datasets = datasets;
     myChart.options.plugins.zones = zoneOpts;
     myChart.update('none');
   } else {
-    myChart = new Chart(ctx,{
-      type:'line',
-      data:{labels,datasets},
-      options:{
-        responsive:true,
-        maintainAspectRatio:false,
-        animation:{duration:300},
-        interaction:{mode:'index',intersect:false},
-        plugins:{
-          legend:{display:false},
-          tooltip:{
-            backgroundColor:'rgba(8,8,15,0.95)',
-            borderColor:'rgba(201,168,76,0.3)',
-            borderWidth:1,
-            titleFont:{family:'Cormorant SC, serif',size:10},
-            bodyFont:{family:'Cormorant Garamond, serif',size:12},
-            titleColor:'#C9A84C',bodyColor:'#F0EAD6',padding:10,
-            callbacks:{
-              title:items=>'Age '+items[0].label,
-              label:item=>{
-                const v=item.raw;if(v==null)return null;
-                const n=item.dataset.label;
-                if(n.includes('Price')) return ' '+n+': '+fmtUSD(v);
-                return ' '+n+': '+fmtBTC(v);
+    myChart = new Chart(ctx, {
+      type: 'line',
+      data: { labels, datasets },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        animation: { duration: 350, easing: 'easeOutQuart' },
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: 'rgba(5,5,13,0.97)',
+            borderColor: 'rgba(201,168,76,0.25)', borderWidth: 1,
+            titleFont: { family:'Cormorant SC, serif', size:10 },
+            bodyFont:  { family:'Cormorant Garamond, serif', size:12 },
+            titleColor: '#C9A84C', bodyColor: '#F0EAD6',
+            padding: { top:10, bottom:10, left:12, right:12 },
+            caretSize: 5,
+            filter: item => item.raw != null,
+            callbacks: {
+              title: items => 'Age ' + items[0].label,
+              label: item => {
+                if (item.raw == null) return null;
+                const n = item.dataset.label;
+                if (item.dataset.yAxisID === 'y2') return '  ' + n + ':  ' + fmtUSD(item.raw);
+                return '  ' + n + ':  ' + fmtBTC(item.raw);
               }
             }
           },
           zones: zoneOpts,
         },
-        scales:{
-          x:{
-            ticks:{color:'#7A8CA0',font:{family:'Cormorant SC, serif',size:10},maxTicksLimit:14,
-              callback:(v,i)=>i%4===0?labels[i]:''},
-            grid:{color:'rgba(201,168,76,0.06)'},
-            border:{color:'rgba(201,168,76,0.15)'},
+        scales: {
+          x: {
+            ticks: {
+              color:'rgba(107,123,148,0.7)',
+              font:{family:'Cormorant SC, serif',size:9},
+              maxTicksLimit:16,
+              callback:(v,i) => i%4===0 ? labels[i] : ''
+            },
+            grid:   { color:'rgba(201,168,76,0.04)' },
+            border: { color:'rgba(201,168,76,0.12)' },
           },
-          y:{
-            position:'left',
-            ticks:{color:'#7A8CA0',font:{family:'Cormorant SC, serif',size:10},
-              callback:v=>'₿'+v.toFixed(2)},
-            grid:{color:'rgba(201,168,76,0.06)'},
-            border:{color:'rgba(201,168,76,0.15)'},
+          y: {
+            position: 'left', type: 'logarithmic',
+            ticks: {
+              color:'rgba(107,123,148,0.7)',
+              font:{family:'Cormorant SC, serif',size:9},
+              callback: v => {
+                const mag = Math.log10(v);
+                if (Math.abs(mag - Math.round(mag)) < 0.01) {
+                  if (v >= 1)    return '₿' + v.toFixed(0);
+                  if (v >= 0.1)  return '₿' + v.toFixed(1);
+                  if (v >= 0.01) return '₿' + v.toFixed(2);
+                  return '₿' + v.toFixed(3);
+                }
+                return null;
+              }
+            },
+            grid:   { color:'rgba(201,168,76,0.05)' },
+            border: { color:'rgba(201,168,76,0.12)' },
           },
-          y2:{
-            position:'right',
-            type:'logarithmic',
-            grid:{drawOnChartArea:false},
-            ticks:{color:'rgba(180,195,215,0.55)',font:{family:'Cormorant SC, serif',size:9},
-              callback:v=>{
-                if(v>=1e6)return'$'+(v/1e6).toFixed(0)+'M';
-                if(v>=1e3)return'$'+(v/1000).toFixed(0)+'K';
-                return'$'+v;
-              }},
-            border:{color:'rgba(180,195,215,0.2)'},
+          y2: {
+            position: 'right', type: 'logarithmic',
+            grid: { drawOnChartArea: false },
+            ticks: {
+              color:'rgba(75,144,214,0.55)',
+              font:{family:'Cormorant SC, serif',size:9},
+              callback: v => {
+                const mag = Math.log10(v);
+                if (Math.abs(mag - Math.round(mag)) < 0.01) {
+                  if (v >= 1e9) return '$'+(v/1e9).toFixed(0)+'B';
+                  if (v >= 1e6) return '$'+(v/1e6).toFixed(0)+'M';
+                  if (v >= 1e3) return '$'+(v/1e3).toFixed(0)+'K';
+                  return '$'+v.toFixed(0);
+                }
+                return null;
+              }
+            },
+            border: { color:'rgba(75,144,214,0.2)' },
           }
         }
-      },
-      plugins:[{
-        id:'zones',
-        beforeDraw(chart){
-          const opts = chart.options.plugins.zones;
-          if(!opts)return;
-          // compute interceptX here where scales are available
-          if(opts.interceptAge!=null&&!opts.interceptX){
-            const iIdx=ageToIdx(opts.interceptAge,currentAges);
-            opts.interceptX=chart.scales.x.getPixelForValue(iIdx);
-          }
-          // Delegate to registered plugin
-          zonePlugin.beforeDraw(chart,null,opts);
-        }
-      }]
+      }
     });
   }
+}
 
-  // Post-render: update intercept pixel
-  if(interceptAge!=null){
-    const iIdx=ageToIdx(interceptAge,ages);
-    if(myChart.scales&&myChart.scales.x){
-      myChart.options.plugins.zones.interceptX=myChart.scales.x.getPixelForValue(iIdx);
-      myChart.update('none');
+// ── LIFE RUNWAY ──────────────────────────
+function renderTimeline(inp, retireAge, iraEndAge, btcEndAge) {
+  const track   = document.getElementById('lt-track');
+  const markers = document.getElementById('lt-markers');
+  const sub     = document.getElementById('lt-sub');
+  if (!track) return;
+
+  const start = inp.currentAge;
+  const span  = LIFE_EXP - start;
+  const pct   = age => Math.max(0, Math.min(100, (age - start) / span * 100));
+
+  // Build segments
+  const segs = [];
+  const retireClamp = Math.min(retireAge ?? LIFE_EXP, LIFE_EXP);
+  segs.push({ from: start, to: retireClamp, color:'rgba(201,168,76,0.68)' });
+
+  if (retireAge != null && retireAge < LIFE_EXP) {
+    if (retireAge < SUPPLEMENT_AGE) {
+      segs.push({ from: retireAge, to: Math.min(SUPPLEMENT_AGE, LIFE_EXP), color:'rgba(232,146,60,0.75)' });
     }
+    const phase3Start = Math.max(retireAge, SUPPLEMENT_AGE);
+    const iraEnd = iraEndAge ?? LIFE_EXP;
+    if (iraEnd > phase3Start) {
+      segs.push({ from: phase3Start, to: Math.min(iraEnd, LIFE_EXP), color:'rgba(75,144,214,0.72)' });
+    }
+    const btcOnlyStart = Math.min(iraEnd, LIFE_EXP);
+    const btcEnd = btcEndAge ?? LIFE_EXP;
+    if (btcEnd > btcOnlyStart && btcOnlyStart < LIFE_EXP) {
+      segs.push({ from: btcOnlyStart, to: Math.min(btcEnd, LIFE_EXP), color:'rgba(232,146,60,0.7)' });
+    }
+    if (btcEndAge != null && btcEndAge < LIFE_EXP) {
+      segs.push({ from: Math.max(btcEndAge, start), to: LIFE_EXP, color:'rgba(217,79,79,0.35)' });
+    }
+  }
+
+  track.innerHTML = segs.map(s => {
+    const l = pct(s.from).toFixed(3);
+    const w = (pct(s.to) - pct(s.from)).toFixed(3);
+    if (+w <= 0) return '';
+    return `<div class="lt-seg" style="left:${l}%;width:${w}%;background:${s.color}"></div>`;
+  }).join('');
+
+  // Markers
+  const mkrs = [{ age: start, label: 'Now', color: 'var(--silver)' }];
+  if (retireAge != null && retireAge < LIFE_EXP - 1)
+    mkrs.push({ age: retireAge, label: `Retire\n${fmtAge(retireAge)}`, color: 'var(--gold-lt)' });
+  if (retireAge != null && retireAge < SUPPLEMENT_AGE)
+    mkrs.push({ age: SUPPLEMENT_AGE, label: '59½', color: 'var(--green)' });
+  if (iraEndAge != null && iraEndAge < LIFE_EXP - 1)
+    mkrs.push({ age: iraEndAge, label: `IRA ends\n${fmtAge(iraEndAge)}`, color: 'var(--blue)' });
+  if (btcEndAge != null && btcEndAge < LIFE_EXP - 1)
+    mkrs.push({ age: btcEndAge, label: `BTC ends\n${fmtAge(btcEndAge)}`, color: 'var(--red)' });
+  mkrs.push({ age: LIFE_EXP, label: '100', color: 'var(--mist)' });
+
+  markers.innerHTML = mkrs.map(m => {
+    const lines = m.label.split('\n');
+    return `<div class="lt-marker" style="left:${pct(m.age).toFixed(3)}%;color:${m.color}">
+      <div class="lt-tick"></div>
+      <div class="lt-mlabel">${lines.join('<br>')}</div>
+    </div>`;
+  }).join('');
+
+  // Subtitle
+  if (btcEndAge == null || btcEndAge >= LIFE_EXP - 0.5) {
+    sub.textContent = 'Portfolio outlasts the model window — fully funded to 100';
+  } else if (btcEndAge > 90) {
+    sub.textContent = `Funded to age ${fmtAge(btcEndAge)} — a strong plan`;
+  } else if (btcEndAge > 80) {
+    sub.textContent = `Funded to age ${fmtAge(btcEndAge)} — consider increasing holdings or DCA`;
+  } else {
+    sub.textContent = `Funded to age ${fmtAge(btcEndAge)} — plan needs revision`;
   }
 }
 
 // ── MAIN CALCULATE ───────────────────────
 function calculate() {
   const inp = getInputs();
+  const ages = [], holdingsArr = [];
 
-  // Build age series — holdings grow via DCA each month up to retirement, then flatten
-  const ages=[], totalArr=[], bridgeArr=[], postArr=[], priceArr=[], holdingsArr=[];
-  const maxDCAMonths = Math.max(0, Math.round((inp.retirementAge - inp.currentAge) * 12));
-
-  for(let age=inp.currentAge; age<=inp.lifeExp+.01; age=+(age+AGE_STEP).toFixed(10)){
+  for (let age = inp.currentAge; age <= LIFE_EXP + 0.01; age = +(age + AGE_STEP).toFixed(10)) {
     const a = +age.toFixed(3);
     ages.push(a);
-    totalArr.push(totalBTC(a, inp));
-    bridgeArr.push(bridgeBTCOnly(a, inp));
-    postArr.push(postBTCOnly(a, inp));
-    priceArr.push(powerLawPrice(a, inp));
-
-    // BTC accumulates via monthly DCA at power law price, capped at retirement age
-    const monthsElapsed = Math.min(
-      Math.max(0, Math.round((a - inp.currentAge) * 12)),
-      maxDCAMonths
-    );
-    const dcaBTC = btcFromDCA(inp.monthlyDCA, monthsElapsed, inp.currentAge, inp);
-    holdingsArr.push(inp.btcHeld + dcaBTC);
+    const mo = Math.round((a - inp.currentAge) * 12);
+    holdingsArr.push(inp.btcHeld + btcFromDCA(inp.monthlyDCA, mo, inp.currentAge, inp));
   }
   currentAges = ages;
 
-  // Intercept: first age where growing holdings meets/exceeds required BTC
-  const interceptAge = findInterceptArrays(holdingsArr, ages, totalArr);
+  const activeKey = [...SCENARIO_KEYS].find(k => toggleState[k]) ?? 'base';
 
-  // Shortfall today (no DCA credit — gap right now)
-  const reqNow   = totalBTC(inp.currentAge, inp);
+  const scenarioData = {};
+  const intercepts   = [];
+
+  SCENARIOS.forEach(sc => {
+    const reqArr      = new Array(ages.length).fill(null);
+    const btcYearsArr = new Array(ages.length).fill(null);
+    const iraYearsArr = new Array(ages.length).fill(null);
+
+    ages.forEach((a, i) => {
+      const v = totalBTC(a, inp, sc.rate);
+      reqArr[i] = v > 0 ? v : null;
+    });
+
+    const interceptAge = findInterceptArrays(holdingsArr, ages, reqArr.map(v => v ?? Infinity));
+    intercepts.push({ key: sc.key, age: interceptAge });
+
+    if (interceptAge != null) {
+      const interceptIdx = ageToIdx(interceptAge, ages);
+      const startBTC     = holdingsArr[interceptIdx];
+      const { btcUSD, iraUSD } = simulateDepletion(interceptAge, startBTC, inp, sc.rate);
+      let di = 0;
+      ages.forEach((a, i) => {
+        if (a >= interceptAge - 0.001 && di < btcUSD.length) {
+          btcYearsArr[i] = btcUSD[di];
+          iraYearsArr[i] = iraUSD[di];
+          di++;
+        }
+      });
+    }
+
+    scenarioData[sc.key] = { reqArr, btcYearsArr, iraYearsArr };
+  });
+
+  const activeIntercept0 = intercepts.find(x => x.key === activeKey)?.age;
+  const holdingsLine = holdingsArr.map((v, i) =>
+    (ages[i] <= (activeIntercept0 ?? inp.currentAge) + 0.001 && v > 0) ? v : null);
+
+  const activeIntercept = activeIntercept0;
+  const baseIntercept   = intercepts.find(x => x.key === 'base')?.age;
+  buildChart(ages, scenarioData, holdingsLine, activeIntercept ?? inp.currentAge,
+    intercepts.filter(x => x.key === activeKey));
+
+  // ── METRICS ──────────────────────────────
+  const baseRate  = SCENARIOS.find(s => s.key === 'base').rate;
+  const reqNow    = totalBTC(inp.currentAge, inp, baseRate);
   const shortfall = Math.max(0, reqNow - inp.btcHeld);
+  setMetric('m-shortfall', fmtBTC(shortfall),
+    'metric-val ' + (shortfall <= 0 ? 'green' : shortfall < 1 ? 'amber' : 'red'));
 
-  // Holdings at retirement age (current BTC + DCA accumulation)
-  const holdingsAtRetire = holdingsArr[Math.min(
-    ages.findIndex(a => a >= inp.retirementAge - 0.001),
-    holdingsArr.length - 1
-  )] ?? holdingsArr[holdingsArr.length - 1];
+  const bearIntercept = intercepts.find(x => x.key === 'bear')?.age;
+  const bullIntercept = intercepts.find(x => x.key === 'bull')?.age;
+  const activeLabel   = SCENARIOS.find(s => s.key === activeKey).label;
+  document.getElementById('m-dca-lbl').textContent = activeLabel + ' Retirement Age';
+  const activeIntercept1 = intercepts.find(x => x.key === activeKey)?.age;
+  setMetric('m-dca', activeIntercept1 ? fmtAge(activeIntercept1) : '> '+LIFE_EXP, 'metric-val gold');
+  document.getElementById('m-dca-sub').textContent = [
+    bearIntercept ? fmtAge(bearIntercept) : '—',
+    baseIntercept ? fmtAge(baseIntercept) : '—',
+    bullIntercept ? fmtAge(bullIntercept) : '—',
+  ].join(' · ');
 
-  const reqAtRetire  = totalBTC(inp.retirementAge, inp);
-  const btcGap       = Math.max(0, reqAtRetire - holdingsAtRetire);
-
-  // Additional monthly DCA needed on top of current DCA to close remaining gap
-  const additionalDCA  = solveMonthlyDCA(btcGap, maxDCAMonths, inp.currentAge, inp);
-  const totalDCANeeded = inp.monthlyDCA + additionalDCA;
-
-  // Days sooner per extra 0.01 BTC today
-  const holdingsPlusArr = holdingsArr.map(h => h + 0.01);
-  const interceptPlus   = findInterceptArrays(holdingsPlusArr, ages, totalArr);
-  let daysSooner = null;
-  if(interceptAge != null && interceptPlus != null)
-    daysSooner = Math.max(0, (interceptAge - interceptPlus) * 365.25);
-
-  // Values at retirement age
-  const bridgeAtRetire = bridgeBTCOnly(inp.retirementAge, inp);
-  const postAtRetire   = postBTCOnly(inp.retirementAge, inp);
-  const priceAtRetire  = powerLawPrice(inp.retirementAge, inp);
-
-  // Update chart — pass growing holdingsArr
-  buildChart(ages, totalArr, bridgeArr, postArr, priceArr, holdingsArr, interceptAge, inp.retirementAge);
-
-  // Update metrics
-  const shortfallEl = document.getElementById('m-shortfall');
-  shortfallEl.textContent = fmtBTC(shortfall);
-  shortfallEl.className = 'metric-val '+(shortfall<=0?'green':shortfall<1?'amber':'red');
-
-  const dcaEl = document.getElementById('m-dca');
-  if (btcGap <= 0) {
-    dcaEl.textContent = '₿ Funded';
-    dcaEl.className = 'metric-val green';
-    document.getElementById('m-dca-sub').textContent =
-      inp.monthlyDCA > 0
-        ? 'current DCA of '+fmtUSD(inp.monthlyDCA)+'/mo is sufficient'
-        : 'current holdings are sufficient';
+  if (bullIntercept != null && bearIntercept != null) {
+    const spread = bearIntercept - bullIntercept;
+    setMetric('m-intercept', spread.toFixed(1) + ' yrs',
+      'metric-val ' + (spread > 10 ? 'red' : spread > 5 ? 'amber' : 'green'));
   } else {
-    dcaEl.textContent = fmtUSD(totalDCANeeded)+'/mo';
-    dcaEl.className = 'metric-val '+(additionalDCA < 500 ? 'amber' : 'gold');
-    document.getElementById('m-dca-sub').textContent =
-      inp.monthlyDCA > 0
-        ? '+'+fmtUSD(additionalDCA)+'/mo on top of your current DCA'
-        : 'to close ₿'+btcGap.toFixed(3)+' gap by age '+inp.retirementAge;
+    setMetric('m-intercept', '—', 'metric-val');
   }
 
-  const intEl = document.getElementById('m-intercept');
-  intEl.textContent = interceptAge ? fmtAge(interceptAge) : '> '+inp.lifeExp;
-  intEl.className = 'metric-val '+(interceptAge&&interceptAge<=inp.retirementAge?'green':interceptAge?'amber':'red');
-
-  document.getElementById('m-days').textContent = daysSooner!=null ? Math.round(daysSooner)+' days' : '—';
+  const baseReqArr    = scenarioData.base.reqArr;
+  const holdPlus      = holdingsArr.map(h => h + 0.01);
+  const interceptPlus = findInterceptArrays(holdPlus, ages, baseReqArr.map(v => v ?? Infinity));
+  const daysSooner    = baseIntercept != null && interceptPlus != null
+    ? Math.max(0, (baseIntercept - interceptPlus) * 365.25) : null;
+  setMetric('m-days', daysSooner != null ? Math.round(daysSooner)+' days' : '—', 'metric-val green');
 
   // Breakdown
-  document.getElementById('bk-bridge').textContent = fmtBTC(bridgeAtRetire);
-  document.getElementById('bk-post').textContent   = fmtBTC(postAtRetire);
+  const activeRate    = SCENARIOS.find(s => s.key === activeKey).rate;
+  const retireAge     = activeIntercept ?? inp.currentAge;
+  const priceAtRetire = powerLawPrice(retireAge, inp);
+  const holdAtRetire  = holdingsArr[ageToIdx(retireAge, ages)];
+  const activeScLabel = SCENARIOS.find(s => s.key === activeKey).label;
+  document.getElementById('bk-bridge-lbl').textContent = activeScLabel + ' — Bridge Requirement';
+  document.getElementById('bk-post-lbl').textContent   = activeScLabel + ' — Post-59½ Requirement';
+  document.getElementById('bk-bridge').textContent = fmtBTC(bridgeUSD(retireAge, inp, activeRate) / priceAtRetire);
+  document.getElementById('bk-post').textContent   = fmtBTC(postSupplementUSD(retireAge, inp, activeRate) / priceAtRetire);
   document.getElementById('bk-price').textContent  = fmtUSD(priceAtRetire);
   document.getElementById('bk-price-sub').textContent =
-    '× for ₿'+holdingsAtRetire.toFixed(3)+' (with DCA) = '+fmtUSD(holdingsAtRetire * priceAtRetire);
+    '× ₿'+holdAtRetire.toFixed(3)+' holdings = '+fmtUSD(holdAtRetire * priceAtRetire);
+
+  // Second row metrics
+  document.getElementById('m-btcval-lbl').textContent = activeScLabel + ' — BTC Portfolio at Retirement';
+  document.getElementById('m-iraval-lbl').textContent = activeScLabel + ' — IRA / 401k at Retirement';
+  setMetric('m-btcval', fmtUSD(holdAtRetire * priceAtRetire), 'metric-val gold');
+  setMetric('m-iraval', fmtUSD(projectedIRA(retireAge, inp)), 'metric-val');
+  document.getElementById('m-iraval').style.color = 'var(--blue)';
+
+  const iraArr = scenarioData[activeKey].iraYearsArr;
+  let iraEndAge = null;
+  for (let i = iraArr.length - 1; i >= 0; i--) {
+    if (iraArr[i] != null) { iraEndAge = ages[i]; break; }
+  }
+  if (iraEndAge == null || iraEndAge >= LIFE_EXP - 0.5) {
+    setMetric('m-iraend', '> ' + LIFE_EXP, 'metric-val green');
+  } else {
+    setMetric('m-iraend', fmtAge(iraEndAge),
+      'metric-val ' + (iraEndAge > 85 ? 'green' : iraEndAge > 75 ? 'amber' : 'red'));
+  }
+  document.getElementById('m-iraend').style.color = 'var(--blue)';
+
+  const btcArr = scenarioData[activeKey].btcYearsArr;
+  let btcEndAge = null;
+  for (let i = btcArr.length - 1; i >= 0; i--) {
+    if (btcArr[i] != null) { btcEndAge = ages[i]; break; }
+  }
+  if (btcEndAge == null || btcEndAge >= LIFE_EXP - 0.5) {
+    setMetric('m-btcend', '> ' + LIFE_EXP, 'metric-val green');
+    document.getElementById('m-btcend-sub').textContent = 'outlasts the model window';
+  } else {
+    setMetric('m-btcend', fmtAge(btcEndAge),
+      'metric-val ' + (btcEndAge > 90 ? 'green' : btcEndAge > 80 ? 'amber' : 'red'));
+    document.getElementById('m-btcend-sub').textContent =
+      btcEndAge < inp.currentAge + 30 ? 'funds depleted early — revisit plan'
+      : activeScLabel.toLowerCase() + ' scenario projection';
+  }
+
+  // Timeline
+  renderTimeline(inp, activeIntercept ?? null, iraEndAge, btcEndAge);
 
   // Chart subtitle
-  document.getElementById('chart-sub').textContent =
-    interceptAge
-      ? 'Holdings (with DCA) meet requirement at age ' + fmtAge(interceptAge)
-      : 'Current DCA plan does not meet requirement within analysis window';
+  const subParts = intercepts
+    .filter(({key}) => toggleState[key])
+    .map(({key, age}) => age ? SCENARIOS.find(s=>s.key===key).label+': '+fmtAge(age) : null)
+    .filter(Boolean);
+  document.getElementById('chart-sub').textContent = subParts.length
+    ? 'Earliest retirement — ' + subParts.join('  ·  ')
+    : 'Holdings do not meet requirement within analysis window';
 }
+
+// ── TOGGLE CHIPS ────────────────────────
+document.querySelectorAll('.toggle-chip').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const key = btn.dataset.key;
+    if (SCENARIO_KEYS.has(key)) {
+      if (toggleState[key]) return;
+      SCENARIO_KEYS.forEach(k => {
+        toggleState[k] = false;
+        document.querySelector(`.toggle-chip[data-key="${k}"]`).classList.remove('active');
+      });
+      toggleState[key] = true;
+      btn.classList.add('active');
+    } else {
+      toggleState[key] = !toggleState[key];
+      btn.classList.toggle('active', toggleState[key]);
+    }
+    applyToggles();
+    calculate();
+  });
+});
 
 // ── SLIDER WIRING ────────────────────────
 [
-  ['i-spend','sv-spend', v=>v>=1e6?'$'+(v/1e6).toFixed(1)+'M':v>=1e3?'$'+Math.round(v/1000)+'K':'$'+v],
-  ['i-life','sv-life',   v=>v],
-  ['i-iragrow','sv-iragrow', v=>v+'%'],
-  ['i-btcgrow','sv-btcgrow', v=>v+'%'],
-  ['i-inf','sv-inf',     v=>v+'%'],
-  ['i-swr','sv-swr',     v=>v+'%'],
-].forEach(([id,valId,fmt])=>{
-  const el=document.getElementById(id),out=document.getElementById(valId);
-  out.textContent=fmt(el.value);
-  el.addEventListener('input',()=>{out.textContent=fmt(el.value);calculate()});
+  ['i-spend',   'sv-spend',   v => v>=1e6?'$'+(v/1e6).toFixed(1)+'M':v>=1e3?'$'+Math.round(v/1000)+'K':'$'+v],
+  ['i-iragrow', 'sv-iragrow', v => v+'%'],
+  ['i-inf',     'sv-inf',     v => v+'%'],
+  ['i-swr',     'sv-swr',     v => v+'%'],
+].forEach(([id, valId, fmt]) => {
+  const el = document.getElementById(id), out = document.getElementById(valId);
+  out.textContent = fmt(el.value);
+  el.addEventListener('input', () => { out.textContent = fmt(el.value); calculate(); });
 });
-document.querySelectorAll('input[type=number]').forEach(el=>el.addEventListener('input',calculate));
+document.querySelectorAll('input[type=number]').forEach(el => el.addEventListener('input', calculate));
 
 calculate();
 </script>
