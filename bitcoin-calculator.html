@@ -46,7 +46,7 @@ body{
 }
 
 /* stack everything above ambient */
-nav,main,.page-hero,.tool-wrap,.life-timeline,.breakdown,.narrative,.page-footer{position:relative;z-index:2}
+nav,main,.page-hero,.tool-wrap,.life-timeline,.runway,.breakdown,.narrative,.page-footer{position:relative;z-index:2}
 
 /* ── CURSOR ───────────────────────────── */
 #cur-orb{position:fixed;top:0;left:0;width:6px;height:6px;border-radius:50%;background:radial-gradient(circle,rgba(232,203,122,1),rgba(201,168,76,.3) 60%,transparent);transform:translate(-50%,-50%);pointer-events:none;z-index:9999;box-shadow:0 0 12px 3px rgba(201,168,76,.35);transition:width .2s,height .2s}
@@ -64,7 +64,7 @@ nav{
 .logo{font-family:'Cormorant SC',serif;font-size:.92rem;letter-spacing:.38em;color:var(--gold-lt);text-decoration:none}
 .logo::after{content:'';display:block;height:1px;background:linear-gradient(90deg,var(--gold),transparent);width:0;transition:width .4s}
 .logo:hover::after{width:100%}
-.nav-back{font-family:'Cormorant SC',serif;font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;color:var(--mist);text-decoration:none;display:flex;align-items:center;gap:.5rem;transition:color .25s}
+.nav-back{font-family:'Cormorant SC',serif;font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--mist);text-decoration:none;display:flex;align-items:center;gap:.5rem;transition:color .25s}
 .nav-back::before{content:'←';font-family:serif;display:inline-block;transition:transform .25s}
 .nav-back:hover{color:var(--gold-lt)}
 .nav-back:hover::before{transform:translateX(-3px)}
@@ -75,11 +75,11 @@ nav{
   display:grid;grid-template-columns:1fr auto;gap:4rem;align-items:start;
   border-bottom:1px solid var(--border)
 }
-.page-tag{font-family:'Cormorant SC',serif;font-size:.52rem;letter-spacing:.42em;color:var(--gold);text-transform:uppercase;display:flex;align-items:center;gap:1rem;margin-bottom:1.3rem}
+.page-tag{font-family:'Cormorant SC',serif;font-size:.68rem;letter-spacing:.36em;color:var(--gold);text-transform:uppercase;display:flex;align-items:center;gap:1rem;margin-bottom:1.3rem}
 .page-tag::before{content:'';width:28px;height:1px;background:linear-gradient(90deg,var(--gold),transparent);opacity:.55}
 .page-title{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,5.5vw,5.2rem);font-weight:300;line-height:.88;letter-spacing:-.025em;color:var(--cream)}
 .page-title em{font-style:italic;color:var(--gold-lt);display:block;margin-top:.08em}
-.page-desc{max-width:560px;font-size:.96rem;color:var(--silver);line-height:2;font-weight:300;margin-top:1.6rem}
+.page-desc{max-width:560px;font-size:1.05rem;color:var(--silver);line-height:1.95;font-weight:300;margin-top:1.6rem}
 .page-desc strong{color:var(--silver);font-weight:400}
 
 /* PRICE BADGE */
@@ -88,9 +88,11 @@ nav{
   border-left:1px solid var(--border);padding-left:2.5rem;
   padding-top:1.1rem;min-width:200px
 }
-.price-badge-lbl{font-family:'Cormorant SC',serif;font-size:.48rem;letter-spacing:.36em;color:var(--mist);text-transform:uppercase;margin-bottom:.5rem}
+.price-badge-lbl{font-family:'Cormorant SC',serif;font-size:.62rem;letter-spacing:.32em;color:var(--mist);text-transform:uppercase;margin-bottom:.5rem}
 .price-badge-val{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:300;line-height:1;color:var(--gold-lt);letter-spacing:-.02em}
 .price-badge-src{font-family:'Cormorant Garamond',serif;font-size:.72rem;font-style:italic;color:var(--mist);opacity:.5;margin-top:.35rem}
+.price-badge-pl-lbl{font-family:'Cormorant SC',serif;font-size:.58rem;letter-spacing:.3em;color:var(--mist);text-transform:uppercase;margin-top:1rem;opacity:.75}
+.price-badge-pl-val{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;line-height:1;color:var(--gold);letter-spacing:-.02em;margin-top:.3rem}
 
 /* ── TOOL GRID ────────────────────────── */
 .tool-wrap{
@@ -107,14 +109,14 @@ nav{
 }
 .input-group{margin-bottom:1.75rem}
 .group-label{
-  font-family:'Cormorant SC',serif;font-size:.62rem;letter-spacing:.30em;
+  font-family:'Cormorant SC',serif;font-size:.76rem;letter-spacing:.26em;
   color:var(--gold);text-transform:uppercase;
   display:flex;align-items:center;gap:.8rem;margin-bottom:1.3rem
 }
 .group-label::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent)}
 .field{margin-bottom:1.15rem}
-.field-lbl{font-family:'Cormorant SC',serif;font-size:.6rem;letter-spacing:.18em;color:var(--silver);text-transform:uppercase;display:block;margin-bottom:.45rem}
-.field-hint{font-family:'Cormorant Garamond',serif;font-size:.82rem;font-style:italic;color:var(--mist);opacity:.8;display:block;margin-top:.15rem}
+.field-lbl{font-family:'Cormorant SC',serif;font-size:.74rem;letter-spacing:.16em;color:var(--cream);text-transform:uppercase;display:block;margin-bottom:.45rem;font-weight:400}
+.field-hint{font-family:'Cormorant Garamond',serif;font-size:.9rem;font-style:italic;color:var(--mist);opacity:.85;display:block;margin-top:.15rem}
 .f-wrap{position:relative}
 .f-sym{position:absolute;left:.8rem;top:50%;transform:translateY(-50%);color:var(--gold);font-family:'Cormorant Garamond',serif;font-size:1rem;pointer-events:none;z-index:1}
 input[type=number]{
@@ -147,10 +149,10 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;bor
 /* ── TOGGLE CHIPS ─────────────────────── */
 .chart-toggles{display:flex;gap:1.5rem;flex-wrap:wrap;align-items:center}
 .toggle-group{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap}
-.toggle-label{font-family:'Cormorant SC',serif;font-size:.46rem;letter-spacing:.24em;color:var(--mist);text-transform:uppercase;margin-right:.2rem;white-space:nowrap}
+.toggle-label{font-family:'Cormorant SC',serif;font-size:.62rem;letter-spacing:.22em;color:var(--mist);text-transform:uppercase;margin-right:.2rem;white-space:nowrap}
 .toggle-chip{
-  font-family:'Cormorant SC',serif;font-size:.48rem;letter-spacing:.18em;text-transform:uppercase;
-  padding:.3rem .7rem;border:1px solid transparent;background:transparent;
+  font-family:'Cormorant SC',serif;font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;
+  padding:.35rem .8rem;border:1px solid transparent;background:transparent;
   color:var(--mist);cursor:none;outline:none;line-height:1;transition:all .2s
 }
 .toggle-chip span{opacity:.55}
@@ -163,8 +165,8 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;bor
 /* ── CHART AREA ───────────────────────── */
 .chart-area{background:rgba(201,168,76,.01);padding:2rem;display:flex;flex-direction:column;gap:1.5rem}
 .chart-header{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem}
-.chart-title-block p:first-child{font-family:'Cormorant SC',serif;font-size:.52rem;letter-spacing:.36em;color:var(--gold);text-transform:uppercase;margin-bottom:.4rem}
-.chart-subtitle{font-family:'Cormorant Garamond',serif;font-size:.92rem;font-style:italic;color:var(--mist)}
+.chart-title-block p:first-child{font-family:'Cormorant SC',serif;font-size:.7rem;letter-spacing:.3em;color:var(--gold);text-transform:uppercase;margin-bottom:.4rem}
+.chart-subtitle{font-family:'Cormorant Garamond',serif;font-size:1rem;font-style:italic;color:var(--silver)}
 .chart-container{position:relative;width:100%;height:460px}
 
 /* ── METRICS ──────────────────────────── */
@@ -196,14 +198,14 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;bor
 .metric:nth-child(7)::after{background:linear-gradient(90deg,rgba(75,144,214,.6),transparent)}
 .metric:nth-child(8)::after{background:linear-gradient(90deg,var(--green),transparent)}
 
-.metric-lbl{font-family:'Cormorant SC',serif;font-size:.58rem;letter-spacing:.2em;color:var(--silver);text-transform:uppercase;display:block;margin-bottom:.45rem}
+.metric-lbl{font-family:'Cormorant SC',serif;font-size:.74rem;letter-spacing:.16em;color:var(--cream);text-transform:uppercase;display:block;margin-bottom:.5rem;font-weight:400}
 .metric-val{
   font-family:'Cormorant Garamond',serif;font-size:1.75rem;font-weight:300;line-height:1;
   display:block;transition:opacity .12s,transform .12s
 }
 .metric-val.flash{opacity:0;transform:translateY(4px)}
 .green{color:var(--green)}.amber{color:var(--amber)}.red{color:var(--red)}.gold{color:var(--gold-lt)}
-.metric-sub{font-family:'Cormorant Garamond',serif;font-size:.8rem;font-style:italic;color:var(--mist);margin-top:.35rem;display:block}
+.metric-sub{font-family:'Cormorant Garamond',serif;font-size:.92rem;font-style:italic;color:var(--silver);margin-top:.4rem;display:block;opacity:.85}
 
 /* ── LIFE RUNWAY ──────────────────────── */
 .life-timeline{
@@ -215,11 +217,11 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;bor
 }
 .lt-header{display:flex;align-items:baseline;gap:1.8rem;margin-bottom:2.5rem;flex-wrap:wrap}
 .lt-title{
-  font-family:'Cormorant SC',serif;font-size:.58rem;letter-spacing:.4em;
+  font-family:'Cormorant SC',serif;font-size:.76rem;letter-spacing:.34em;
   color:var(--gold);text-transform:uppercase
 }
 .lt-sub{
-  font-family:'Cormorant Garamond',serif;font-size:1.05rem;
+  font-family:'Cormorant Garamond',serif;font-size:1.15rem;
   font-style:italic;color:var(--silver)
 }
 .lt-track-wrap{position:relative;margin-bottom:.8rem;padding-bottom:4rem}
@@ -238,12 +240,12 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;bor
 }
 .lt-tick{width:2px;height:28px;background:currentColor;opacity:.55;margin-top:2px;border-radius:1px}
 .lt-mlabel{
-  font-family:'Cormorant SC',serif;font-size:.62rem;letter-spacing:.15em;
+  font-family:'Cormorant SC',serif;font-size:.74rem;letter-spacing:.12em;
   text-transform:uppercase;white-space:nowrap;text-align:center;
   line-height:1.6;margin-top:.6rem;opacity:.95;font-weight:400
 }
 .lt-legend{display:flex;gap:2rem;flex-wrap:wrap;margin-top:1.2rem}
-.lt-leg{display:flex;align-items:center;gap:.6rem;font-family:'Cormorant SC',serif;font-size:.62rem;letter-spacing:.15em;color:var(--silver);text-transform:uppercase}
+.lt-leg{display:flex;align-items:center;gap:.6rem;font-family:'Cormorant SC',serif;font-size:.74rem;letter-spacing:.12em;color:var(--silver);text-transform:uppercase}
 .lt-swatch{width:28px;height:6px;border-radius:3px;flex-shrink:0}
 
 /* ── BREAKDOWN ────────────────────────── */
@@ -251,32 +253,229 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;bor
 .breakdown-inner{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--border)}
 .bk-cell{background:var(--bg);padding:1.75rem 2rem;transition:background .25s}
 .bk-cell:hover{background:rgba(201,168,76,.022)}
-.bk-lbl{font-family:'Cormorant SC',serif;font-size:.6rem;letter-spacing:.22em;color:var(--silver);text-transform:uppercase;display:block;margin-bottom:.5rem}
-.bk-val{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:300;display:block;line-height:1.1}
-.bk-sub{font-family:'Cormorant Garamond',serif;font-size:.84rem;font-style:italic;color:var(--mist);margin-top:.4rem;display:block}
+.bk-lbl{font-family:'Cormorant SC',serif;font-size:.76rem;letter-spacing:.18em;color:var(--cream);text-transform:uppercase;display:block;margin-bottom:.55rem;font-weight:400}
+.bk-val{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:300;display:block;line-height:1.1}
+.bk-sub{font-family:'Cormorant Garamond',serif;font-size:.96rem;font-style:italic;color:var(--silver);margin-top:.45rem;display:block;opacity:.85}
+
+/* ── RETIREMENT RUNWAY TABLE ─────────── */
+.runway{
+  max-width:1280px;margin:0 auto;
+  padding:3.5rem 3rem 3rem;
+  border-top:1px solid var(--border);
+  background:rgba(201,168,76,.012)
+}
+.rw-header{display:flex;align-items:baseline;gap:1.8rem;margin-bottom:1.8rem;flex-wrap:wrap}
+.rw-title{
+  font-family:'Cormorant SC',serif;font-size:.76rem;letter-spacing:.34em;
+  color:var(--gold);text-transform:uppercase
+}
+.rw-sub{
+  font-family:'Cormorant Garamond',serif;font-size:1.15rem;
+  font-style:italic;color:var(--silver)
+}
+.rw-table-wrap{
+  position:relative;
+  overflow-x:auto;overflow-y:hidden;
+  border:1px solid var(--border);
+  border-radius:2px;
+  background:rgba(5,5,13,.35);
+  max-height:3000px;
+  transition:max-height .55s cubic-bezier(.4,0,.2,1)
+}
+.rw-table-wrap.rw-collapsed{max-height:380px;overflow-y:hidden}
+.rw-fade{
+  position:absolute;left:0;right:0;bottom:0;height:80px;
+  background:linear-gradient(to bottom,rgba(5,5,13,0),rgba(5,5,13,.85) 65%,rgba(5,5,13,.95));
+  pointer-events:none;opacity:0;transition:opacity .35s
+}
+.rw-table-wrap.rw-collapsed .rw-fade{opacity:1}
+.rw-toggle{
+  display:flex;align-items:center;justify-content:center;gap:.8rem;
+  margin:.9rem auto 0;padding:.8rem 1.6rem;
+  background:transparent;border:1px solid rgba(201,168,76,.28);
+  font-family:'Cormorant SC',serif;font-size:.76rem;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--gold-lt);
+  cursor:pointer;transition:border-color .25s,background .25s,color .25s;
+  min-width:260px
+}
+.rw-toggle:hover{border-color:rgba(201,168,76,.55);background:rgba(201,168,76,.04)}
+.rw-toggle-caret{
+  display:inline-block;font-size:.85rem;line-height:1;
+  transition:transform .3s cubic-bezier(.4,0,.2,1);
+  color:var(--gold)
+}
+.rw-toggle[aria-expanded="true"] .rw-toggle-caret{transform:rotate(180deg)}
+.rw-toggle .rw-toggle-hide{display:none}
+.rw-toggle[aria-expanded="true"] .rw-toggle-show{display:none}
+.rw-toggle[aria-expanded="true"] .rw-toggle-hide{display:inline}
+.rw-table{
+  width:100%;border-collapse:collapse;
+  font-family:'DM Sans',sans-serif;font-size:.92rem;font-weight:300;
+  color:var(--cream)
+}
+.rw-table thead th{
+  font-family:'Cormorant SC',serif;font-size:.72rem;letter-spacing:.18em;
+  color:var(--gold);text-transform:uppercase;font-weight:400;
+  padding:1rem 1rem;text-align:left;
+  border-bottom:1px solid rgba(201,168,76,.22);
+  background:rgba(201,168,76,.04);
+  position:sticky;top:0;z-index:1;white-space:nowrap
+}
+.rw-table th.rw-num,.rw-table td.rw-num{text-align:right}
+.rw-table tbody td{
+  padding:.8rem 1rem;
+  border-bottom:1px solid rgba(201,168,76,.05);
+  white-space:nowrap
+}
+.rw-table tbody tr:last-child td{border-bottom:none}
+.rw-table tbody tr{transition:background .18s}
+.rw-table tbody tr:hover{background:rgba(201,168,76,.025)}
+.rw-col-age{width:4rem;color:var(--gold-lt);font-variant-numeric:tabular-nums}
+.rw-col-year{color:var(--silver);font-variant-numeric:tabular-nums}
+.rw-table td.rw-num{font-variant-numeric:tabular-nums;color:var(--cream)}
+.rw-ira{color:var(--blue)}
+.rw-btc{color:var(--gold-lt)}
+.rw-price{color:var(--mist)}
+.rw-col-source{width:8rem}
+.rw-pill{
+  display:inline-block;padding:.28rem .7rem;
+  font-family:'Cormorant SC',serif;font-size:.68rem;letter-spacing:.16em;
+  text-transform:uppercase;border-radius:2px;
+  border:1px solid currentColor;opacity:.95;font-weight:400
+}
+.rw-pill-bridge{color:var(--amber)}
+.rw-pill-ira-btc{color:var(--blue)}
+.rw-pill-ira{color:var(--blue)}
+.rw-pill-btc{color:var(--amber)}
+.rw-pill-depleted{color:var(--red)}
+.rw-table tbody tr.rw-retire-row{background:rgba(201,168,76,.055)}
+.rw-table tbody tr.rw-retire-row td{border-bottom-color:rgba(201,168,76,.15)}
+.rw-table tbody tr.rw-phase-shift td{border-top:1px dashed rgba(201,168,76,.18)}
+.rw-table tbody tr.rw-depleted td{color:var(--red);opacity:.7}
+.rw-empty{
+  padding:2.5rem 1rem !important;text-align:center;
+  font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--silver);font-size:1rem
+}
+.rw-note{
+  font-family:'Cormorant Garamond',serif;font-size:.92rem;font-style:italic;
+  color:var(--silver);opacity:.85;margin-top:1rem;text-align:center
+}
 
 /* ── NARRATIVE ────────────────────────── */
 .narrative{max-width:1280px;margin:0 auto;padding:4.5rem 3rem;border-top:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr 1fr;gap:4.5rem}
-.n-sec h3{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:400;color:var(--cream);margin-bottom:.9rem;line-height:1.1}
+.n-sec h3{font-family:'Cormorant Garamond',serif;font-size:1.45rem;font-weight:400;color:var(--cream);margin-bottom:.9rem;line-height:1.15}
 .n-sec h3 em{font-style:italic;color:var(--gold-lt)}
-.n-sec p{font-size:.92rem;color:var(--silver);line-height:1.9;margin-bottom:.9rem;font-weight:300}
-.n-sec ul{list-style:none;display:flex;flex-direction:column;gap:.55rem}
-.n-sec li{font-size:.92rem;color:var(--silver);line-height:1.75;padding-left:1.2rem;position:relative}
-.n-sec li::before{content:'✦';position:absolute;left:0;color:var(--gold);font-size:.38rem;top:.42rem}
-.model-eq{font-family:'Cormorant Garamond',serif;font-size:.9rem;font-style:italic;color:var(--gold-lt);border-left:2px solid rgba(201,168,76,.2);padding-left:.9rem;margin:.9rem 0;line-height:1.75}
+.n-sec p{font-size:1.02rem;color:var(--silver);line-height:1.85;margin-bottom:.9rem;font-weight:300}
+.n-sec ul{list-style:none;display:flex;flex-direction:column;gap:.6rem}
+.n-subhead{font-family:'Cormorant SC',serif !important;font-size:.72rem !important;letter-spacing:.22em;color:var(--gold) !important;text-transform:uppercase;margin:.9rem 0 .7rem !important;line-height:1.5 !important;font-weight:400 !important}
+.n-sec .n-subhead:first-of-type{margin-top:.3rem !important}
+.n-sec li{font-size:1.02rem;color:var(--silver);line-height:1.75;padding-left:1.2rem;position:relative}
+.n-sec li::before{content:'✦';position:absolute;left:0;color:var(--gold);font-size:.5rem;top:.55rem}
+.model-eq{font-family:'Cormorant Garamond',serif;font-size:1rem;font-style:italic;color:var(--gold-lt);border-left:2px solid rgba(201,168,76,.2);padding-left:.9rem;margin:.9rem 0;line-height:1.75}
 
 /* ── FOOTER ───────────────────────────── */
 .page-footer{max-width:1280px;margin:0 auto;padding:1.8rem 3rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
-.foot-note{font-family:'Cormorant SC',serif;font-size:.49rem;letter-spacing:.22em;color:var(--mist);text-transform:uppercase}
-.foot-back{font-family:'Cormorant SC',serif;font-size:.51rem;letter-spacing:.22em;text-transform:uppercase;color:var(--mist);text-decoration:none;border-bottom:1px solid rgba(122,140,160,.2);padding-bottom:2px;transition:color .25s,border-color .25s}
+.foot-note{font-family:'Cormorant SC',serif;font-size:.64rem;letter-spacing:.2em;color:var(--mist);text-transform:uppercase}
+.foot-back{font-family:'Cormorant SC',serif;font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--mist);text-decoration:none;border-bottom:1px solid rgba(122,140,160,.2);padding-bottom:2px;transition:color .25s,border-color .25s}
 .foot-back:hover{color:var(--gold-lt);border-color:var(--gold)}
 
 /* ── LEGEND ───────────────────────────── */
 .legend{display:flex;gap:1.4rem;flex-wrap:wrap}
-.leg{display:flex;align-items:center;gap:.45rem;font-family:'Cormorant SC',serif;font-size:.6rem;letter-spacing:.14em;color:var(--silver);text-transform:uppercase}
+.leg{display:flex;align-items:center;gap:.5rem;font-family:'Cormorant SC',serif;font-size:.72rem;letter-spacing:.12em;color:var(--silver);text-transform:uppercase}
 .leg-line{width:18px;height:2px;flex-shrink:0;border-radius:1px}
 
 /* ── RESPONSIVE ───────────────────────── */
+/* ── RESULTS LOCK (blur mask) ────────── */
+.results-locked .chart-area,
+.results-locked .metrics,
+.results-locked .life-timeline,
+.results-locked .runway,
+.results-locked .breakdown,
+.results-locked .narrative{
+  position:relative;pointer-events:none;user-select:none;
+  filter:blur(12px);-webkit-filter:blur(12px);
+  opacity:.45;transition:filter .6s,opacity .6s
+}
+body:not(.results-locked) .chart-area,
+body:not(.results-locked) .metrics,
+body:not(.results-locked) .life-timeline,
+body:not(.results-locked) .runway,
+body:not(.results-locked) .breakdown,
+body:not(.results-locked) .narrative{
+  filter:none;opacity:1;pointer-events:auto;user-select:auto
+}
+
+/* ── CREATE REPORT BUTTON ────────────── */
+.cta-report{
+  display:block;width:100%;margin-top:1.5rem;padding:.9rem 1.4rem;
+  background:linear-gradient(135deg,rgba(201,168,76,.18),rgba(201,168,76,.06));
+  border:1px solid rgba(201,168,76,.35);color:var(--gold-lt);
+  font-family:'Cormorant SC',serif;font-size:.78rem;letter-spacing:.28em;text-transform:uppercase;
+  cursor:pointer;transition:all .3s;position:relative;overflow:hidden
+}
+.cta-report::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(201,168,76,.12),transparent);
+  opacity:0;transition:opacity .3s
+}
+.cta-report:hover{border-color:rgba(201,168,76,.6);background:linear-gradient(135deg,rgba(201,168,76,.25),rgba(201,168,76,.1))}
+.cta-report:hover::before{opacity:1}
+.cta-report:disabled{opacity:.4;cursor:default}
+
+/* ── MODAL ───────────────────────────── */
+.modal-overlay{
+  position:fixed;inset:0;z-index:10000;
+  background:rgba(5,5,13,.88);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .4s
+}
+.modal-overlay.open{opacity:1;pointer-events:auto}
+.modal-box{
+  background:var(--bg);border:1px solid var(--border);
+  max-width:520px;width:90%;padding:3rem 2.5rem;position:relative;
+  box-shadow:0 40px 120px rgba(0,0,0,.6)
+}
+.modal-close{
+  position:absolute;top:1rem;right:1.2rem;background:none;border:none;
+  color:var(--mist);font-size:1.4rem;cursor:pointer;transition:color .2s;line-height:1
+}
+.modal-close:hover{color:var(--gold-lt)}
+.modal-tag{font-family:'Cormorant SC',serif;font-size:.5rem;letter-spacing:.38em;color:var(--gold);text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:.8rem}
+.modal-tag::before{content:'';width:20px;height:1px;background:var(--gold);opacity:.5}
+.modal-title{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;color:var(--cream);line-height:1.15;margin-bottom:.6rem}
+.modal-title em{font-style:italic;color:var(--gold-lt)}
+.modal-desc{font-size:.88rem;color:var(--silver);line-height:1.85;margin-bottom:1.8rem;font-weight:300}
+.modal-features{list-style:none;margin-bottom:2rem;display:flex;flex-direction:column;gap:.5rem}
+.modal-features li{font-size:.88rem;color:var(--silver);padding-left:1.2rem;position:relative;line-height:1.7}
+.modal-features li::before{content:'✦';position:absolute;left:0;color:var(--gold);font-size:.38rem;top:.4rem}
+.modal-input-row{display:flex;gap:.6rem;margin-bottom:.8rem}
+.modal-email{
+  flex:1;background:rgba(201,168,76,.03);
+  border:1px solid rgba(201,168,76,.12);border-bottom:1px solid rgba(201,168,76,.22);
+  color:var(--cream);font-family:'Cormorant Garamond',serif;font-size:1.05rem;
+  padding:.6rem .9rem;outline:none;transition:border-color .25s
+}
+.modal-email::placeholder{color:var(--mist);opacity:.6;font-style:italic}
+.modal-email:focus{border-color:rgba(201,168,76,.45)}
+.modal-submit{
+  padding:.6rem 1.6rem;background:linear-gradient(135deg,rgba(201,168,76,.22),rgba(201,168,76,.08));
+  border:1px solid rgba(201,168,76,.4);color:var(--gold-lt);
+  font-family:'Cormorant SC',serif;font-size:.65rem;letter-spacing:.24em;text-transform:uppercase;
+  cursor:pointer;transition:all .3s;white-space:nowrap
+}
+.modal-submit:hover{background:linear-gradient(135deg,rgba(201,168,76,.35),rgba(201,168,76,.15));border-color:rgba(201,168,76,.6)}
+.modal-skip{
+  display:block;width:100%;background:none;border:none;
+  color:var(--mist);font-family:'Cormorant Garamond',serif;font-size:.85rem;font-style:italic;
+  cursor:pointer;padding:.5rem 0;transition:color .2s;text-align:center
+}
+.modal-skip:hover{color:var(--cream)}
+.modal-privacy{font-size:.72rem;color:var(--mist);opacity:.7;text-align:center;margin-top:1.2rem;line-height:1.7;font-style:italic}
+.modal-privacy svg{width:12px;height:12px;vertical-align:-1px;margin-right:3px;fill:currentColor;opacity:.6}
+.modal-success{display:none;text-align:center;padding:1rem 0}
+.modal-success .check{font-size:2.5rem;margin-bottom:.8rem;display:block;color:var(--green)}
+.modal-success p{font-size:.92rem;color:var(--silver);line-height:1.8}
+
 @media(max-width:1024px){
   nav{padding:1rem 1.5rem}
   .page-hero{grid-template-columns:1fr;gap:2.5rem;padding:6rem 1.5rem 2.5rem}
@@ -288,11 +487,43 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;bor
   .narrative{grid-template-columns:1fr;gap:2.5rem;padding:2.5rem 1.5rem}
   .page-footer{padding:2rem 1.5rem}
   .life-timeline{padding:2.5rem 1.5rem 3rem}
+  .runway{padding:2.5rem 1.5rem 2.5rem}
+  .rw-table thead th,.rw-table tbody td{padding:.7rem .75rem;font-size:.9rem}
   .chart-container{height:340px}
+  .modal-box{padding:2rem 1.5rem}
+}
+@media(max-width:640px){
+  .page-title{font-size:clamp(2.4rem,9vw,3.6rem)}
+  .page-desc{font-size:1rem;line-height:1.85}
+  .page-tag{font-size:.62rem;letter-spacing:.3em}
+  .group-label{font-size:.72rem;letter-spacing:.22em}
+  .field-lbl{font-size:.72rem;letter-spacing:.14em}
+  .field-hint{font-size:.88rem}
+  .metric-lbl{font-size:.72rem;letter-spacing:.14em}
+  .metric-val{font-size:1.45rem}
+  .metric-sub{font-size:.88rem}
+  .bk-lbl{font-size:.72rem;letter-spacing:.16em}
+  .bk-val{font-size:1.45rem}
+  .bk-sub{font-size:.92rem}
+  .lt-title,.rw-title{font-size:.78rem;letter-spacing:.28em}
+  .lt-sub,.rw-sub{font-size:1.02rem}
+  .lt-mlabel,.lt-leg{font-size:.72rem}
+  .rw-table thead th{font-size:.74rem;padding:.75rem .65rem;letter-spacing:.12em}
+  .rw-table tbody td{font-size:.88rem;padding:.7rem .65rem}
+  .rw-pill{font-size:.7rem;letter-spacing:.1em;padding:.28rem .6rem}
+  .rw-toggle{font-size:.76rem;letter-spacing:.18em;min-width:220px;padding:.75rem 1.2rem}
+  .rw-note{font-size:.9rem}
+  .n-sec h3{font-size:1.35rem}
+  .n-sec p,.n-sec li{font-size:.98rem}
+  .n-subhead{font-size:.72rem !important;letter-spacing:.18em}
+  .chart-title-block p:first-child{font-size:.72rem;letter-spacing:.22em}
+  .chart-subtitle{font-size:.96rem}
+  .toggle-label{font-size:.64rem;letter-spacing:.18em}
+  .toggle-chip{font-size:.68rem;letter-spacing:.12em;padding:.4rem .7rem}
 }
 </style>
 </head>
-<body>
+<body class="results-locked">
 
 <div id="cur-orb"></div>
 <div id="cur-ring"></div>
@@ -314,13 +545,15 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;bor
     <p class="page-tag">Portfolio · Financial Tools</p>
     <h1 class="page-title">Bitcoin Early<em>Retirement Calculator</em></h1>
     <p class="page-desc">
-      You've been stacking. Traditional tools don't speak Bitcoin — they ignore your DCA, the 59½ lockup, and early retirement entirely. This one does. <strong>Enter your numbers below and find out exactly when you can walk away.</strong>
+      You've been stacking. But, how much is truly enough?  Traditional calculators don't speak Bitcoin — they ignore your DCA, traditional retirement savings, and early retirement entirely. This one does. <strong>Enter your numbers below and find out how soon you can retire.</strong>
     </p>
   </div>
   <div class="price-badge">
     <span class="price-badge-lbl">Bitcoin · Live Price</span>
     <span class="price-badge-val" id="btc-price-display">—</span>
     <span class="price-badge-src" id="btc-price-source">fetching…</span>
+    <span class="price-badge-pl-lbl">Power Law · Today</span>
+    <span class="price-badge-pl-val" id="btc-powerlaw-display">—</span>
   </div>
 </div>
 
@@ -341,7 +574,7 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;bor
       </div>
       <div class="field">
         <label class="field-lbl" for="i-btc">BTC Holdings</label>
-        <div class="f-wrap"><span class="f-sym">₿</span><input type="number" id="i-btc" value="0.5" min="0" step="0.01"></div>
+        <div class="f-wrap"><span class="f-sym">₿</span><input type="number" id="i-btc" value="0.0" min="0" step="0.01"></div>
       </div>
       <div class="field">
         <label class="field-lbl" for="i-dca">Monthly DCA</label>
@@ -356,8 +589,8 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;bor
       <div class="field">
         <label class="field-lbl">Annual Spending (today's dollars)</label>
         <div class="slider-row">
-          <input type="range" id="i-spend" min="30000" max="500000" step="5000" value="115000">
-          <span class="s-val" id="sv-spend">$115K</span>
+          <input type="range" id="i-spend" min="30000" max="500000" step="5000" value="100000">
+          <span class="s-val" id="sv-spend">$100K</span>
         </div>
       </div>
     </div>
@@ -368,7 +601,7 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;bor
       <p class="group-label">Other Accounts</p>
       <div class="field">
         <label class="field-lbl" for="i-ira">401k / IRA Balance Today</label>
-        <div class="f-wrap"><span class="f-sym">$</span><input type="number" id="i-ira" value="125000" min="0"></div>
+        <div class="f-wrap"><span class="f-sym">$</span><input type="number" id="i-ira" value="100000" min="0"></div>
       </div>
       <div class="field">
         <label class="field-lbl">Retirement Account Growth Rate</label>
@@ -391,7 +624,7 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;bor
         </div>
       </div>
       <div class="field">
-        <label class="field-lbl">Safe Withdrawal Rate (post-59½)</label>
+        <label class="field-lbl">Safe Withdrawal Rate (post-59)</label>
         <div class="slider-row">
           <input type="range" id="i-swr" min="2" max="8" step="0.25" value="4">
           <span class="s-val" id="sv-swr">4%</span>
@@ -399,6 +632,8 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;bor
       </div>
     </div>
 
+    <div class="divider"></div>
+    <button class="cta-report" id="btn-report">Create My Report</button>
   </div>
 
   <!-- RIGHT PANEL -->
@@ -496,43 +731,109 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;bor
     <div class="bk-cell">
       <span class="bk-lbl" id="bk-bridge-lbl">Bridge Requirement</span>
       <span class="bk-val amber" id="bk-bridge">—</span>
-      <span class="bk-sub">BTC needed from retirement → 59½, funded entirely from BTC</span>
+      <span class="bk-sub">BTC needed from retirement → 59, funded entirely from BTC</span>
     </div>
     <div class="bk-cell">
-      <span class="bk-lbl" id="bk-post-lbl">Post-59½ Requirement</span>
+      <span class="bk-lbl" id="bk-post-lbl">Post-59 Requirement</span>
       <span class="bk-val" style="color:var(--blue)" id="bk-post">—</span>
       <span class="bk-sub">BTC needed for lifetime spending net of retirement accounts</span>
     </div>
     <div class="bk-cell">
       <span class="bk-lbl">Power Law Price at Retirement</span>
       <span class="bk-val gold" id="bk-price">—</span>
-      <span class="bk-sub" id="bk-price-sub">calibrated to today's live price</span>
+      <span class="bk-sub" id="bk-price-sub">modeled from days since Genesis Block</span>
     </div>
   </div>
 </div>
 
+<!-- RETIREMENT RUNWAY TABLE -->
+<section class="runway">
+  <div class="rw-header">
+    <span class="rw-title">Retirement Runway — Year by Year</span>
+    <span class="rw-sub" id="rw-sub">—</span>
+  </div>
+  <div class="rw-table-wrap rw-collapsed" id="rw-wrap">
+    <table class="rw-table">
+      <thead>
+        <tr>
+          <th class="rw-col-age">Age</th>
+          <th class="rw-col-year">Year</th>
+          <th class="rw-num">Annual Spend</th>
+          <th class="rw-num">IRA / 401k</th>
+          <th class="rw-num">BTC Stack</th>
+          <th class="rw-num">BTC Price</th>
+          <th class="rw-num">BTC Value</th>
+          <th class="rw-col-source">Funded By</th>
+        </tr>
+      </thead>
+      <tbody id="rw-tbody">
+        <tr><td colspan="8" class="rw-empty">Calculate to see your year-by-year runway.</td></tr>
+      </tbody>
+    </table>
+    <div class="rw-fade"></div>
+  </div>
+  <button type="button" class="rw-toggle" id="rw-toggle" aria-expanded="false" aria-controls="rw-wrap">
+    <span class="rw-toggle-show">Show Full Schedule</span>
+    <span class="rw-toggle-hide">Collapse</span>
+    <span class="rw-toggle-caret" aria-hidden="true">▾</span>
+  </button>
+  <p class="rw-note">Active scenario growth rate, applied to BTC price from retirement. All dollar figures are in future, inflation-adjusted dollars.</p>
+</section>
+
 <div class="narrative">
   <div class="n-sec">
     <h3>The <em>Bridge Problem</em></h3>
-    <p>Retiring before 59½ creates a gap: 401k and IRA funds are locked without penalty until then. Your BTC portfolio must fund 100% of spending alone during this window.</p>
-    <p>The model works backward from 59½ — solving for the exact BTC balance needed at retirement so that inflation-adjusted withdrawals over the bridge period leave zero. That requirement falls naturally as you age closer to 59½.</p>
+    <p>Retiring before 59 creates a gap: 401k and IRA funds are locked without penalty until then. Your BTC portfolio must fund 100% of spending alone during this window.</p>
+    <p>The model works backward from age 59 — solving for the exact BTC balance needed at retirement so that inflation-adjusted withdrawals over the bridge period leave zero. That requirement falls naturally as you age closer to 59.</p>
     <p class="model-eq">Balance(t+1) = (Balance(t) − Spend(t)) × (1 + r<sub>BTC</sub>)</p>
   </div>
   <div class="n-sec">
     <h3>The <em>Power Law</em> Model</h3>
     <p>Rather than a fixed growth rate, the BTC Power Law (Santostasi) models price as a function of time since genesis — growth decelerates naturally as Bitcoin matures. Three scenario growth rates let you stress-test the outcome.</p>
-    <p class="model-eq">Price(t) = Scale × (years since 2009)<sup>5.8</sup></p>
-    <p>The scale constant is anchored to today's live price, so projections are grounded in current reality rather than a theoretical baseline.</p>
+    <p class="model-eq">Price(t) = 10<sup>−16.493</sup> × (days since Genesis Block)<sup>5.68</sup></p>
+    <p>The Genesis Block was mined January 3, 2009. The formula is applied directly — no calibration to the live market price — so projections reflect the model's theoretical price path.</p>
   </div>
   <div class="n-sec">
     <h3>Reading <em>the Chart</em></h3>
+    <p class="n-subhead">Pre-retirement — BTC units (left axis)</p>
     <ul>
-      <li><strong style="color:var(--red);font-weight:400">Red</strong> / <strong style="color:var(--gold-lt);font-weight:400">Gold</strong> / <strong style="color:var(--green);font-weight:400">Green</strong> — BTC required to retire at each age for bear, base, and bull scenarios (left axis)</li>
-      <li><strong style="color:rgba(240,234,214,.6);font-weight:400">Cream dashed</strong> — your BTC accumulation via holdings + DCA, stopping at the active scenario's retirement age (left axis)</li>
-      <li>Where cream crosses above the scenario line is your <em>earliest retirement age</em></li>
-      <li><strong style="color:rgba(75,144,214,.85);font-weight:400">Blue solid</strong> — IRA / 401k portfolio value post-retirement; compounds untouched through the bridge, then depletes first after 59½ (right axis)</li>
-      <li><strong style="color:var(--amber);font-weight:400">Orange solid</strong> — BTC portfolio dollar value post-retirement; the last line to deplete, covering any spending the IRA cannot (right axis)</li>
+      <li><strong style="color:var(--red);font-weight:400">Red</strong> / <strong style="color:var(--gold-lt);font-weight:400">Gold</strong> / <strong style="color:var(--green);font-weight:400">Green</strong> — BTC required to retire at each age (bear, base, bull)</li>
+      <li><strong style="color:rgba(240,234,214,.6);font-weight:400">Cream dashed</strong> — your BTC accumulation via holdings + DCA</li>
+      <li><strong style="color:var(--gold-lt);font-weight:400">Gold dot</strong> — your <em>retirement moment</em>, where accumulation first meets the requirement</li>
     </ul>
+    <p class="n-subhead">Post-retirement — dollar runway (right axis)</p>
+    <ul>
+      <li><strong style="color:rgba(75,144,214,.85);font-weight:400">Blue</strong> — IRA / 401k value; compounds through the bridge, then depletes first after 59</li>
+      <li><strong style="color:var(--amber);font-weight:400">Orange</strong> — BTC portfolio value; covers spending the IRA cannot, until exhausted</li>
+    </ul>
+    <p style="font-size:.85rem;color:var(--mist);line-height:1.7;margin-top:.9rem;font-style:italic">See the runway table above for year-by-year balances.</p>
+  </div>
+</div>
+
+<!-- EMAIL / PDF MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal-box">
+    <button class="modal-close" id="modal-close" aria-label="Close">&times;</button>
+    <div id="modal-form-view">
+      <p class="modal-tag">Your Report is Ready</p>
+      <h2 class="modal-title">Download Your <em>Custom PDF</em></h2>
+      <p class="modal-desc">Your personalized Bitcoin retirement report includes exclusive analysis you won't find on this page:</p>
+      <ul class="modal-features">
+        <li><strong style="color:var(--cream);font-weight:400">Tax-optimized withdrawal strategy</strong> — annual schedule accounting for capital gains brackets &amp; the bridge period</li>
+        <li><strong style="color:var(--cream);font-weight:400">Year-by-year withdrawal schedule</strong> — projected balances, spending, and depletion timeline through age 100</li>
+        <li><strong style="color:var(--cream);font-weight:400">Rebalancing guide</strong> — when and how to shift between BTC and traditional accounts as you approach retirement</li>
+      </ul>
+      <div class="modal-input-row">
+        <input type="email" class="modal-email" id="modal-email" placeholder="your@email.com">
+        <button class="modal-submit" id="modal-submit">Get My PDF</button>
+      </div>
+      <button class="modal-skip" id="modal-skip">Skip — just show my results</button>
+      <p class="modal-privacy"><svg viewBox="0 0 24 24"><path d="M12 1C8.676 1 6 3.676 6 7v2H4v14h16V9h-2V7c0-3.324-2.676-6-6-6zm0 2c2.276 0 4 1.724 4 4v2H8V7c0-2.276 1.724-4 4-4zm0 10c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"/></svg>Your information is never sold or shared. Ever. This is between you and your plan.</p>
+    </div>
+    <div class="modal-success" id="modal-success">
+      <span class="check">✓</span>
+      <p>Your PDF is downloading now.<br>Check your downloads folder.</p>
+    </div>
   </div>
 </div>
 
@@ -542,6 +843,7 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;bor
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
 <script>
 // ── CURSOR ──────────────────────────────
 let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
@@ -559,14 +861,14 @@ refreshHoverTargets();
     const o = document.createElement('option');
     o.value = i + 1; o.textContent = m; mSel.appendChild(o);
   });
-  mSel.value = 4;
+  mSel.value = 10;
   const ySel = document.getElementById('i-birth-year');
   const curYear = new Date().getFullYear();
   for (let y = curYear - 18; y >= 1940; y--) {
     const o = document.createElement('option');
     o.value = y; o.textContent = y; ySel.appendChild(o);
   }
-  ySel.value = 1986;
+  ySel.value = 1984;
   [mSel, ySel].forEach(el => el.addEventListener('change', () => { updateAgeDisplay(); calculate(); }));
   updateAgeDisplay();
 })();
@@ -599,9 +901,11 @@ async function fetchBTCPrice() {
 fetchBTCPrice();
 
 // ── CONSTANTS ───────────────────────────
-const SUPPLEMENT_AGE = 59.5;
-const POWER_LAW_EXP  = 5.8;
-const GENESIS_YEAR   = 2009;
+const SUPPLEMENT_AGE = 59;
+const POWER_LAW_EXP  = 5.68;
+const POWER_LAW_A    = Math.pow(10, -16.493);
+const GENESIS_DATE   = new Date(2009, 0, 3);
+const MS_PER_DAY     = 86400000;
 const AGE_STEP       = 0.25;
 const TODAY_YEAR     = new Date().getFullYear();
 const LIFE_EXP       = 100;
@@ -613,13 +917,17 @@ const SCENARIOS = [
 ];
 
 // ── MATH HELPERS ────────────────────────
-function powerLawPrice(age, inp) {
-  const targetYear  = TODAY_YEAR + (age - inp.currentAge);
-  const yearsNow    = Math.max(1, TODAY_YEAR - GENESIS_YEAR);
-  const scale       = inp.currentBTCPrice / Math.pow(yearsNow, POWER_LAW_EXP);
-  const yearsFuture = Math.max(1, targetYear - GENESIS_YEAR);
-  return scale * Math.pow(yearsFuture, POWER_LAW_EXP);
+function powerLawPriceAtDate(date) {
+  const days = Math.max(1, (date - GENESIS_DATE) / MS_PER_DAY);
+  return POWER_LAW_A * Math.pow(days, POWER_LAW_EXP);
 }
+function powerLawPrice(age, inp) {
+  const yearsOffset = age - inp.currentAge;
+  const targetDate  = new Date(Date.now() + yearsOffset * 365.25 * MS_PER_DAY);
+  return powerLawPriceAtDate(targetDate);
+}
+document.getElementById('btc-powerlaw-display').textContent =
+  '$' + Math.round(powerLawPriceAtDate(new Date())).toLocaleString();
 function spendingAtAge(age, inp) {
   return inp.annualSpending * Math.pow(1 + inp.inflationRate, age - inp.currentAge);
 }
@@ -651,7 +959,12 @@ function postSupplementUSD(age, inp, rate) {
   const fm = 1 / inp.swr;
   if (age < SUPPLEMENT_AGE) {
     const net = Math.max(0, spendingAtAge(SUPPLEMENT_AGE, inp) * fm - projectedIRA(SUPPLEMENT_AGE, inp));
-    return net / Math.pow(1 + rate, SUPPLEMENT_AGE - age);
+    // Reserve BTC (not drawn during bridge) appreciates at the Power Law price
+    // ratio, not the scenario rate. This keeps the required-BTC curve monotonic
+    // and prevents bull's extreme discount from creating a V near the 59 line.
+    const p59 = powerLawPrice(SUPPLEMENT_AGE, inp);
+    const pNow = powerLawPrice(age, inp);
+    return pNow > 0 ? net * (pNow / p59) : 0;
   }
   return Math.max(0, spendingAtAge(age, inp) * fm - projectedIRA(age, inp));
 }
@@ -670,15 +983,19 @@ function btcFromDCA(monthlyUSD, months, startAge, inp) {
 }
 
 // ── POST-RETIREMENT DEPLETION SIM ────────
+// Price is anchored to powerLawPrice(retirementAge) and grows at the scenario
+// rate — same model findRequiredStartingUSD uses, so required-BTC and actual
+// depletion stay internally consistent across scenarios.
 function simulateDepletion(retirementAge, startBTC, inp, rate) {
   const btcUSD = [];
   const iraUSD = [];
   let btcBal = startBTC;
   let iraBal = projectedIRA(retirementAge, inp);
+  const priceAtRetire = powerLawPrice(retirementAge, inp);
 
   for (let age = retirementAge; age <= LIFE_EXP + 0.01; age = +(age + AGE_STEP).toFixed(10)) {
     const a           = +age.toFixed(3);
-    const price       = powerLawPrice(a, inp);
+    const price       = priceAtRetire * Math.pow(1 + rate, a - retirementAge);
     const periodSpend = spendingAtAge(a, inp) * AGE_STEP;
 
     btcUSD.push(btcBal > 0 && price > 0 ? btcBal * price : null);
@@ -694,10 +1011,60 @@ function simulateDepletion(retirementAge, startBTC, inp, rate) {
       const remainder = periodSpend - iraCovers;
       if (remainder > 0 && price > 0) btcBal = Math.max(0, btcBal - remainder / price);
     }
-    btcBal *= Math.pow(1 + rate, AGE_STEP);
   }
 
   return { btcUSD, iraUSD };
+}
+
+// ── WITHDRAWAL SCHEDULE (YEARLY) ─────────
+function buildWithdrawalSchedule(inp, retireAge, rate) {
+  const rows = [];
+  if (retireAge == null || retireAge >= LIFE_EXP) return rows;
+
+  const months   = Math.max(0, Math.round((retireAge - inp.currentAge) * 12));
+  let btcBal     = inp.btcHeld + btcFromDCA(inp.monthlyDCA, months, inp.currentAge, inp);
+  let iraBal     = projectedIRA(retireAge, inp);
+  const startYr  = TODAY_YEAR + Math.round(retireAge - inp.currentAge);
+  const maxYears = Math.min(40, Math.floor(LIFE_EXP - retireAge));
+  const priceAtRetire = powerLawPrice(retireAge, inp);
+
+  for (let yr = 0; yr <= maxYears; yr++) {
+    const age     = retireAge + yr;
+    const calYear = startYr + yr;
+    const spend   = spendingAtAge(age, inp);
+    const price   = priceAtRetire * Math.pow(1 + rate, yr);
+    const btcPre  = btcBal;
+
+    let source;
+    if (age < SUPPLEMENT_AGE) {
+      source = 'Bridge';
+      if (price > 0) btcBal = Math.max(0, btcBal - spend / price);
+      iraBal *= (1 + inp.iraGrowthRate);
+    } else {
+      iraBal *= (1 + inp.iraGrowthRate);
+      const iraCovers = Math.min(iraBal, spend);
+      iraBal = Math.max(0, iraBal - iraCovers);
+      const rem = spend - iraCovers;
+      if (rem > 0 && price > 0) btcBal = Math.max(0, btcBal - rem / price);
+      source = iraCovers >= spend - 0.01 ? 'IRA'
+             : iraCovers > 0 && btcPre > 0 ? 'IRA + BTC'
+             : btcPre > 0 ? 'BTC Only'
+             : 'Depleted';
+    }
+
+    const depleted = btcBal <= 1e-9 && iraBal <= 1e-9;
+    rows.push({
+      age, calYear, spend,
+      btcBTC: Math.max(0, btcBal),
+      btcUSD: Math.max(0, btcBal * price),
+      iraUSD: Math.max(0, iraBal),
+      price,
+      source: depleted ? 'Depleted' : source,
+      depleted,
+    });
+    if (depleted) break;
+  }
+  return rows;
 }
 
 // ── INTERCEPT ───────────────────────────
@@ -775,15 +1142,25 @@ function ageToIdx(age, ages) {
   return best;
 }
 
+function fracPixel(xScale, age, startAge, step) {
+  const idxFloat = (age - startAge) / step;
+  const f = Math.floor(idxFloat), cI = Math.ceil(idxFloat);
+  if (f === cI) return xScale.getPixelForValue(f);
+  const p0 = xScale.getPixelForValue(f);
+  const p1 = xScale.getPixelForValue(cI);
+  return p0 + (idxFloat - f) * (p1 - p0);
+}
+
 const zonePlugin = {
   id: 'zones',
   beforeDraw(chart) {
     const { ctx:c, chartArea:{left,right,top,bottom}, scales:{x} } = chart;
     const opts = chart.options.plugins.zones;
-    if (!opts || opts.retireIdx == null) return;
+    if (!opts || opts.retireAge == null) return;
 
-    const retireX = x.getPixelForValue(opts.retireIdx);
-    const s595X   = opts.s595Idx != null ? x.getPixelForValue(opts.s595Idx) : right;
+    const retireX = fracPixel(x, opts.retireAge, opts.startAge, opts.step);
+    const s595X   = SUPPLEMENT_AGE >= opts.startAge
+      ? fracPixel(x, SUPPLEMENT_AGE, opts.startAge, opts.step) : right;
 
     c.save();
     // Zone fills
@@ -797,43 +1174,65 @@ const zonePlugin = {
       c.fillStyle = 'rgba(61,191,124,0.04)';
       c.fillRect(s595X, top, right-s595X, bottom-top);
     }
-    c.font = '500 9px "Cormorant SC", serif';
+    c.font = '500 11px "Cormorant SC", serif';
     // Retire line
     if (retireX > left && retireX < right) {
       c.strokeStyle='rgba(201,168,76,0.35)'; c.lineWidth=1; c.setLineDash([5,4]);
       c.beginPath(); c.moveTo(retireX,top); c.lineTo(retireX,bottom); c.stroke();
-      c.fillStyle='rgba(201,168,76,0.6)';
-      c.fillText('Retire '+opts.retireAge.toFixed(1), retireX+4, top+13);
     }
-    // 59½ line
+    // 59 line
     if (s595X > left && s595X < right) {
       c.strokeStyle='rgba(61,191,124,0.45)'; c.setLineDash([5,4]);
       c.beginPath(); c.moveTo(s595X,top); c.lineTo(s595X,bottom); c.stroke();
       c.fillStyle='rgba(61,191,124,0.7)';
-      c.fillText('59½', s595X+4, top+13);
-    }
-    // Per-scenario intercept markers
-    if (opts.intercepts) {
-      const colors = { bear:'rgba(217,79,79,0.85)', base:'rgba(201,168,76,0.85)', bull:'rgba(61,191,124,0.85)' };
-      opts.intercepts.forEach(({key, age}, row) => {
-        if (age == null) return;
-        const ix = x.getPixelForValue(ageToIdx(age, currentAges));
-        if (ix <= left || ix >= right) return;
-        c.strokeStyle = colors[key]; c.lineWidth = 1.5; c.setLineDash([3,4]);
-        c.beginPath(); c.moveTo(ix,top); c.lineTo(ix,bottom); c.stroke();
-        c.fillStyle = colors[key];
-        c.fillText(fmtAge(age), ix+3, top + 26 + row*12);
-      });
+      c.fillText('AGE 59', s595X+4, top+13);
     }
     c.setLineDash([]); c.restore();
+  },
+  afterDatasetsDraw(chart) {
+    const opts = chart.options.plugins.zones;
+    if (!opts || !opts.intercepts || !opts.intercepts.length) return;
+    const { ctx:c, chartArea:{left,right,top,bottom}, scales:{x,y} } = chart;
+    const intc = opts.intercepts[0];
+    if (intc.age == null || intc.btc == null) return;
+
+    const px = fracPixel(x, intc.age, opts.startAge, opts.step);
+    const py = y.getPixelForValue(intc.btc);
+    if (px < left || px > right || py < top || py > bottom) return;
+
+    c.save();
+    // Outer halo
+    c.beginPath(); c.arc(px, py, 10, 0, Math.PI*2);
+    c.fillStyle = 'rgba(232,203,122,0.16)'; c.fill();
+    // Inner dot
+    c.beginPath(); c.arc(px, py, 5, 0, Math.PI*2);
+    c.fillStyle = 'rgba(232,203,122,1)'; c.fill();
+    c.strokeStyle = 'rgba(5,5,13,1)'; c.lineWidth = 1.5; c.stroke();
+
+    // Retirement label with backdrop
+    c.font = '500 12.5px "Cormorant SC", serif';
+    const label = 'RETIRE ' + intc.age.toFixed(1) + '  ·  \u20BF' + intc.btc.toFixed(3);
+    const m = c.measureText(label);
+    const padX = 7, padY = 5;
+    const boxH = 22;
+    let bx = px + 14, by = py - 26;
+    if (bx + m.width + padX*2 > right - 4) bx = px - 14 - m.width - padX*2;
+    if (by < top + 4) by = py + 14;
+    c.fillStyle = 'rgba(5,5,13,0.82)';
+    c.strokeStyle = 'rgba(232,203,122,0.5)';
+    c.lineWidth = 1;
+    c.beginPath();
+    c.rect(bx, by, m.width + padX*2, boxH);
+    c.fill(); c.stroke();
+    c.fillStyle = 'rgba(240,224,156,1)';
+    c.fillText(label, bx + padX, by + 15);
+    c.restore();
   }
 };
 Chart.register(zonePlugin);
 
 function buildChart(ages, scenarioData, holdingsLine, retireAge, intercepts) {
   const labels    = ages.map(a => a.toFixed(1));
-  const retireIdx = ageToIdx(retireAge, ages);
-  const s595Idx   = SUPPLEMENT_AGE <= ages[ages.length-1] ? ageToIdx(SUPPLEMENT_AGE, ages) : null;
 
   // Gradient fills
   const h = ctx.canvas.offsetHeight || 460;
@@ -891,7 +1290,7 @@ function buildChart(ages, scenarioData, holdingsLine, retireAge, intercepts) {
     })),
   ];
 
-  const zoneOpts = { retireIdx, s595Idx, retireAge, intercepts };
+  const zoneOpts = { retireAge, intercepts, startAge: ages[0], step: AGE_STEP };
 
   if (myChart) {
     myChart.data.labels   = labels;
@@ -932,8 +1331,8 @@ function buildChart(ages, scenarioData, holdingsLine, retireAge, intercepts) {
         scales: {
           x: {
             ticks: {
-              color:'rgba(107,123,148,0.7)',
-              font:{family:'Cormorant SC, serif',size:9},
+              color:'rgba(180,195,215,0.85)',
+              font:{family:'Cormorant SC, serif',size:11},
               maxTicksLimit:16,
               callback:(v,i) => i%4===0 ? labels[i] : ''
             },
@@ -943,8 +1342,8 @@ function buildChart(ages, scenarioData, holdingsLine, retireAge, intercepts) {
           y: {
             position: 'left', type: 'logarithmic',
             ticks: {
-              color:'rgba(107,123,148,0.7)',
-              font:{family:'Cormorant SC, serif',size:9},
+              color:'rgba(180,195,215,0.85)',
+              font:{family:'Cormorant SC, serif',size:11},
               callback: v => {
                 const mag = Math.log10(v);
                 if (Math.abs(mag - Math.round(mag)) < 0.01) {
@@ -963,8 +1362,8 @@ function buildChart(ages, scenarioData, holdingsLine, retireAge, intercepts) {
             position: 'right', type: 'logarithmic',
             grid: { drawOnChartArea: false },
             ticks: {
-              color:'rgba(75,144,214,0.55)',
-              font:{family:'Cormorant SC, serif',size:9},
+              color:'rgba(120,170,230,0.9)',
+              font:{family:'Cormorant SC, serif',size:11},
               callback: v => {
                 const mag = Math.log10(v);
                 if (Math.abs(mag - Math.round(mag)) < 0.01) {
@@ -982,6 +1381,62 @@ function buildChart(ages, scenarioData, holdingsLine, retireAge, intercepts) {
       }
     });
   }
+}
+
+// ── RETIREMENT RUNWAY TABLE ─────────────
+const PILL_CLASS = {
+  'Bridge':    'rw-pill-bridge',
+  'IRA + BTC': 'rw-pill-ira-btc',
+  'IRA':       'rw-pill-ira',
+  'BTC Only':  'rw-pill-btc',
+  'Depleted':  'rw-pill-depleted',
+};
+function renderRunway(inp, retireAge, rate, iraEndAge, btcEndAge) {
+  const tbody = document.getElementById('rw-tbody');
+  const sub   = document.getElementById('rw-sub');
+  if (!tbody) return;
+
+  if (retireAge == null) {
+    tbody.innerHTML = '<tr><td colspan="8" class="rw-empty">Holdings do not meet the retirement requirement within the analysis window — adjust inputs above to project a runway.</td></tr>';
+    sub.textContent = 'No feasible retirement in window';
+    return;
+  }
+
+  const rows = buildWithdrawalSchedule(inp, retireAge, rate);
+  if (!rows.length) {
+    tbody.innerHTML = '<tr><td colspan="8" class="rw-empty">No runway to project.</td></tr>';
+    sub.textContent = '—';
+    return;
+  }
+
+  let prevSource = null;
+  tbody.innerHTML = rows.map((r, i) => {
+    const pill = PILL_CLASS[r.source] || '';
+    const phaseShift = prevSource != null && prevSource !== r.source;
+    prevSource = r.source;
+    const cls = [
+      i === 0 ? 'rw-retire-row' : '',
+      phaseShift ? 'rw-phase-shift' : '',
+      r.depleted ? 'rw-depleted' : ''
+    ].filter(Boolean).join(' ');
+    return '<tr' + (cls ? ' class="' + cls + '"' : '') + '>'
+      + '<td class="rw-col-age">' + r.age.toFixed(0) + '</td>'
+      + '<td class="rw-col-year">' + r.calYear + '</td>'
+      + '<td class="rw-num">' + fmtUSD(r.spend) + '</td>'
+      + '<td class="rw-num rw-ira">' + (r.iraUSD > 0 ? fmtUSD(r.iraUSD) : '—') + '</td>'
+      + '<td class="rw-num rw-btc">' + (r.btcBTC > 0 ? '\u20BF' + r.btcBTC.toFixed(3) : '—') + '</td>'
+      + '<td class="rw-num rw-price">' + fmtUSD(r.price) + '</td>'
+      + '<td class="rw-num">' + (r.btcUSD > 0 ? fmtUSD(r.btcUSD) : '—') + '</td>'
+      + '<td><span class="rw-pill ' + pill + '">' + r.source + '</span></td>'
+      + '</tr>';
+  }).join('');
+
+  const iraYrs = iraEndAge != null && iraEndAge < LIFE_EXP - 0.5 ? Math.round(iraEndAge - retireAge) : null;
+  const btcYrs = btcEndAge != null && btcEndAge < LIFE_EXP - 0.5 ? Math.round(btcEndAge - retireAge) : null;
+  const parts = ['Retire at ' + retireAge.toFixed(1)];
+  parts.push('IRA runway ' + (iraYrs != null ? '~' + iraYrs + ' yrs' : 'to 100'));
+  parts.push('BTC runway ' + (btcYrs != null ? '~' + btcYrs + ' yrs' : 'to 100'));
+  sub.textContent = parts.join('  ·  ');
 }
 
 // ── LIFE RUNWAY ──────────────────────────
@@ -1031,7 +1486,7 @@ function renderTimeline(inp, retireAge, iraEndAge, btcEndAge) {
   if (retireAge != null && retireAge < LIFE_EXP - 1)
     mkrs.push({ age: retireAge, label: `Retire\n${fmtAge(retireAge)}`, color: 'var(--gold-lt)' });
   if (retireAge != null && retireAge < SUPPLEMENT_AGE)
-    mkrs.push({ age: SUPPLEMENT_AGE, label: '59½', color: 'var(--green)' });
+    mkrs.push({ age: SUPPLEMENT_AGE, label: '59', color: 'var(--green)' });
   if (iraEndAge != null && iraEndAge < LIFE_EXP - 1)
     mkrs.push({ age: iraEndAge, label: `IRA ends\n${fmtAge(iraEndAge)}`, color: 'var(--blue)' });
   if (btcEndAge != null && btcEndAge < LIFE_EXP - 1)
@@ -1087,7 +1542,16 @@ function calculate() {
     });
 
     const interceptAge = findInterceptArrays(holdingsArr, ages, reqArr.map(v => v ?? Infinity));
-    intercepts.push({ key: sc.key, age: interceptAge });
+
+    let interceptBTC = null;
+    if (interceptAge != null) {
+      const idxFloat = (interceptAge - ages[0]) / AGE_STEP;
+      const f = Math.max(0, Math.floor(idxFloat));
+      const cI = Math.min(holdingsArr.length - 1, Math.ceil(idxFloat));
+      const t = idxFloat - f;
+      interceptBTC = f === cI ? holdingsArr[f] : holdingsArr[f] * (1 - t) + holdingsArr[cI] * t;
+    }
+    intercepts.push({ key: sc.key, age: interceptAge, btc: interceptBTC });
 
     if (interceptAge != null) {
       const interceptIdx = ageToIdx(interceptAge, ages);
@@ -1156,7 +1620,7 @@ function calculate() {
   const holdAtRetire  = holdingsArr[ageToIdx(retireAge, ages)];
   const activeScLabel = SCENARIOS.find(s => s.key === activeKey).label;
   document.getElementById('bk-bridge-lbl').textContent = activeScLabel + ' — Bridge Requirement';
-  document.getElementById('bk-post-lbl').textContent   = activeScLabel + ' — Post-59½ Requirement';
+  document.getElementById('bk-post-lbl').textContent   = activeScLabel + ' — Post-59 Requirement';
   document.getElementById('bk-bridge').textContent = fmtBTC(bridgeUSD(retireAge, inp, activeRate) / priceAtRetire);
   document.getElementById('bk-post').textContent   = fmtBTC(postSupplementUSD(retireAge, inp, activeRate) / priceAtRetire);
   document.getElementById('bk-price').textContent  = fmtUSD(priceAtRetire);
@@ -1202,6 +1666,9 @@ function calculate() {
   // Timeline
   renderTimeline(inp, activeIntercept ?? null, iraEndAge, btcEndAge);
 
+  // Runway table
+  renderRunway(inp, activeIntercept ?? null, activeRate, iraEndAge, btcEndAge);
+
   // Chart subtitle
   const subParts = intercepts
     .filter(({key}) => toggleState[key])
@@ -1211,6 +1678,20 @@ function calculate() {
     ? 'Earliest retirement — ' + subParts.join('  ·  ')
     : 'Holdings do not meet requirement within analysis window';
 }
+
+// ── RUNWAY TABLE EXPAND/COLLAPSE ────────
+(() => {
+  const wrap = document.getElementById('rw-wrap');
+  const btn  = document.getElementById('rw-toggle');
+  if (!wrap || !btn) return;
+  btn.addEventListener('click', () => {
+    const expanded = wrap.classList.toggle('rw-collapsed') === false;
+    btn.setAttribute('aria-expanded', String(expanded));
+    if (!expanded) {
+      wrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  });
+})();
 
 // ── TOGGLE CHIPS ────────────────────────
 document.querySelectorAll('.toggle-chip').forEach(btn => {
@@ -1247,6 +1728,271 @@ document.querySelectorAll('.toggle-chip').forEach(btn => {
 document.querySelectorAll('input[type=number]').forEach(el => el.addEventListener('input', calculate));
 
 calculate();
+
+// ── REPORT GATE & MODAL ─────────────────
+const modal        = document.getElementById('modal');
+const modalFormView= document.getElementById('modal-form-view');
+const modalSuccess = document.getElementById('modal-success');
+const btnReport    = document.getElementById('btn-report');
+const btnClose     = document.getElementById('modal-close');
+const btnSubmit    = document.getElementById('modal-submit');
+const btnSkip      = document.getElementById('modal-skip');
+const emailInput   = document.getElementById('modal-email');
+
+function revealResults() {
+  document.body.classList.remove('results-locked');
+  btnReport.textContent = 'Report Generated ✓';
+  btnReport.disabled = true;
+}
+
+function openModal() {
+  modalFormView.style.display = '';
+  modalSuccess.style.display = 'none';
+  modal.classList.add('open');
+}
+function closeModal() { modal.classList.remove('open'); }
+
+btnReport.addEventListener('click', () => {
+  try { calculate(); } catch(e) { console.error(e); }
+  openModal();
+});
+
+btnClose.addEventListener('click', closeModal);
+modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+btnSkip.addEventListener('click', () => {
+  revealResults();
+  closeModal();
+});
+
+btnSubmit.addEventListener('click', () => {
+  const email = emailInput.value.trim();
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    emailInput.style.borderColor = 'var(--red)';
+    emailInput.focus();
+    return;
+  }
+  emailInput.style.borderColor = '';
+  revealResults();
+  generatePDF();
+  closeModal();
+});
+
+// ── PDF GENERATION ──────────────────────
+function generatePDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit:'pt', format:'letter' });
+  const inp = getInputs();
+  const W = doc.internal.pageSize.getWidth();
+  const margin = 50;
+  const cw = W - margin * 2;
+  let y = 50;
+
+  const dark = [8,8,15];
+  const gold = [201,168,76];
+  const cream = [240,234,214];
+  const silver = [170,180,190];
+  const mist = [122,140,160];
+
+  function addPage() { doc.addPage(); y = 50; drawPageBg(); }
+  function drawPageBg() {
+    doc.setFillColor(...dark);
+    doc.rect(0, 0, W, doc.internal.pageSize.getHeight(), 'F');
+  }
+  function heading(text) {
+    if (y > 680) addPage();
+    doc.setFont('helvetica','bold'); doc.setFontSize(14); doc.setTextColor(...gold);
+    doc.text(text.toUpperCase(), margin, y); y += 8;
+    doc.setDrawColor(...gold); doc.setLineWidth(0.5);
+    doc.line(margin, y, margin + cw, y); y += 20;
+  }
+  function subheading(text) {
+    if (y > 700) addPage();
+    doc.setFont('helvetica','bold'); doc.setFontSize(10); doc.setTextColor(...cream);
+    doc.text(text, margin, y); y += 16;
+  }
+  function para(text) {
+    if (y > 700) addPage();
+    doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(...silver);
+    const lines = doc.splitTextToSize(text, cw);
+    doc.text(lines, margin, y); y += lines.length * 13 + 6;
+  }
+  function kvRow(label, value) {
+    if (y > 720) addPage();
+    doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(...mist);
+    doc.text(label, margin, y);
+    doc.setTextColor(...cream); doc.setFont('helvetica','bold');
+    doc.text(value, margin + 260, y); y += 15;
+  }
+
+  // ── Page 1: Cover + Summary ──────────
+  drawPageBg();
+  doc.setFont('helvetica','bold'); doc.setFontSize(28); doc.setTextColor(...gold);
+  doc.text('Bitcoin Early', margin, y + 30);
+  doc.setFont('helvetica','italic'); doc.setFontSize(28); doc.setTextColor(...cream);
+  doc.text('Retirement Report', margin, y + 58);
+  y += 80;
+
+  doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(...mist);
+  doc.text('Generated ' + new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' }), margin, y);
+  doc.text('jimmyneyhart.com', W - margin - 100, y);
+  y += 30;
+
+  doc.setDrawColor(...gold); doc.setLineWidth(0.5);
+  doc.line(margin, y, margin + cw, y); y += 25;
+
+  heading('Your Profile');
+  kvRow('Current Age', computeAge().toFixed(1));
+  kvRow('BTC Holdings', '₿ ' + inp.btcHeld.toFixed(4));
+  kvRow('Monthly DCA', '$' + inp.monthlyDCA.toLocaleString());
+  kvRow('Annual Spending', '$' + inp.annualSpending.toLocaleString());
+  kvRow('IRA / 401k Balance', '$' + inp.iraBalance.toLocaleString());
+  kvRow('IRA Growth Rate', (inp.iraGrowthRate * 100).toFixed(1) + '%');
+  kvRow('Inflation Rate', (inp.inflationRate * 100).toFixed(1) + '%');
+  kvRow('Safe Withdrawal Rate', (inp.swr * 100).toFixed(1) + '%');
+  kvRow('Live BTC Price', '$' + liveBTCPrice.toLocaleString());
+  y += 10;
+
+  heading('Scenario Results');
+  SCENARIOS.forEach(sc => {
+    const ages = [];
+    for (let age = inp.currentAge; age <= LIFE_EXP + 0.01; age = +(age + AGE_STEP).toFixed(10)) ages.push(+age.toFixed(3));
+    const holdingsArr = ages.map((a) => {
+      const mo = Math.round((a - inp.currentAge) * 12);
+      return inp.btcHeld + btcFromDCA(inp.monthlyDCA, mo, inp.currentAge, inp);
+    });
+    const reqArr = ages.map(a => { const v = totalBTC(a, inp, sc.rate); return v > 0 ? v : Infinity; });
+    const intercept = findInterceptArrays(holdingsArr, ages, reqArr);
+    const retAge = intercept ? intercept.toFixed(1) : '> 100';
+    kvRow(sc.label + ' Scenario (' + (sc.rate*100) + '% growth)', 'Retire at age ' + retAge);
+  });
+  y += 10;
+
+  // ── Page 2: Tax Strategy ──────────────
+  addPage();
+  heading('Tax-Optimized Withdrawal Strategy');
+
+  para('This section outlines a tax-efficient approach to withdrawing from your Bitcoin and retirement accounts. The strategy is designed to minimize your lifetime tax burden by leveraging the different tax treatments of each account type.');
+
+  subheading('Phase 1: The Bridge Period (Retirement → Age 59)');
+  const bridgeYears = Math.max(0, SUPPLEMENT_AGE - computeAge());
+  para('During the bridge period, your 401k/IRA funds are locked behind a 10% early withdrawal penalty. Your BTC portfolio must fund 100% of spending. Key tax considerations:');
+  para('• Long-term capital gains rates apply to BTC held > 1 year (0%, 15%, or 20% depending on taxable income).');
+  para('• Sell highest cost-basis lots first (Specific Identification method) to minimize realized gains.');
+  para('• In years where BTC appreciation is strong, consider "tax-gain harvesting" — realizing gains in the 0% bracket ($47,025 single / $94,050 MFJ for 2024) to reset cost basis.');
+  para('• Roth conversion ladder: Convert traditional IRA → Roth each year up to the top of the 12% bracket. After 5 years these converted funds become penalty-free, creating a secondary bridge.');
+  y += 5;
+
+  subheading('Phase 2: Post-59 Blended Withdrawals');
+  para('Once you reach 59, retirement accounts unlock. The optimal withdrawal order:');
+  para('1. Draw from Traditional IRA/401k first, up to the top of your desired tax bracket (typically 12% or 22%).');
+  para('2. Supplement remaining spending needs from BTC (taxed at LTCG rates, which are lower).');
+  para('3. Leave Roth IRA untouched as long as possible — it grows tax-free and has no RMDs.');
+  para('4. At age 73+, Required Minimum Distributions (RMDs) kick in. Plan for these — they\'re taxed as ordinary income.');
+  y += 5;
+
+  subheading('Phase 3: Tax-Loss Harvesting BTC');
+  para('Bitcoin\'s volatility is an asset for tax planning. During drawdowns of 20%+ (which occur roughly every 2-3 years historically):');
+  para('• Sell depreciated lots to realize losses, then immediately repurchase. Crypto is not subject to wash sale rules (as of 2024).');
+  para('• Bank up to $3,000/year in losses against ordinary income, carry forward unlimited excess losses.');
+  para('• These banked losses offset gains in future withdrawal years, effectively reducing your tax rate on BTC sales.');
+
+  // ── Page 3: Withdrawal Schedule ────────
+  addPage();
+  heading('Year-by-Year Withdrawal Schedule');
+
+  para('Projected annual withdrawals under the base scenario (20% BTC growth). All dollar figures are inflation-adjusted to future dollars at ' + (inp.inflationRate*100).toFixed(1) + '% annual inflation.');
+  y += 5;
+
+  // Table header
+  const cols = [margin, margin+32, margin+90, margin+172, margin+252, margin+332, margin+412];
+  doc.setFont('helvetica','bold'); doc.setFontSize(7.5); doc.setTextColor(...gold);
+  ['AGE','YEAR','ANNUAL SPEND','IRA VALUE ($)','BTC PRICE ($)','BTC VALUE ($)','SOURCE'].forEach((h,i) => doc.text(h, cols[i], y));
+  y += 5;
+  doc.setDrawColor(gold[0],gold[1],gold[2]); doc.setLineWidth(0.3);
+  doc.line(margin, y, margin+cw, y); y += 10;
+
+  const baseRate = 0.20;
+  const schedAges = [];
+  for (let a = inp.currentAge; a <= LIFE_EXP + 0.01; a = +(a + AGE_STEP).toFixed(10)) schedAges.push(+a.toFixed(3));
+  const schedHold = schedAges.map(a => {
+    const mo = Math.round((a - inp.currentAge) * 12);
+    return inp.btcHeld + btcFromDCA(inp.monthlyDCA, mo, inp.currentAge, inp);
+  });
+  const schedReq = schedAges.map(a => { const v = totalBTC(a, inp, baseRate); return v > 0 ? v : Infinity; });
+  const schedIntercept = findInterceptArrays(schedHold, schedAges, schedReq);
+  const retireAge = schedIntercept ?? 65;
+
+  const rows = buildWithdrawalSchedule(inp, retireAge, baseRate);
+  for (const r of rows) {
+    if (y > 720) {
+      addPage();
+      doc.setFont('helvetica','bold'); doc.setFontSize(7.5); doc.setTextColor(...gold);
+      ['AGE','YEAR','ANNUAL SPEND','BTC VALUE ($)','IRA VALUE ($)','SOURCE'].forEach((h,i) => doc.text(h, cols[i], y));
+      y += 5; doc.setDrawColor(gold[0],gold[1],gold[2]); doc.setLineWidth(0.3);
+      doc.line(margin, y, margin+cw, y); y += 10;
+    }
+    doc.setFont('helvetica','normal'); doc.setFontSize(7.5);
+    doc.setTextColor(...(r.depleted ? [217,79,79] : cream));
+    doc.text(r.age.toFixed(0), cols[0], y);
+    doc.text(r.calYear.toString(), cols[1], y);
+    doc.text(fmtUSD(r.spend), cols[2], y);
+    doc.text(r.iraUSD > 0 ? fmtUSD(r.iraUSD) : '$0', cols[3], y);
+    doc.text(fmtUSD(r.price), cols[4], y);
+    doc.text(r.btcUSD > 0 ? fmtUSD(r.btcUSD) : '$0', cols[5], y);
+    doc.text(r.source, cols[6], y);
+    y += 12;
+  }
+
+  // ── Page 4: Rebalancing Guide ─────────
+  addPage();
+  heading('Rebalancing Guide');
+
+  para('As you approach and enter retirement, your portfolio allocation should evolve. This guide provides age-based targets for shifting between BTC and traditional accounts.');
+  y += 5;
+
+  subheading('10+ Years to Retirement: Maximum Growth');
+  para('• BTC: 70-90% of investable assets (you\'re here now if DCA-ing aggressively).');
+  para('• Traditional IRA/401k: 10-30%, focused on employer-match capture and tax-deferred growth.');
+  para('• Rationale: Long time horizon absorbs BTC volatility. Maximize exposure to asymmetric upside.');
+  y += 5;
+
+  subheading('5-10 Years to Retirement: Begin De-Risking');
+  para('• Gradually reduce BTC allocation by 3-5% per year toward a 50-60% target.');
+  para('• Shift freed capital into bond-heavy IRA allocations or stablecoin yield strategies.');
+  para('• Begin Roth conversion ladder if not already started (5-year seasoning requirement).');
+  para('• Build 2 years of spending in low-volatility assets (money market, T-bills) as a "cash cushion."');
+  y += 5;
+
+  subheading('0-5 Years to Retirement: Protect the Bridge');
+  para('• Ensure 3-5 years of bridge-period spending is in liquid, low-volatility form.');
+  para('• BTC target: 40-50%. The remaining BTC is your long-term growth engine; don\'t over-trim.');
+  para('• Avoid selling BTC during drawdowns — draw from your cash cushion instead.');
+  para('• Tax-loss harvest aggressively during any BTC corrections to bank losses for retirement withdrawals.');
+  y += 5;
+
+  subheading('In Retirement: Adaptive Withdrawal');
+  para('• Core rule: Never sell BTC in a year where it\'s down >20% from its prior all-time high.');
+  para('• During bear markets, lean on IRA/401k withdrawals and cash reserves.');
+  para('• During bull markets, take BTC profits to replenish 2-3 years of cash cushion.');
+  para('• Rebalance annually: if BTC exceeds 60% of total portfolio, trim to 50% and redirect to stable assets.');
+  para('• After age 73: coordinate RMDs with BTC sales to avoid bracket creep.');
+  y += 15;
+
+  // Disclaimer
+  heading('Important Disclaimers');
+  para('This report is generated for educational and informational purposes only. It does not constitute financial, tax, or investment advice. Consult with a qualified financial advisor and CPA before making retirement or investment decisions.');
+  para('Projections are based on mathematical models (Power Law pricing, constant growth rates) that may not reflect actual future performance. Past performance does not guarantee future results. Bitcoin is a volatile, speculative asset.');
+  para('Tax information is based on U.S. tax law as of 2024 and may change. State taxes are not considered. Your individual situation may vary significantly.');
+  y += 20;
+
+  doc.setFont('helvetica','italic'); doc.setFontSize(8); doc.setTextColor(...mist);
+  doc.text('Generated by jimmyneyhart.com/bitcoin-calculator', margin, y);
+  doc.text('© ' + new Date().getFullYear() + ' Jimmy Neyhart', W - margin - 100, y);
+
+  doc.save('Bitcoin-Retirement-Report.pdf');
+}
 </script>
 </body>
 </html>
