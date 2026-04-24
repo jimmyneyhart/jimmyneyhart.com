@@ -825,7 +825,7 @@ body:not(.results-locked) .narrative{
       </ul>
       <div class="modal-input-row">
         <input type="email" class="modal-email" id="modal-email" placeholder="your@email.com">
-        <button class="modal-submit" id="modal-submit">Get My PDF</button>
+        <button class="modal-submit" id="modal-submit">Download My Custom Report</button>
       </div>
       <button class="modal-skip" id="modal-skip">Skip — just show my results</button>
       <p class="modal-privacy"><svg viewBox="0 0 24 24"><path d="M12 1C8.676 1 6 3.676 6 7v2H4v14h16V9h-2V7c0-3.324-2.676-6-6-6zm0 2c2.276 0 4 1.724 4 4v2H8V7c0-2.276 1.724-4 4-4zm0 10c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"/></svg>Your information is never sold or shared. Ever. This is between you and your plan.</p>
@@ -843,7 +843,7 @@ body:not(.results-locked) .narrative{
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
 <script>
 // ── CURSOR ──────────────────────────────
 let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
@@ -1766,7 +1766,7 @@ btnSkip.addEventListener('click', () => {
   closeModal();
 });
 
-btnSubmit.addEventListener('click', () => {
+btnSubmit.addEventListener('click', async () => {
   const email = emailInput.value.trim();
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     emailInput.style.borderColor = 'var(--red)';
@@ -1774,9 +1774,38 @@ btnSubmit.addEventListener('click', () => {
     return;
   }
   emailInput.style.borderColor = '';
+  btnSubmit.disabled = true;
+  btnSubmit.textContent = 'Sending…';
+
+  try {
+    const res = await fetch('https://formspree.io/f/maqaavbp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        email,
+        message: 'New lead from the Bitcoin Early Retirement Calculator. This user requested a custom PDF report.',
+        _subject: 'New Bitcoin Calculator Report Request'
+      })
+    });
+    if (!res.ok) throw new Error('Submission failed');
+  } catch (err) {
+    console.error('Formspree error:', err);
+    // Still reveal results even if email capture fails
+  }
+
+  btnSubmit.disabled = false;
+  btnSubmit.textContent = 'Send Me the Report';
   revealResults();
-  generatePDF();
   closeModal();
+  // Defer PDF generation so the DOM updates and modal clears first
+  setTimeout(() => {
+    try {
+      generatePDF();
+    } catch (err) {
+      console.error('PDF generation failed:', err);
+      alert('Your results are ready! However, the PDF download failed. Please try refreshing the page.');
+    }
+  }, 300);
 });
 
 // ── PDF GENERATION ──────────────────────
