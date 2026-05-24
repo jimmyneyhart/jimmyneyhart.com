@@ -499,14 +499,79 @@ footer {
 .reveal { opacity:0; transform:translateY(20px); transition: opacity .7s ease, transform .7s ease; }
 .reveal.in { opacity:1; transform:translateY(0); }
 
+/* ── GITHUB STATS ────────────────────────────────────── */
+#github-stats { padding: 5rem 3rem; border-top: 1px solid var(--border); }
+
+.gh-meta-row {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 2px; background: var(--border);
+  border: 1px solid var(--border); margin: 3rem 0 2.5rem;
+}
+.gh-meta-box {
+  background: var(--bg); padding: 1.5rem 2rem; text-align: center;
+  opacity: 0; transform: translateY(12px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.gh-meta-box.in { opacity: 1; transform: translateY(0); }
+.gh-meta-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.5rem; font-weight: 300;
+  color: var(--gold-lt); display: block; line-height: 1;
+}
+.gh-meta-lbl {
+  font-family: 'Cormorant SC', serif; font-size: .52rem;
+  letter-spacing: .28em; color: var(--mist); text-transform: uppercase;
+  display: block; margin-top: .3rem;
+}
+.gh-viz-grid {
+  display: grid; grid-template-columns: 1fr 1.25fr;
+  gap: 2px; background: var(--border); border: 1px solid var(--border);
+}
+.gh-panel { background: var(--bg); padding: 2.5rem; }
+.gh-panel-lbl {
+  font-family: 'Cormorant SC', serif; font-size: .58rem;
+  letter-spacing: .38em; color: var(--gold); text-transform: uppercase;
+  display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;
+}
+.gh-panel-lbl::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.donut-wrap { display: flex; align-items: center; gap: 2.5rem; }
+#gh-lang-canvas { flex-shrink: 0; }
+.gh-legend { list-style: none; display: flex; flex-direction: column; gap: .7rem; flex: 1; }
+.gh-legend-item { display: flex; align-items: center; gap: .7rem; font-size: .72rem; color: var(--mist); }
+.gh-legend-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.gh-legend-pct { margin-left: auto; font-family: 'Cormorant Garamond', serif; font-style: italic; color: var(--gold); font-size: .85rem; }
+.gh-bars { display: flex; flex-direction: column; gap: 1.4rem; }
+.gh-bar-item { display: flex; flex-direction: column; gap: .5rem; }
+.gh-bar-hd { display: flex; justify-content: space-between; align-items: baseline; }
+.gh-bar-name { font-family: 'Cormorant Garamond', serif; font-size: .88rem; font-style: italic; color: var(--cream); }
+.gh-bar-meta { font-family: 'Cormorant SC', serif; font-size: .52rem; letter-spacing: .18em; color: var(--gold); text-transform: uppercase; }
+.gh-bar-track { height: 1px; background: rgba(201,168,76,.12); position: relative; }
+.gh-bar-fill {
+  position: absolute; left: 0; top: 0; height: 100%;
+  background: linear-gradient(to right, rgba(201,168,76,.45), var(--gold-lt));
+  width: 0; transition: width 1.3s cubic-bezier(.4,0,.2,1);
+}
+.gh-bar-fill::after {
+  content: ''; position: absolute; right: -1px; top: -3px;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--gold-lt); box-shadow: 0 0 8px rgba(232,203,122,.5);
+}
+.gh-fetch-msg {
+  font-family: 'Cormorant Garamond', serif; font-style: italic;
+  color: var(--mist); padding: 2rem 0; font-size: .9rem;
+}
+
 /* ── RESPONSIVE ─────────────────────────────────────── */
 @media(max-width:800px){
   nav, nav.scrolled { padding: 1rem 1.5rem; }
-  #hero, #works, #manifesto .m-inner, #about, #contact, footer { padding-left:1.5rem; padding-right:1.5rem; }
+  #hero, #works, #github-stats, #manifesto .m-inner, #about, #contact, footer { padding-left:1.5rem; padding-right:1.5rem; }
   .hero-bottom { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
   #about { grid-template-columns:1fr; gap:3rem; }
   .about-left { position:static; }
   .section-head { flex-direction:column; align-items:flex-start; }
+  .gh-viz-grid { grid-template-columns: 1fr; }
+  .gh-meta-row { grid-template-columns: 1fr; }
+  .donut-wrap { flex-direction: column; align-items: flex-start; }
 }
 </style>
 </head>
@@ -640,6 +705,52 @@ footer {
       <div class="card-foot">
         <span class="card-lang">HTML</span>
         <span class="card-stars" style="font-family:'Cormorant SC',serif;font-size:.58rem;letter-spacing:.15em;color:var(--mist);font-style:normal">Open Source</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GITHUB STATS -->
+<section id="github-stats">
+  <div class="section-head">
+    <div>
+      <p class="overline">Open Source Presence</p>
+      <h2 class="section-title">Code in the <em>Wild</em></h2>
+    </div>
+    <a href="https://github.com/jimmyneyhart" target="_blank" rel="noopener" class="gh-link">GitHub Profile →</a>
+  </div>
+
+  <!-- Animated stat counters -->
+  <div class="gh-meta-row">
+    <div class="gh-meta-box">
+      <span class="gh-meta-num" id="gh-n-repos">—</span>
+      <span class="gh-meta-lbl">Repositories</span>
+    </div>
+    <div class="gh-meta-box">
+      <span class="gh-meta-num" id="gh-n-langs">—</span>
+      <span class="gh-meta-lbl">Languages Used</span>
+    </div>
+    <div class="gh-meta-box">
+      <span class="gh-meta-num" id="gh-n-size">—</span>
+      <span class="gh-meta-lbl">KB of Code</span>
+    </div>
+  </div>
+
+  <!-- Visualization panels -->
+  <div class="gh-viz-grid" id="gh-viz-grid">
+    <div class="gh-panel">
+      <p class="gh-panel-lbl">Language Breakdown</p>
+      <div class="donut-wrap">
+        <canvas id="gh-lang-canvas" width="160" height="160"></canvas>
+        <ul class="gh-legend" id="gh-legend">
+          <li class="gh-fetch-msg">Loading…</li>
+        </ul>
+      </div>
+    </div>
+    <div class="gh-panel">
+      <p class="gh-panel-lbl">Repository Overview</p>
+      <div class="gh-bars" id="gh-bars">
+        <p class="gh-fetch-msg">Fetching from GitHub…</p>
       </div>
     </div>
   </div>
@@ -851,4 +962,192 @@ window.addEventListener('scroll', () => {
   ).join('');
   new IntersectionObserver(([e]) => {
     if (e.isIntersecting)
-      el.query
+      el.querySelectorAll('.sc').forEach((s, i) => setTimeout(() => s.classList.add('in'), i * 30));
+  }, {threshold:0.3}).observe(el);
+})();
+
+// ── GITHUB STATS ─────────────────────────
+(function() {
+  const USER = 'jimmyneyhart';
+
+  // Luxury-adapted language palette
+  const LANG_COLORS = {
+    'JavaScript':       '#E8CB7A',
+    'TypeScript':       '#8BAEC7',
+    'Python':           '#7CBFAB',
+    'HTML':             '#C87B5A',
+    'CSS':              '#9B7BC4',
+    'Jupyter Notebook': '#D4895A',
+    'Shell':            '#6BAA7A',
+    'Swift':            '#D4875A',
+    'Ruby':             '#C96B6B',
+    'Go':               '#7AC4C4',
+  };
+
+  function langColor(name) {
+    if (LANG_COLORS[name]) return LANG_COLORS[name];
+    let h = 0;
+    for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) & 0xffffff;
+    return 'hsl(' + (h % 360) + ',35%,50%)';
+  }
+
+  function drawDonut(langTotals) {
+    const canvas = document.getElementById('gh-lang-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const cx = 80, cy = 80, R = 68, ri = 46;
+
+    const entries = Object.entries(langTotals).sort((a, b) => b[1] - a[1]);
+    const total = entries.reduce((s, [, v]) => s + v, 0);
+    if (!total) return;
+
+    // Top 5 + group rest as Other
+    const top = entries.slice(0, 5);
+    const rest = entries.slice(5).reduce((s, [, v]) => s + v, 0);
+    if (rest > 0) top.push(['Other', rest]);
+
+    let angle = -Math.PI / 2;
+    const GAP = 0.022;
+
+    top.forEach(([lang, val]) => {
+      const pct = val / total;
+      const sweep = Math.max(0.001, pct * Math.PI * 2 - GAP);
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.arc(cx, cy, R, angle, angle + sweep);
+      ctx.arc(cx, cy, ri, angle + sweep, angle, true);
+      ctx.closePath();
+      ctx.fillStyle = langColor(lang);
+      ctx.fill();
+      angle += pct * Math.PI * 2;
+    });
+
+    // Inner punch-out
+    ctx.beginPath();
+    ctx.arc(cx, cy, ri - 1, 0, Math.PI * 2);
+    ctx.fillStyle = '#08080F';
+    ctx.fill();
+
+    // Center text
+    ctx.textAlign = 'center';
+    ctx.fillStyle = 'rgba(201,168,76,.55)';
+    ctx.font = '300 10px DM Sans';
+    ctx.fillText('languages', cx, cy - 4);
+    ctx.fillStyle = '#E8CB7A';
+    ctx.font = '300 22px Cormorant Garamond';
+    ctx.fillText(Object.keys(langTotals).length, cx, cy + 15);
+
+    // Legend
+    const legend = document.getElementById('gh-legend');
+    legend.innerHTML = '';
+    top.forEach(([lang, val]) => {
+      const pct = Math.round(val / total * 100);
+      const li = document.createElement('li');
+      li.className = 'gh-legend-item';
+      li.innerHTML =
+        '<span class="gh-legend-dot" style="background:' + langColor(lang) + '"></span>' +
+        '<span>' + lang + '</span>' +
+        '<span class="gh-legend-pct">' + pct + '%</span>';
+      legend.appendChild(li);
+    });
+  }
+
+  function drawBars(repos) {
+    const bars = document.getElementById('gh-bars');
+    if (!bars) return;
+    bars.innerHTML = '';
+
+    if (!repos.length) {
+      bars.innerHTML = '<p class="gh-fetch-msg">No public repositories found.</p>';
+      return;
+    }
+
+    const maxSize = Math.max(1, ...repos.map(r => r.size || 0));
+
+    repos.slice(0, 7).forEach((repo, i) => {
+      const pct = Math.max(6, Math.round((repo.size || 0) / maxSize * 100));
+      const name = repo.name.replace(/-/g, '–').replace(/_/g, ' ');
+      const meta = repo.language || (repo.stargazers_count > 0 ? '✶ ' + repo.stargazers_count : 'misc');
+
+      const item = document.createElement('div');
+      item.className = 'gh-bar-item';
+      item.innerHTML =
+        '<div class="gh-bar-hd">' +
+          '<span class="gh-bar-name">' + name + '</span>' +
+          '<span class="gh-bar-meta">' + meta + '</span>' +
+        '</div>' +
+        '<div class="gh-bar-track"><div class="gh-bar-fill" id="ghbf' + i + '"></div></div>';
+      bars.appendChild(item);
+
+      // Staggered bar animation
+      setTimeout(function() {
+        const fill = document.getElementById('ghbf' + i);
+        if (fill) fill.style.width = pct + '%';
+      }, i * 160 + 350);
+    });
+  }
+
+  async function fetchAndRender() {
+    try {
+      const res = await fetch(
+        'https://api.github.com/users/' + USER + '/repos?per_page=100&sort=updated',
+        { headers: { Accept: 'application/vnd.github.v3+json' } }
+      );
+      if (!res.ok) throw new Error('rate-limited');
+      const repos = await res.json();
+      if (!Array.isArray(repos)) throw new Error('bad response');
+
+      // Stat counters
+      countUp(document.getElementById('gh-n-repos'), repos.length, 900);
+      countUp(document.getElementById('gh-n-size'), repos.reduce((s, r) => s + (r.size || 0), 0), 1200);
+
+      // Reveal stat boxes with stagger
+      document.querySelectorAll('.gh-meta-box').forEach((el, i) =>
+        setTimeout(() => el.classList.add('in'), i * 130 + 200)
+      );
+
+      // Fetch language bytes for each repo in parallel
+      const langTotals = {};
+      await Promise.all(repos.slice(0, 30).map(async repo => {
+        try {
+          const langs = await fetch(repo.languages_url).then(r => r.json());
+          Object.entries(langs).forEach(([l, b]) => { langTotals[l] = (langTotals[l] || 0) + b; });
+        } catch (_) {}
+      }));
+
+      const numLangs = Object.keys(langTotals).length;
+      countUp(document.getElementById('gh-n-langs'), numLangs, 900);
+
+      if (numLangs > 0) drawDonut(langTotals);
+      drawBars(repos);
+
+    } catch (_) {
+      // Graceful static fallback
+      document.getElementById('gh-n-repos').textContent = '6+';
+      document.getElementById('gh-n-langs').textContent = '5+';
+      document.getElementById('gh-n-size').textContent = '—';
+      document.querySelectorAll('.gh-meta-box').forEach((el, i) =>
+        setTimeout(() => el.classList.add('in'), i * 130 + 200)
+      );
+      document.getElementById('gh-bars').innerHTML =
+        '<p class="gh-fetch-msg">Visit <a href="https://github.com/' + USER + '" style="color:var(--gold);text-decoration:none">github.com/' + USER + '</a> to explore.</p>';
+      document.getElementById('gh-legend').innerHTML =
+        '<li class="gh-fetch-msg">GitHub API limit reached — try again shortly.</li>';
+    }
+  }
+
+  // Lazy-load: only fetch when section scrolls into view
+  let started = false;
+  const ghSection = document.getElementById('github-stats');
+  if (ghSection) {
+    new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting && !started) {
+        started = true;
+        fetchAndRender();
+      }
+    }, { threshold: 0.15 }).observe(ghSection);
+  }
+})();
+</script>
+</body>
+</html>
