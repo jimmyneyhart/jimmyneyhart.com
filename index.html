@@ -560,6 +560,18 @@ footer {
   font-family: 'Cormorant Garamond', serif; font-style: italic;
   color: var(--mist); padding: 2rem 0; font-size: .9rem;
 }
+.gh-pinned { margin-top: 1.8rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+.gh-pinned-lbl {
+  font-family: 'Cormorant SC', serif; font-size: .52rem;
+  letter-spacing: .32em; color: var(--mist); text-transform: uppercase;
+  margin-bottom: 1.2rem; display: flex; align-items: center; gap: .8rem;
+}
+.gh-pinned-lbl::after { content: ''; flex: 1; height: 1px; background: rgba(201,168,76,.08); }
+.gh-bar-collab { color: rgba(201,168,76,.5) !important; letter-spacing: .12em !important; }
+.gh-bar-subdesc {
+  font-family: 'Cormorant Garamond', serif; font-style: italic;
+  font-size: .7rem; color: rgba(122,140,160,.7); margin-top: .4rem; line-height: 1.5;
+}
 
 /* ── RESPONSIVE ─────────────────────────────────────── */
 @media(max-width:800px){
@@ -707,6 +719,18 @@ footer {
         <span class="card-stars" style="font-family:'Cormorant SC',serif;font-size:.58rem;letter-spacing:.15em;color:var(--mist);font-style:normal">Open Source</span>
       </div>
     </div>
+    <div class="card in">
+      <div class="card-glow"></div><div class="card-sweep"></div>
+      <span class="card-num">VI</span>
+      <div class="card-link-wrap">
+        <h3 class="card-name">Brilliant Distributions</h3>
+      </div>
+      <p class="card-desc">A partnership with the intention of disrupting technology and industry to bring value to customers. Full-stack contribution spanning TypeScript, React, Python, and more.</p>
+      <div class="card-foot">
+        <span class="card-lang">TypeScript · React · Python</span>
+        <span class="card-stars" style="font-family:'Cormorant SC',serif;font-size:.58rem;letter-spacing:.15em;color:rgba(201,168,76,.5);font-style:normal">Private</span>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -751,6 +775,18 @@ footer {
       <p class="gh-panel-lbl">Repository Overview</p>
       <div class="gh-bars" id="gh-bars">
         <p class="gh-fetch-msg">Fetching from GitHub…</p>
+      </div>
+      <!-- Pinned private collaboration -->
+      <div class="gh-pinned">
+        <p class="gh-pinned-lbl">Collaboration</p>
+        <div class="gh-bar-item">
+          <div class="gh-bar-hd">
+            <span class="gh-bar-name">Brilliant Distributions</span>
+            <span class="gh-bar-meta gh-bar-collab">Private</span>
+          </div>
+          <div class="gh-bar-track"><div class="gh-bar-fill" id="ghbf-bd"></div></div>
+          <p class="gh-bar-subdesc">TypeScript · React · Python · JavaScript · CSS</p>
+        </div>
       </div>
     </div>
   </div>
@@ -1120,6 +1156,7 @@ window.addEventListener('scroll', () => {
 
       if (numLangs > 0) drawDonut(langTotals);
       drawBars(repos);
+      animatePinnedBar();
 
     } catch (_) {
       // Graceful static fallback
@@ -1133,7 +1170,16 @@ window.addEventListener('scroll', () => {
         '<p class="gh-fetch-msg">Visit <a href="https://github.com/' + USER + '" style="color:var(--gold);text-decoration:none">github.com/' + USER + '</a> to explore.</p>';
       document.getElementById('gh-legend').innerHTML =
         '<li class="gh-fetch-msg">GitHub API limit reached — try again shortly.</li>';
+      animatePinnedBar();
     }
+  }
+
+  function animatePinnedBar() {
+    // Brilliant Distributions — pinned private collaboration bar
+    setTimeout(function() {
+      var bd = document.getElementById('ghbf-bd');
+      if (bd) bd.style.width = '80%';
+    }, 900);
   }
 
   // Lazy-load: only fetch when section scrolls into view
