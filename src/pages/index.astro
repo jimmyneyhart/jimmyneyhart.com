@@ -20,6 +20,9 @@ const studio = data.projects.filter((p) => p.source === 'studio');
     languages={data.stats.languages}
     lastPush={data.stats.lastPush}
     degraded={data.stats.degraded}
+    totalSizeKB={data.viz.totalSizeKB}
+    languageBytes={data.viz.languageBytes}
+    topRepos={data.viz.topRepos}
   />
   <WorkIndex projects={personal} />
   <StudioBD projects={studio} />
