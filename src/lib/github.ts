@@ -275,8 +275,11 @@ export async function getSiteData(): Promise<SiteData> {
     });
   }
 
-  const maxSize = Math.max(1, ...visibleRepos.map((r) => r.size));
-  const topRepos: RepoBar[] = [...visibleRepos]
+  // Repo-size bars: exclude org-profile (.github) and near-empty repos so the
+  // chart reads as real projects, not infra. (Language totals keep everything.)
+  const barRepos = visibleRepos.filter((r) => r.name !== '.github' && r.size > 1);
+  const maxSize = Math.max(1, ...barRepos.map((r) => r.size));
+  const topRepos: RepoBar[] = [...barRepos]
     .sort((a, b) => b.size - a.size)
     .slice(0, 6)
     .map((r) => ({
