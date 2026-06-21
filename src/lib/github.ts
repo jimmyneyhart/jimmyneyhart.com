@@ -22,10 +22,25 @@ export interface GitHubRepo {
   language: string | null;
   topics: string[];
   stars: number;
+  size: number; // KB, from the repos API
   pushedAt: string; // ISO
   htmlUrl: string;
   fork: boolean;
   archived: boolean;
+}
+
+export interface LanguageSlice {
+  name: string;
+  bytes: number;
+  pct: number; // 0–100, rounded
+}
+
+export interface RepoBar {
+  name: string;
+  size: number; // KB
+  pct: number; // 0–100 relative to largest
+  language: string | null;
+  stars: number;
 }
 
 /** A project ready to render: curated fields + any merged live data. */
@@ -47,6 +62,12 @@ export interface SiteData {
     lastPush: string | null;
     /** True when live data could not be fetched (curated-only fallback). */
     degraded: boolean;
+  };
+  /** Build-time "Code in the wild" visualization data. */
+  viz: {
+    totalSizeKB: number;
+    languageBytes: LanguageSlice[];
+    topRepos: RepoBar[];
   };
 }
 
@@ -81,6 +102,7 @@ interface RawRepo {
   language: string | null;
   topics?: string[];
   stargazers_count: number;
+  size: number;
   pushed_at: string;
   html_url: string;
   fork: boolean;
@@ -99,6 +121,7 @@ async function fetchReposFor(kind: 'users' | 'orgs', login: string): Promise<Git
     language: r.language,
     topics: r.topics ?? [],
     stars: r.stargazers_count,
+    size: r.size ?? 0,
     pushedAt: r.pushed_at,
     htmlUrl: r.html_url,
     fork: r.fork,
@@ -124,6 +147,14 @@ async function fetchCommitCount(fullName: string): Promise<number | undefined> {
   } catch {
     return undefined;
   }
+}
+
+/** Per-repo language byte breakdown ({ TypeScript: 12345, ... }). */
+async function fetchLanguages(fullName: string): Promise<Record<string, number>> {
+  const data = await fetchJson<Record<string, number>>(
+    `${API}/repos/${fullName}/languages`,
+  );
+  return data ?? {};
 }
 
 function statusFromRepo(repo: GitHubRepo): ProjectStatus {
@@ -215,6 +246,49 @@ export async function getSiteData(): Promise<SiteData> {
           .at(-1) ?? null
       : null;
 
+  // 4) "Code in the wild" viz — aggregate language bytes across visible repos
+  //    and rank repos by size. All build-time, so no client fetch / loading.
+  const langTotals: Record<string, number> = {};
+  await Promise.all(
+    visibleRepos.map(async (r) => {
+      const langs = await fetchLanguages(r.fullName);
+      for (const [name, bytes] of Object.entries(langs)) {
+        langTotals[name] = (langTotals[name] ?? 0) + bytes;
+      }
+    }),
+  );
+
+  const totalBytes = Object.values(langTotals).reduce((s, v) => s + v, 0);
+  const sortedLangs = Object.entries(langTotals).sort((a, b) => b[1] - a[1]);
+  const topLangs = sortedLangs.slice(0, 5);
+  const restBytes = sortedLangs.slice(5).reduce((s, [, v]) => s + v, 0);
+  const languageBytes: LanguageSlice[] = topLangs.map(([name, bytes]) => ({
+    name,
+    bytes,
+    pct: totalBytes ? Math.round((bytes / totalBytes) * 100) : 0,
+  }));
+  if (restBytes > 0) {
+    languageBytes.push({
+      name: 'Other',
+      bytes: restBytes,
+      pct: totalBytes ? Math.round((restBytes / totalBytes) * 100) : 0,
+    });
+  }
+
+  const maxSize = Math.max(1, ...visibleRepos.map((r) => r.size));
+  const topRepos: RepoBar[] = [...visibleRepos]
+    .sort((a, b) => b.size - a.size)
+    .slice(0, 6)
+    .map((r) => ({
+      name: r.name,
+      size: r.size,
+      pct: Math.max(4, Math.round((r.size / maxSize) * 100)),
+      language: r.language,
+      stars: r.stars,
+    }));
+
+  const totalSizeKB = visibleRepos.reduce((s, r) => s + r.size, 0);
+
   return {
     projects,
     stats: {
@@ -222,6 +296,11 @@ export async function getSiteData(): Promise<SiteData> {
       languages,
       lastPush,
       degraded,
+    },
+    viz: {
+      totalSizeKB,
+      languageBytes,
+      topRepos,
     },
   };
 }

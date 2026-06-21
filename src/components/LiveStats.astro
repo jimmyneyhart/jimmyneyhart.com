@@ -1,25 +1,38 @@
 ---
-import { fmtDate } from '../lib/format';
+import { fmtDate, fmtInt } from '../lib/format';
+import type { LanguageSlice, RepoBar } from '../lib/github';
 
 interface Props {
   publicRepos: number;
   languages: string[];
   lastPush: string | null;
   degraded: boolean;
+  totalSizeKB: number;
+  languageBytes: LanguageSlice[];
+  topRepos: RepoBar[];
 }
-const { publicRepos, languages, lastPush, degraded } = Astro.props;
+const { publicRepos, languages, lastPush, degraded, totalSizeKB, languageBytes, topRepos } =
+  Astro.props;
 
 const cells = [
   { k: 'Public repos', v: degraded ? '—' : String(publicRepos) },
   { k: 'Languages', v: languages.length ? String(languages.length) : '—' },
+  { k: 'KB of code', v: totalSizeKB ? fmtInt(totalSizeKB) : '—' },
   { k: 'Last push', v: fmtDate(lastPush) },
-  { k: 'Data source', v: degraded ? 'CURATED' : 'LIVE · GITHUB' },
 ];
+
+// Hard-edged, restrained data palette: ink → accent → grays.
+const PALETTE = ['#0B0B0B', '#FF4A1C', '#6B6B63', '#B5B0A2', '#3A3A36', '#8A8780'];
+const color = (i: number) => PALETTE[i % PALETTE.length];
 ---
 
-<section class="stats" aria-label="Live statistics">
+<section class="stats" aria-label="GitHub signals">
   <div class="wrap">
-    <span class="label accent stats__sec">01 / Signals · pulled at build</span>
+    <div class="stats__top">
+      <span class="label accent">01 / Code in the wild</span>
+      <span class="stats__src label">{degraded ? 'Curated' : 'Live · GitHub · build-time'}</span>
+    </div>
+
     <div class="stats__grid">
       {cells.map((c) => (
         <div class="stats__cell reveal">
@@ -28,21 +41,70 @@ const cells = [
         </div>
       ))}
     </div>
-    {languages.length > 0 && (
-      <p class="stats__langs mono">{languages.join('  ◇  ')}</p>
+
+    {languageBytes.length > 0 && (
+      <div class="viz reveal">
+        <p class="viz__lbl label">Language breakdown · by bytes</p>
+        <div class="langbar" role="img" aria-label="Language breakdown by bytes">
+          {languageBytes.map((l: LanguageSlice, i: number) => (
+            <span
+              class="langbar__seg"
+              style={`width:${l.pct}%;background:${color(i)}`}
+              title={`${l.name} ${l.pct}%`}
+            ></span>
+          ))}
+        </div>
+        <ul class="legend">
+          {languageBytes.map((l: LanguageSlice, i: number) => (
+            <li class="legend__item mono">
+              <span class="legend__dot" style={`background:${color(i)}`}></span>
+              <span>{l.name}</span>
+              <span class="legend__pct">{l.pct}%</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+    {topRepos.length > 0 && (
+      <div class="viz reveal">
+        <p class="viz__lbl label">Repositories · by size</p>
+        <div class="bars">
+          {topRepos.map((r: RepoBar) => (
+            <div class="bar">
+              <div class="bar__hd mono">
+                <span class="bar__name">{r.name}</span>
+                <span class="bar__meta">
+                  {r.language ?? 'misc'}
+                  {r.stars > 0 ? ` · ★ ${r.stars}` : ''} · {fmtInt(r.size)} KB
+                </span>
+              </div>
+              <div class="bar__track">
+                <div class="bar__fill" style={`width:${r.pct}%`}></div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     )}
   </div>
 </section>
 
 <style>
   .stats {
-    padding-block: clamp(2.5rem, 6vw, 4rem);
+    padding-block: clamp(2.5rem, 6vw, 4.5rem);
     border-bottom: var(--rule) solid var(--ink);
   }
-  .stats__sec {
-    display: block;
+  .stats__top {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
     margin-bottom: 1.2rem;
   }
+  .stats__top .accent { color: var(--accent); }
+  .stats__src { color: var(--ink-60); }
+
   .stats__grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -57,19 +119,79 @@ const cells = [
   }
   .stats__cell:last-child { border-right: 0; }
   .stats__v {
-    font-size: clamp(1.8rem, 5vw, 3rem);
+    font-size: clamp(1.6rem, 4.5vw, 2.8rem);
     font-weight: 900;
     line-height: 1;
     letter-spacing: -0.02em;
   }
   .stats__k { color: var(--ink-60); }
-  .stats__langs {
-    margin-top: 1rem;
-    font-size: 0.75rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--ink-60);
+
+  .viz { margin-top: clamp(2rem, 5vw, 3rem); }
+  .viz__lbl { color: var(--ink-60); display: block; margin-bottom: 0.9rem; }
+
+  .langbar {
+    display: flex;
+    width: 100%;
+    height: 30px;
+    border: var(--rule) solid var(--ink);
+    overflow: hidden;
   }
+  .langbar__seg {
+    height: 100%;
+    border-right: 1px solid var(--paper);
+  }
+  .langbar__seg:last-child { border-right: 0; }
+
+  .legend {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.4rem;
+    margin-top: 0.9rem;
+  }
+  .legend__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.74rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .legend__dot {
+    width: 11px;
+    height: 11px;
+    border: 1px solid var(--ink);
+  }
+  .legend__pct { color: var(--ink-60); }
+
+  .bars { display: grid; gap: 0.9rem; }
+  .bar__hd {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.35rem;
+    font-size: 0.74rem;
+    letter-spacing: 0.04em;
+  }
+  .bar__name { font-weight: 600; text-transform: uppercase; }
+  .bar__meta { color: var(--ink-60); text-transform: uppercase; text-align: right; }
+  .bar__track {
+    height: 14px;
+    border: 1px solid var(--ink);
+    background: var(--paper);
+  }
+  .bar__fill {
+    height: 100%;
+    background: var(--ink);
+    border-right: 2px solid var(--accent);
+    transform-origin: left;
+    animation: grow 0.7s cubic-bezier(0.2, 0.9, 0.2, 1) both;
+  }
+  @keyframes grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  @media (prefers-reduced-motion: reduce) {
+    .bar__fill { animation: none; }
+  }
+
   @media (max-width: 720px) {
     .stats__grid { grid-template-columns: repeat(2, 1fr); }
     .stats__cell:nth-child(2) { border-right: 0; }
