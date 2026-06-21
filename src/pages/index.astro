@@ -1,0 +1,27 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import WorkIndex from '../components/WorkIndex.astro';
+import StudioBD from '../components/StudioBD.astro';
+import LiveStats from '../components/LiveStats.astro';
+import Contact from '../components/Contact.astro';
+import { getSiteData } from '../lib/github';
+
+// Build-time data pull. Never throws — degrades to curated data.
+const data = await getSiteData();
+const personal = data.projects.filter((p) => p.source === 'personal');
+const studio = data.projects.filter((p) => p.source === 'studio');
+---
+
+<Base>
+  <Hero lastPush={data.stats.lastPush} publicRepos={data.stats.publicRepos} />
+  <LiveStats
+    publicRepos={data.stats.publicRepos}
+    languages={data.stats.languages}
+    lastPush={data.stats.lastPush}
+    degraded={data.stats.degraded}
+  />
+  <WorkIndex projects={personal} />
+  <StudioBD projects={studio} />
+  <Contact />
+</Base>

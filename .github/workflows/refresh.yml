@@ -1,0 +1,33 @@
+name: Refresh site (re-pull GitHub data)
+
+# Netlify auto-builds on every push to this repo. This workflow ADDS
+# cross-source freshness: it pings a Netlify build hook on a schedule so new
+# activity in the personal account or the brilliant-disruptions org is pulled
+# into the site without needing a commit here.
+#
+# Setup (one-time):
+#   1. Netlify dashboard → Site settings → Build & deploy → Build hooks →
+#      "Add build hook". Copy the URL.
+#   2. GitHub repo → Settings → Secrets and variables → Actions →
+#      New repository secret: NETLIFY_BUILD_HOOK = <that URL>
+#
+# To wire INSTANT cross-repo updates later, call the same hook from a workflow
+# in the source repo (e.g. brilliant-disruptions/*) on push.
+
+on:
+  schedule:
+    - cron: '0 */6 * * *' # every 6 hours
+  workflow_dispatch: {}
+
+jobs:
+  trigger-rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Netlify build hook
+        run: |
+          if [ -z "${{ secrets.NETLIFY_BUILD_HOOK }}" ]; then
+            echo "::warning::NETLIFY_BUILD_HOOK secret not set — skipping."
+            exit 0
+          fi
+          curl -fsS -X POST -d '{}' "${{ secrets.NETLIFY_BUILD_HOOK }}"
+          echo "Triggered Netlify rebuild."

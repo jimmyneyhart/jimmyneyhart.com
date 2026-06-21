@@ -1,0 +1,128 @@
+---
+import { site } from '../data/site.config';
+import { fmtDate } from '../lib/format';
+
+interface Props {
+  lastPush: string | null;
+  publicRepos: number;
+}
+const { lastPush, publicRepos } = Astro.props;
+const { profile } = site;
+---
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero__meta label">
+      <span>{profile.role}</span>
+      <span>·</span>
+      <span>{profile.location}</span>
+      <span class="hero__live">
+        <i></i>LAST PUSH {fmtDate(lastPush)}
+      </span>
+    </div>
+
+    <h1 class="display hero__name">
+      Jimmy<br />Neyhart<span class="accent">.</span>
+    </h1>
+
+    <div class="hero__bottom">
+      <p class="lead">{profile.statement}</p>
+      <div class="hero__cta">
+        <a class="btn btn--accent" href="#work">See the work ↓</a>
+        <a class="btn" href={`mailto:${profile.email}`}>Start a conversation</a>
+      </div>
+    </div>
+  </div>
+  <div class="hero__ticker mono" aria-hidden="true">
+    <div class="hero__ticker-track">
+      {Array.from({ length: 2 }).map(() => (
+        <span>
+          REACT NATIVE ◇ TYPESCRIPT ◇ SUPABASE ◇ EXPO ◇ NODE ◇ AI AGENTS ◇
+          SYSTEMS ◇ MOBILE-FIRST ◇ {publicRepos} PUBLIC REPOS ◇ SHIPPING FROM TN ◇
+        </span>
+      ))}
+    </div>
+  </div>
+</header>
+
+<style>
+  .hero {
+    padding-top: clamp(2rem, 6vw, 5rem);
+    border-bottom: var(--rule) solid var(--ink);
+    overflow: hidden;
+  }
+  .hero__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    align-items: center;
+    color: var(--ink-60);
+    margin-bottom: clamp(1.5rem, 5vw, 3rem);
+  }
+  .hero__live {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-left: auto;
+    color: var(--ink);
+  }
+  .hero__live i {
+    width: 8px;
+    height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: inline-block;
+    animation: blink 1.6s steps(2) infinite;
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+  }
+  .hero__name {
+    margin-bottom: clamp(2rem, 6vw, 4rem);
+  }
+  .hero__bottom {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2rem;
+    align-items: end;
+    padding-bottom: clamp(2rem, 6vw, 4rem);
+  }
+  .hero__cta {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .hero__ticker {
+    border-top: var(--rule) solid var(--ink);
+    background: var(--ink);
+    color: var(--paper);
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    padding-block: 0.7rem;
+  }
+  .hero__ticker-track {
+    display: inline-flex;
+    animation: scroll 38s linear infinite;
+  }
+  .hero__ticker-track span {
+    padding-right: 1rem;
+  }
+  @keyframes scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero__ticker-track { animation: none; }
+    .hero__live i { animation: none; }
+  }
+  @media (max-width: 720px) {
+    .hero__bottom {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+    .hero__live { margin-left: 0; width: 100%; }
+  }
+</style>

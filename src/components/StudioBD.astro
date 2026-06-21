@@ -1,0 +1,85 @@
+---
+import { site } from '../data/site.config';
+import type { Project } from '../lib/github';
+import ProjectRow from './ProjectRow.astro';
+
+interface Props {
+  projects: Project[];
+}
+const { projects } = Astro.props;
+const { studio } = site;
+---
+
+<section id="studio" class="studio">
+  <div class="wrap">
+    <div class="studio__head reveal">
+      <span class="label">03 / The studio · {studio.role}</span>
+      <h2 class="studio__headline">
+        {studio.headline}
+      </h2>
+      <div class="studio__manifesto">
+        {studio.manifesto.map((line) => <p class="mono">{line}</p>)}
+        <a class="btn btn--accent studio__link" href={studio.url} target="_blank" rel="noopener">
+          {studio.name} ↗
+        </a>
+      </div>
+    </div>
+
+    <div class="studio__list">
+      {projects.map((p, i) => <ProjectRow project={p} index={i + 1} />)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .studio {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .studio :global(.row) { border-top-color: rgba(242, 240, 234, 0.18); }
+  .studio :global(.row__status) { color: rgba(242, 240, 234, 0.6); }
+  .studio :global(.row__blurb) { color: rgba(242, 240, 234, 0.78); }
+  .studio :global(.row__meta) { color: rgba(242, 240, 234, 0.55); }
+  .studio :global(.tag) { border-color: var(--paper); }
+  .studio :global(.row--link:hover) { background: var(--accent); color: var(--ink); }
+  .studio :global(.row--link:hover .row__num),
+  .studio :global(.row--link:hover .row__status),
+  .studio :global(.row--link:hover .row__blurb),
+  .studio :global(.row--link:hover .row__meta) { color: var(--ink); }
+  .studio :global(.row--link:hover .tag) { border-color: var(--ink); }
+  .studio :global(.row--link:hover .row__arrow) { color: var(--ink); }
+  .studio :global(.row__num) { color: var(--accent); }
+  .studio :global(.redacted) { background: var(--paper); color: var(--paper); }
+
+  .studio__head {
+    border-bottom: var(--rule) solid var(--paper);
+    padding-bottom: clamp(2rem, 5vw, 3.5rem);
+    margin-bottom: clamp(1rem, 3vw, 2rem);
+  }
+  .studio__headline {
+    font-size: clamp(2rem, 6vw, 5rem);
+    font-weight: 900;
+    line-height: 0.98;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    max-width: 16ch;
+    margin: 1.5rem 0;
+  }
+  .studio__manifesto {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 2rem;
+  }
+  .studio__manifesto p {
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    color: rgba(242, 240, 234, 0.7);
+  }
+  .studio__link { margin-left: auto; }
+  .studio .btn { border-color: var(--paper); }
+
+  @media (max-width: 640px) {
+    .studio__link { margin-left: 0; }
+  }
+</style>

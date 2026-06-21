@@ -1,0 +1,127 @@
+---
+import type { Project } from '../lib/github';
+import { fmtDate, pad2 } from '../lib/format';
+
+interface Props {
+  project: Project;
+  index: number;
+}
+const { project, index } = Astro.props;
+const p = project;
+const isRedacted = p.status === 'REDACTED';
+const Tag = p.url && !isRedacted ? 'a' : 'div';
+const meta: string[] = [];
+if (p.live?.language) meta.push(p.live.language);
+if (p.live?.commits) meta.push(`${p.live.commits} COMMITS`);
+if (p.live?.stars) meta.push(`★ ${p.live.stars}`);
+if (p.live?.pushedAt) meta.push(fmtDate(p.live.pushedAt));
+---
+
+<Tag
+  class:list={['row', 'reveal', { 'row--redacted': isRedacted, 'row--link': Tag === 'a' }]}
+  {...Tag === 'a' ? { href: p.url, target: p.url?.startsWith('http') ? '_blank' : undefined, rel: 'noopener' } : {}}
+>
+  <span class="row__num mono">{pad2(index)}</span>
+
+  <div class="row__body">
+    <div class="row__head">
+      <h3 class:list={['row__title', { redacted: isRedacted }]}>{p.title}</h3>
+      <span class:list={['row__status label', `is-${p.source}`]}>{p.status}</span>
+    </div>
+    <p class:list={['row__blurb', { redacted: isRedacted }]}>{p.blurb}</p>
+    <div class="row__tags">
+      {p.tags.map((t) => <span class:list={['tag', { redacted: isRedacted }]}>{t}</span>)}
+    </div>
+    {meta.length > 0 && (
+      <div class="row__meta mono">
+        {meta.map((m, i) => (
+          <>{i > 0 && <span class="row__dot">◇</span>}<span>{m}</span></>
+        ))}
+      </div>
+    )}
+  </div>
+
+  <span class="row__arrow" aria-hidden="true">{p.url && !isRedacted ? '↗' : ''}</span>
+</Tag>
+
+<style>
+  .row {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: clamp(1rem, 4vw, 3rem);
+    align-items: start;
+    padding-block: clamp(1.6rem, 4vw, 2.4rem);
+    border-top: 1px solid var(--hairline);
+    position: relative;
+  }
+  .row--link { cursor: pointer; transition: background var(--speed) steps(2), padding var(--speed) steps(2); }
+  .row--link:hover {
+    background: var(--ink);
+    color: var(--paper);
+    padding-inline: clamp(0.75rem, 2vw, 1.5rem);
+  }
+  .row--link:hover .tag { border-color: var(--paper); }
+  .row--link:hover .row__num,
+  .row--link:hover .row__status,
+  .row--link:hover .row__meta { color: var(--paper); }
+  .row--link:hover .row__arrow { color: var(--accent); transform: translate(4px, -4px); }
+
+  .row__num {
+    font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+    font-weight: 600;
+    color: var(--accent);
+    padding-top: 0.2rem;
+  }
+  .row__head {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.6rem;
+  }
+  .row__title {
+    font-size: clamp(1.5rem, 4vw, 2.6rem);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .row__status { color: var(--ink-60); }
+  .row__status.is-studio { color: var(--accent); }
+  .row__blurb {
+    max-width: 60ch;
+    color: inherit;
+    margin-bottom: 0.9rem;
+    line-height: 1.45;
+  }
+  .row--link:hover .row__blurb { color: var(--paper); }
+  .row__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 0.8rem;
+  }
+  .row__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    color: var(--ink-60);
+    text-transform: uppercase;
+  }
+  .row__dot { color: var(--accent); }
+  .row__arrow {
+    font-size: 1.6rem;
+    align-self: center;
+    transition: transform var(--speed) steps(2), color var(--speed) steps(2);
+  }
+  .row--redacted { opacity: 0.85; }
+  .row--redacted .redacted { border-radius: 1px; }
+
+  @media (max-width: 640px) {
+    .row { grid-template-columns: auto 1fr; }
+    .row__arrow { display: none; }
+  }
+</style>

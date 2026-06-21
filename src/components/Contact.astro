@@ -1,0 +1,98 @@
+---
+import { site } from '../data/site.config';
+const { profile } = site;
+const year = 2026;
+---
+
+<section id="contact" class="contact">
+  <div class="wrap">
+    <span class="label accent">04 / Open to the right thing</span>
+    <h2 class="contact__big">
+      Let's build<br />something<br />that lasts<span class="accent">.</span>
+    </h2>
+
+    <div class="contact__links">
+      <a class="contact__link" href={`mailto:${profile.email}`}>
+        <span class="label">Email</span>
+        <span class="contact__val">{profile.email}</span>
+      </a>
+      {profile.socials.map((s) => (
+        <a class="contact__link" href={s.href} target="_blank" rel="noopener">
+          <span class="label">{s.label}</span>
+          <span class="contact__val">{s.href.replace(/^https?:\/\/(www\.)?/, '')} ↗</span>
+        </a>
+      ))}
+    </div>
+  </div>
+
+  <footer class="foot">
+    <div class="wrap foot__row mono">
+      <span>© {year} {profile.name}</span>
+      <span class="foot__status"><i></i>Available for new work</span>
+      <span>Built in Astro · No template</span>
+    </div>
+  </footer>
+</section>
+
+<style>
+  .contact { padding-bottom: 0; }
+  .contact__big {
+    font-size: clamp(2.5rem, 11vw, 8rem);
+    font-weight: 900;
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    margin: 1.5rem 0 clamp(2.5rem, 6vw, 4rem);
+  }
+  .contact__links {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    border-top: var(--rule) solid var(--ink);
+  }
+  .contact__link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: clamp(1.4rem, 4vw, 2.4rem) 0;
+    border-bottom: 1px solid var(--hairline);
+    border-right: 1px solid var(--hairline);
+    padding-right: 1rem;
+    transition: color var(--speed) steps(2), padding-left var(--speed) steps(2);
+  }
+  .contact__link:nth-child(even) { border-right: 0; padding-left: clamp(1rem, 3vw, 2rem); }
+  .contact__link:hover { color: var(--accent); padding-left: clamp(0.5rem, 2vw, 1.5rem); }
+  .contact__link:nth-child(odd):hover { padding-left: clamp(0.5rem, 2vw, 1.5rem); }
+  .contact__val {
+    font-size: clamp(1.1rem, 2.5vw, 1.7rem);
+    font-weight: 700;
+  }
+  .foot {
+    margin-top: clamp(3rem, 8vw, 6rem);
+    background: var(--ink);
+    color: var(--paper);
+    padding-block: 1.2rem;
+  }
+  .foot__row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    font-size: 0.74rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .foot__status { display: inline-flex; align-items: center; gap: 0.45rem; }
+  .foot__status i {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent);
+    animation: blink 1.6s steps(2) infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
+  @media (prefers-reduced-motion: reduce) { .foot__status i { animation: none; } }
+  @media (max-width: 560px) {
+    .contact__links { grid-template-columns: 1fr; }
+    .contact__link, .contact__link:nth-child(even) {
+      border-right: 0; padding-left: 0;
+    }
+  }
+</style>
