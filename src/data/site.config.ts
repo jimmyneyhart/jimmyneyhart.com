@@ -120,8 +120,9 @@ export const site: SiteConfig = {
       repo: 'brilliant-disruptions/tokenwatch',
       title: 'TokenWatch',
       blurb:
-        'Real-time Claude usage monitoring for teams — see token spend as it happens.',
+        'Real-time Claude usage monitoring for teams — see token spend as it happens. Chrome extension.',
       status: 'LIVE',
+      url: 'https://brilliantdisruptions.com/projects/tokenwatch/',
       tags: ['TypeScript', 'AI'],
       source: 'studio',
     },
@@ -129,8 +130,9 @@ export const site: SiteConfig = {
       id: 'jarvis',
       title: 'JARVIS',
       blurb:
-        'Autonomous command & control center orchestrating 12 AI agents.',
+        'Autonomous command & control center orchestrating 12 AI agents, with human approval gates.',
       status: 'IN PROGRESS',
+      url: 'https://brilliantdisruptions.com/projects/jarvis/',
       tags: ['Agents', 'Orchestration', 'AI'],
       source: 'studio',
     },
