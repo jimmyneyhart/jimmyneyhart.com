@@ -1,0 +1,11 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# GITHUB_TOKEN (read-only fine-grained PAT) is set in the Netlify dashboard,
+# not here — it is read at build time by src/lib/github.ts to lift the
+# unauthenticated 60 req/hr API limit. The build falls back to curated data
+# when it is absent.

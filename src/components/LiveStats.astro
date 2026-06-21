@@ -1,0 +1,78 @@
+---
+import { fmtDate } from '../lib/format';
+
+interface Props {
+  publicRepos: number;
+  languages: string[];
+  lastPush: string | null;
+  degraded: boolean;
+}
+const { publicRepos, languages, lastPush, degraded } = Astro.props;
+
+const cells = [
+  { k: 'Public repos', v: degraded ? '—' : String(publicRepos) },
+  { k: 'Languages', v: languages.length ? String(languages.length) : '—' },
+  { k: 'Last push', v: fmtDate(lastPush) },
+  { k: 'Data source', v: degraded ? 'CURATED' : 'LIVE · GITHUB' },
+];
+---
+
+<section class="stats" aria-label="Live statistics">
+  <div class="wrap">
+    <span class="label accent stats__sec">01 / Signals · pulled at build</span>
+    <div class="stats__grid">
+      {cells.map((c) => (
+        <div class="stats__cell reveal">
+          <span class="stats__v">{c.v}</span>
+          <span class="stats__k label">{c.k}</span>
+        </div>
+      ))}
+    </div>
+    {languages.length > 0 && (
+      <p class="stats__langs mono">{languages.join('  ◇  ')}</p>
+    )}
+  </div>
+</section>
+
+<style>
+  .stats {
+    padding-block: clamp(2.5rem, 6vw, 4rem);
+    border-bottom: var(--rule) solid var(--ink);
+  }
+  .stats__sec {
+    display: block;
+    margin-bottom: 1.2rem;
+  }
+  .stats__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border: var(--rule) solid var(--ink);
+  }
+  .stats__cell {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: clamp(1.2rem, 3vw, 2rem);
+    border-right: 1px solid var(--hairline);
+  }
+  .stats__cell:last-child { border-right: 0; }
+  .stats__v {
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .stats__k { color: var(--ink-60); }
+  .stats__langs {
+    margin-top: 1rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-60);
+  }
+  @media (max-width: 720px) {
+    .stats__grid { grid-template-columns: repeat(2, 1fr); }
+    .stats__cell:nth-child(2) { border-right: 0; }
+    .stats__cell:nth-child(-n + 2) { border-bottom: 1px solid var(--hairline); }
+  }
+</style>
