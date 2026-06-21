@@ -132,7 +132,7 @@ export const site: SiteConfig = {
       blurb:
         'Autonomous command & control center orchestrating 12 AI agents, with human approval gates.',
       status: 'IN PROGRESS',
-      url: 'https://brilliantdisruptions.com/projects/jarvis/',
+      // No outbound link — JARVIS detail/console contains sensitive non-public info.
       tags: ['Agents', 'Orchestration', 'AI'],
       source: 'studio',
     },
